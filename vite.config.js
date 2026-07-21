@@ -3,5 +3,5 @@ import vue from "@vitejs/plugin-vue";
 
 export default defineConfig({
   plugins: [vue()],
-  base: "/tree-of-life-vue/",
+  base: "/tree-of-life-website/",
 });
