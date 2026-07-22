@@ -112,7 +112,7 @@ defineExpose({ scrollToSection });
 }
 .tab {
   padding: 18px 0;
-  font-size: 11.5px;
+  font-size: 13px;
   font-weight: 350;
   letter-spacing: 0.7px;
   color: #6b6b6b;

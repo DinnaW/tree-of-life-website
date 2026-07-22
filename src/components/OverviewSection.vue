@@ -59,9 +59,23 @@
                             
                         </p>
 
+                
+                <div class="highlights">
+                  <h4>Property Highlights</h4>
+
+                  <div class="highlight-grid">
+                    <div
+                      v-for="item in highlights"
+                      :key="item.name"
+                      class="highlight-item"
+                    >
+                      <i :class="item.icon"></i>
+                      <span>{{ item.name }}</span>
+                    </div>
+                  </div>
                 </div>        
             </div>
-
+            </div>
             <div class="right-column">
                 <div class="map-card">
                     <h3>Explore the area</h3>
@@ -125,6 +139,15 @@ time:"13 min drive"
 }
 
 ]
+
+const highlights = [
+  { icon: "fa-solid fa-tree", name: "Nature Resort" },
+  { icon: "fa-solid fa-water-ladder", name: "Infinity Pool" },
+  { icon: "fa-solid fa-utensils", name: "Restaurant" },
+  { icon: "fa-solid fa-square-parking", name: "Free Parking" },
+  { icon: "fa-solid fa-wifi", name: "Free WiFi" },
+  
+];
 </script>
 
 <style scoped>
@@ -275,7 +298,7 @@ time:"13 min drive"
 
 .hotel-card p{
   color:#555;
-  font-size:12px;
+  font-size:14px;
   line-height:1.8;
 }
 
@@ -432,5 +455,56 @@ time:"13 min drive"
     height:200px;
   }
 
+}
+
+.highlights{
+  margin:20px 0;
+}
+
+.highlights h4{
+  font-size:18px;
+  color:#222;
+  margin-bottom:15px;
+  font-weight:600;
+}
+
+.highlight-grid{
+  display:grid;
+  grid-template-columns:repeat(5,max-content);
+  gap:14px;
+}
+
+.highlight-item{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:5px;
+  border:1px solid #e8edf3;
+  border-radius:10px;
+  background:#fff;
+  transition:.25s;
+}
+
+.highlight-item:hover{
+  border-color:#1A51AD;
+  transform:translateY(-2px);
+}
+
+.highlight-item i{
+  font-size:15px;
+  color:#1A51AD;
+  width:24px;
+}
+
+.highlight-item span{
+  font-size:13px;
+  font-weight:500;
+  color:#222;
+}
+
+@media (max-width:768px){
+  .highlight-grid{
+    grid-template-columns:1fr;
+  }
 }
 </style>
