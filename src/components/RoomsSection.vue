@@ -35,35 +35,39 @@
         <h3>{{ room.name }}</h3>
         <p class="room-meta">{{ room.meta }}</p>
 
-        <div class="option">
-          <label>Bed plan</label>
-          <div class="pill-group" role="group" aria-label="Bed plan">
-            <button
-              v-for="bed in ['Single', 'Double', 'Triple']"
-              :key="bed"
-              type="button"
-              class="pill"
-              :class="{ active: room.bed === bed }"
-              @click="room.bed = bed"
-            >
-              {{ bed }}
-            </button>
-          </div>
-        </div>
+        <div class="options-row">
+          <div class="option">
+            <label>Bed plan</label>
 
-        <div class="option">
-          <label>Meal plan</label>
-          <div class="pill-group" role="group" aria-label="Meal plan">
-            <button
-              v-for="meal in ['Bed & Breakfast', 'Half Board']"
-              :key="meal"
-              type="button"
-              class="pill"
-              :class="{ active: room.meal === meal }"
-              @click="room.meal = meal"
-            >
-              {{ meal }}
-            </button>
+            <div class="pill-group" role="group" aria-label="Bed plan">
+              <button
+                v-for="bed in ['Single', 'Double', 'Triple']"
+                :key="bed"
+                type="button"
+                class="pill"
+                :class="{ active: room.bed === bed }"
+                @click="room.bed = bed"
+              >
+                {{ bed }}
+              </button>
+            </div>
+          </div>
+
+          <div class="option">
+            <label>Meal plan</label>
+
+            <div class="pill-group" role="group" aria-label="Meal plan">
+              <button
+                v-for="meal in ['Bed & Breakfast', 'Half Board']"
+                :key="meal"
+                type="button"
+                class="pill"
+                :class="{ active: room.meal === meal }"
+                @click="room.meal = meal"
+              >
+                {{ meal }}
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -510,6 +514,17 @@ function total(room) {
   transform: translateY(-1px);
 }
 
+.options-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.option {
+  margin-bottom: 0;
+}
+
 /* RESPONSIVE */
 
 @media (max-width: 1050px) {
@@ -582,6 +597,13 @@ function total(room) {
   .pill,
   .counter button {
     transition: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .options-row {
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
 }
 </style>
