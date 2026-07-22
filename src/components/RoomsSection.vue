@@ -140,6 +140,11 @@
             Only {{ room.roomsLeft }} room left
           </p>
 
+          <div v-if="room.offer" class="offer-badge">
+            <i class="fa-solid fa-tags"></i>
+            {{ room.offer }}
+          </div>
+
           <div class="price-row">
             <span class="price">${{ total(room) }}</span>
             <span class="price-caption">total · taxes & fees included</span>
@@ -205,6 +210,7 @@ const rooms = ref([
     roomsLeft: 1,
     bed: "Single",
     meal: "Bed & Breakfast",
+    offer: "Save 20% Today",
 
     children: 0,
     extraBeds: 0,
@@ -214,8 +220,14 @@ const rooms = ref([
       { icon: "fa-solid fa-wifi", name: "Free WiFi" },
       { icon: "fa-solid fa-tv", name: "Smart TV" },
       { icon: "fa-solid fa-snowflake", name: "Air Conditioning" },
-      { icon: "fa-solid fa-shield-halved", name: "Safe" },
+      { icon: "fa-solid fa-temperature-half", name: "Hot Water" },
       { icon: "fa-solid fa-bell-concierge", name: "Room Service" },
+      { icon: "fa-solid fa-sun", name: "Balcony" },
+      { icon: "fa-solid fa-wine-glass", name: "Mini Bar" },
+      { icon: "fa-solid fa-tree", name: "Garden View" },
+      { icon: "fa-solid fa-paw", name: "Pet Friendly" },
+      { icon: "fa-solid fa-smoking", name: "Smoking Area" },
+      
     ]
   }
 ]);
@@ -643,6 +655,24 @@ function total(room) {
 .facility-item i {
   color: var(--color-pine);
   font-size: 11px;
+}
+
+.offer-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+  padding: 2px 20px;
+  background: #edf8ee;
+  color: #1b7a3d;
+  border: 1px solid #bfe5cb;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.offer-badge i {
+  font-size: 12px;
 }
 
 /* RESPONSIVE */

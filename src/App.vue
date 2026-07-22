@@ -33,7 +33,6 @@
           <path d="M8.3 10.7l7.4-4.2M8.3 13.3l7.4 4.2" />
         </svg>
       </button>
-      <button class="btn-reserve">Reserve</button>
     </div>
 
     <StickyNav ref="stickyNav" :sections="sections" />
@@ -206,22 +205,7 @@ function handleSearch(criteria) {
   width: 19px;
   height: 19px;
 }
-.btn-reserve {
-  background: #0179D7;
-  color: #fff;
-  border: none;
-  padding: 0 26px;
-  height: 42px;
-  border-radius: 6px;
-  font-weight: 500;
-  font-size: 14.5px;
-  cursor: pointer;
-}
-.btn-reserve:hover {
-  background: #048cf5;
-  box-shadow: 0 8px 18px rgba(45, 106, 220, 0.25);
-  transform: translateY(-1px);
-}
+
 .content {
   padding-top: 36px;
   padding-bottom: 80px;
