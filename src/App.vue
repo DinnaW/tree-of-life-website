@@ -66,6 +66,10 @@
           <PoliciesSection />
         </section>
 
+        <section id="faq-section" class="content-section">
+          <FaqSection/>
+        </section>
+
       </div>
 
     <FooterSection/>
@@ -85,6 +89,7 @@ import GuestReviews from "./components/GuestReviews.vue";
 import PoliciesSection from "./components/PoliciesSection.vue";
 import FooterSection from './components/FooterSection.vue'
 import AvailabilityBar from "./components/AvailabilityBar.vue";
+import FaqSection from "./components/FaqSection.vue";
 
 
 const stickyNav = ref(null);
