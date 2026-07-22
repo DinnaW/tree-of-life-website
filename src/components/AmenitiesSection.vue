@@ -15,7 +15,7 @@
           <!-- Image -->
           <div class="image-section">
             <img
-              :src="`${baseUrl}images/pool.png`"
+              :src="`${baseUrl}images/amenities.png`"
               alt="Amenities"
               class="amenities-image"
             />
