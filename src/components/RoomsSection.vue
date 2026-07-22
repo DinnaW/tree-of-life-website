@@ -32,7 +32,13 @@
 
       <!-- DETAILS -->
       <div class="room-details">
-        <h3>{{ room.name }}</h3>
+        <div class="room-title">
+          <h3>{{ room.name }}</h3>
+
+          <span v-if="room.mostBooked" class="badge">
+            MOST BOOKED
+          </span>
+        </div>
         <p class="room-meta">{{ room.meta }}</p>
 
         <div class="options-row">
@@ -67,6 +73,20 @@
               >
                 {{ meal }}
               </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="facilities-card">
+
+          <div class="facility-grid">
+            <div
+              class="facility-item"
+              v-for="facility in room.facilities"
+              :key="facility.name"
+            >
+              <i :class="facility.icon"></i>
+              <span>{{ facility.name }}</span>
             </div>
           </div>
         </div>
@@ -116,14 +136,16 @@
         </div>
 
         <div class="price-block">
+          <p v-if="room.roomsLeft" class="rooms-left">
+            Only {{ room.roomsLeft }} room left
+          </p>
+
           <div class="price-row">
             <span class="price">${{ total(room) }}</span>
-            <span class="price-caption">total · taxes &amp; fees included</span>
+            <span class="price-caption">total · taxes & fees included</span>
           </div>
-          <p class="price-breakdown" v-if="room.extraBeds > 0">
-            incl. {{ room.extraBeds }} extra bed{{ room.extraBeds > 1 ? 's' : '' }}
-          </p>
-          <button type="button" class="reserve-btn">Reserve this room</button>
+
+          <button class="reserve-btn">Reserve this room</button>
         </div>
       </div>
     </article>
@@ -149,6 +171,7 @@ const filteredRooms = computed(() => {
 const rooms = ref([
   {
     id: 1,
+    mostBooked: true,
     name: "Panoramic Deluxe",
     image: `${baseUrl}images/room1.jpg`,
     tag: "Panoramic view",
@@ -160,22 +183,40 @@ const rooms = ref([
 
     children: 0,
     extraBeds: 0,
-    roomCount: 1
+    roomCount: 1,
+
+    facilities: [
+      { icon: "fa-solid fa-wifi", name: "Free WiFi" },
+      { icon: "fa-solid fa-tv", name: "Smart TV" },
+      { icon: "fa-solid fa-snowflake", name: "Air Conditioning" },
+      { icon: "fa-solid fa-mug-hot", name: "Tea/Coffee" },
+      { icon: "fa-solid fa-tree", name: "Garden View" }
+    
+    ]
   },
   {
     id: 2,
+    mostBooked: false,
     name: "Green Zone Deluxe",
     image: `${baseUrl}images/room2.jpg`,
     tag: "Garden view",
     meta: "34 m² · Canopy bed · Private terrace",
-    price: 78,
-
+    price: 105,
+    roomsLeft: 1,
     bed: "Single",
     meal: "Bed & Breakfast",
 
     children: 0,
     extraBeds: 0,
-    roomCount: 1
+    roomCount: 1,
+
+    facilities: [
+      { icon: "fa-solid fa-wifi", name: "Free WiFi" },
+      { icon: "fa-solid fa-tv", name: "Smart TV" },
+      { icon: "fa-solid fa-snowflake", name: "Air Conditioning" },
+      { icon: "fa-solid fa-shield-halved", name: "Safe" },
+      { icon: "fa-solid fa-bell-concierge", name: "Room Service" },
+    ]
   }
 ]);
 
@@ -188,6 +229,8 @@ const EXTRA_BED_FEE = 15;
 function total(room) {
   return room.price * room.roomCount + room.extraBeds * EXTRA_BED_FEE;
 }
+
+
 </script>
 
 <style scoped>
@@ -298,6 +341,34 @@ function total(room) {
 }
 
 /* ROOM DETAILS */
+.room-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.room-title h3 {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 500;
+  color: var(--color-pine);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  padding: 0 16px;
+  background: #eef3fa;
+  color: #1a51ad;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-radius: 4px;
+}
 
 .room-details {
   padding: 32px 32px 32px 30px;
@@ -333,6 +404,13 @@ function total(room) {
   letter-spacing: 0.4px;
   text-transform: uppercase;
   margin-bottom: 10px;
+}
+
+.rooms-left {
+  margin-bottom: 10px;
+  color: #d32f2f;
+  font-size: 13px;
+  font-weight: 600;
 }
 
 /* PILL BUTTONS */
@@ -523,6 +601,48 @@ function total(room) {
 
 .option {
   margin-bottom: 0;
+}
+
+.facilities-card {
+  margin-top: 35px;
+  padding: 14px 16px;
+  background: #f8f9fb;
+  border: 1px solid #e7ebf0;
+  border-radius: 12px;
+}
+
+.facilities-card h4 {
+  font-size: 13px;
+  font-weight: 550;
+  margin-bottom: 7px;
+}
+
+.facilities-card h5 {
+  margin: 0 0 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-pine);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.facility-grid {
+  display: grid;
+  grid-template-columns: repeat(5, max-content);
+  gap: 10px 20px;
+}
+
+.facility-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap; /* prevents wrapping */
+  font-size: 11px;
+}
+
+.facility-item i {
+  color: var(--color-pine);
+  font-size: 11px;
 }
 
 /* RESPONSIVE */
