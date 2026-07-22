@@ -154,7 +154,7 @@ const amenities = [
 .amenities-card{
     position:absolute;
     top:-50px;
-    right:max(calc((100vw - 1240px)/2 + 34px),34px);
+    right:max(calc((10vw - 1240px)/2 + 34px),34px);
     width:480px;
     background:rgba(13, 69, 139, 0.98);
     color:white;

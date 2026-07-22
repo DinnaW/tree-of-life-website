@@ -124,7 +124,7 @@ function handleSearch(criteria) {
 <style scoped>
 
 .container {
-  max-width: 1240px;
+  max-width: 1340px;
   margin: 0 auto;
   padding: 0 34px;
 }

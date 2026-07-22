@@ -185,7 +185,7 @@ function total(room) {
   --color-gold: #2ed4e3;
   --color-gold-deep: #413f3f;
 
-  max-width: 1200px;
+  max-width: 1340px;
   padding: 50px 20px;
   background:  #f8f9fb;
   color: var(--color-ink);

@@ -132,9 +132,7 @@ const policies = [
   color: var(--color-ink-soft);
 }
 
-/* =========================
-   GRID
-========================= */
+/* GRID */
 
 .policies-grid {
   display: grid;
@@ -175,9 +173,7 @@ const policies = [
   color: var(--color-ink-soft);
 }
 
-/* =========================
-   PAYMENT ICONS
-========================= */
+/* PAYMENT ICONS */
 
 .payment-icons {
   display: flex;
@@ -186,9 +182,7 @@ const policies = [
   color: var(--color-blue-dark);
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
+/* RESPONSIVE */
 
 @media (max-width: 992px) {
   .policies-grid {
