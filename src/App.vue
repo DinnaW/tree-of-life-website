@@ -111,6 +111,7 @@ const sections = [
   { id: "rooms", label: "ROOMS" },
   { id: "guest-reviews", label: "GUEST REVIEWS" },
   { id: "policies", label: "POLICIES" },
+  { id: "faq-section", label: "FAQ" },
 ];
 
 function onShowAllPhotos() {
@@ -118,8 +119,6 @@ function onShowAllPhotos() {
 }
 
 function handleSearch(criteria) {
-  // TODO: replace this with real room-availability filtering using `criteria`
-  // (criteria.checkIn, criteria.checkOut, criteria.rooms, criteria.adults, criteria.children).
   console.log("Searching with:", criteria);
 
   stickyNav.value?.scrollToSection("rooms");
