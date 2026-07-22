@@ -3,10 +3,35 @@
     <div class="header-inner">
       <div class="logo">Tree of Life</div>
       <nav class="header-actions">
-        <span>USD</span>
-        <span>🇺🇸</span>
-        <span class="help-circle">?</span>
+          <div class="currency-dropdown">
+            <button class="currency-btn" @click="toggleCurrency">
+              <span class="flag">{{ selectedCurrency.flag }}</span>
+              {{ selectedCurrency.code }}
+              <span
+                class="arrow"
+                :class="{ rotate: showCurrency }"
+              >
+                ▼
+              </span>
+            </button>
+
+            <Transition name="fade">
+              <div v-if="showCurrency" class="currency-menu">
+                <div
+                  v-for="item in currencies"
+                  :key="item.code"
+                  class="currency-item"
+                  @click="selectCurrency(item)"
+                >
+                  <span class="flag">{{ item.flag }}</span>
+                  {{ item.code }}
+                </div>
+              </div>
+            </Transition>
+          </div>
+        
         <span class="packages">PACKAGES</span>
+        <span class="help-circle">?</span>
       </nav>
     </div>
 
@@ -183,9 +208,37 @@ function handleClickOutside(event) {
   if (searchBar.value && !searchBar.value.contains(event.target)) {
     close();
   }
+
+  if (!event.target.closest(".currency-dropdown")) {
+    showCurrency.value = false;
+  }
 }
 onMounted(() => document.addEventListener("mousedown", handleClickOutside));
 onBeforeUnmount(() => document.removeEventListener("mousedown", handleClickOutside));
+
+const currencies = [
+  {
+    code: "USD",
+    flag: "🇺🇸"
+  },
+  {
+    code: "LKR",
+    flag: "🇱🇰"
+  }
+];
+
+const selectedCurrency = ref(currencies[0]);
+const showCurrency = ref(false);
+
+function toggleCurrency() {
+  showCurrency.value = !showCurrency.value;
+}
+
+function selectCurrency(item) {
+  selectedCurrency.value = item;
+  showCurrency.value = false;
+}
+
 </script>
 
 <style scoped>
@@ -307,5 +360,59 @@ onBeforeUnmount(() => document.removeEventListener("mousedown", handleClickOutsi
   transform: translateY(-4px);
 }
 
+.currency-dropdown {
+  position: relative;
+}
 
+.currency-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.flag {
+  font-size: 18px;
+}
+
+.currency-btn .rotate,
+.currency-btn .arrow {
+  font-size: 10px;
+  transition: transform .2s;
+}
+
+.currency-btn span.rotate {
+  transform: rotate(180deg);
+}
+
+.currency-menu {
+  position: absolute;
+  top: 32px;
+  left: 0;
+  width: 80px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.15);
+  overflow: hidden;
+  z-index: 500;
+}
+
+.currency-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  color: #333;
+  cursor: pointer;
+  transition: background .2s;
+}
+
+.currency-item:hover {
+  background: #f5f5f5;
+}
 </style>
