@@ -85,6 +85,7 @@ import RoomsSection from "./components/RoomsSection.vue";
 import GuestReviews from "./components/GuestReviews.vue";
 import PoliciesSection from "./components/PoliciesSection.vue";
 import FooterSection from './components/FooterSection.vue'
+import AvailabilityBar from "./components/AvailabilityBar.vue";
 
 
 const stickyNav = ref(null);

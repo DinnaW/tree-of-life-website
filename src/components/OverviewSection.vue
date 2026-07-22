@@ -15,8 +15,6 @@
             <div class="left-column">
                 <div class="hotel-card">
 
-                    <span class="badge">Luxury</span>
-
                     <h3>Tree of Life Nature Resort</h3>
 
                         <div class="location-row">
@@ -186,17 +184,6 @@ time:"13 min drive"
 .hotel-card:hover{
   transform:translateY(-3px);
   box-shadow:0 10px 25px rgba(0,0,0,.08);
-}
-
-.badge{
-  display:inline-block;
-  background:#f3f4f6;
-  color:#374151;
-  border:1px solid #d1d5db;
-  font-size:12px;
-  font-weight:600;
-  padding:6px 14px;
-  border-radius:6px;
 }
 
 .hotel-card h3{

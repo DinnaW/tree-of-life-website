@@ -1,17 +1,27 @@
 <template>
   <section class="rooms-section">
-    <header class="section-head">
-      
-      <div class="eyebrow">
-        03 — ROOMS
-      </div>
-
+    <div class="section-header">
+      <div class="eyebrow">03 — ROOMS</div>
       <h2>Choose your room</h2>
 
-      <p class="subhead">
+    
+
+    <div class="bar-wrap">
+      <AvailabilityBar
+        v-model:start-date="startDate"
+        v-model:end-date="endDate"
+        v-model:travelers="travelers"
+        v-model:room-count="roomCount"
+        v-model:filter="filter"
+        :total="rooms.length"
+        :shown="filteredRooms.length"
+      />
+    </div>
+
+    <p class="subhead">
         {{ rooms.length }} room types · flexible bed and board plans, priced per room
       </p>
-    </header>
+    </div>
 
     <article class="room-card" v-for="room in rooms" :key="room.id">
       <!-- IMAGE -->
@@ -117,9 +127,20 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
+import AvailabilityBar from "./AvailabilityBar.vue";
 
 const baseUrl = import.meta.env.BASE_URL;
+
+const startDate = ref("");
+const endDate = ref("");
+const travelers = ref(2);
+const roomCount = ref(1);
+const filter = ref("all");
+
+const filteredRooms = computed(() => {
+  return rooms.value;
+});
 
 const rooms = ref([
   {
@@ -186,7 +207,7 @@ function total(room) {
   --color-gold-deep: #413f3f;
 
   max-width: 1340px;
-  padding: 50px 20px;
+  padding: 50px 50px;
   background:  #f8f9fb;
   color: var(--color-ink);
 }
@@ -214,7 +235,7 @@ function total(room) {
 }
 
 .subhead {
-  margin: 0;
+  margin-bottom: 20px;
   font-size: 12px;
   color: var(--color-ink-soft);
 }

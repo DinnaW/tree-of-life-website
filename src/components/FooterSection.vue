@@ -18,7 +18,6 @@
     width:100%;
     background:#d9e8f7;
     padding:28px 0;
-    margin-top:80px;
 }
 
 .container{

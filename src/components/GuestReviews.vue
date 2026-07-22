@@ -330,6 +330,7 @@ const reviews = [
 .section-title{
     font-size:25px;
     margin-bottom:35px;
+    font-weight: 550;
     color:#031b35;
 }
 
@@ -406,6 +407,7 @@ const reviews = [
 .topics-section h3{
     font-size:25px;
     margin-bottom:30px;
+    font-weight: 550;
     color: #031b35;
 }
 
@@ -439,6 +441,7 @@ const reviews = [
 .love-title{
     font-size:25px;
     margin-bottom:30px;
+    font-weight: 550; 
     color: #031b35;
 }
 
