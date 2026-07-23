@@ -168,7 +168,7 @@ const amenities = [
 
 .amenities-image {
   width: 100vw;
-  height: clamp(240px, 35vw, 500px);
+  height: clamp(240px, 31vw, 470px);
   object-fit: cover;
   display: block;
   margin-left: calc(50% - 50vw);
