@@ -1,8 +1,7 @@
 <template>
   <section class="rooms-section">
     <div class="section-header">
-      <div class="eyebrow">
-         — ROOMS</div>
+      <div class="eyebrow">03 — ROOMS</div>
       <h2>Choose your room</h2>
 
     
@@ -44,7 +43,9 @@
           </span>
         </div>
         <p class="room-meta">{{ room.meta }}</p>
-        
+
+        <!-- Meal plan now stacks below Bed plan instead of sitting
+             side-by-side with a vertical divider between them. -->
         <div class="options-row">
           <div class="option">
             <label>Bed plan</label>
@@ -62,8 +63,6 @@
               </button>
             </div>
           </div>
-
-          <div class="option-divider"></div>
 
           <div class="option">
             <label>Meal plan</label>
@@ -83,18 +82,26 @@
           </div>
         </div>
 
-        <div class="facilities-card">
-
+        <!-- Thin, single-line facilities card with a "See more" toggle -->
+        <div class="facilities-card" :class="{ expanded: expandedFacilities[room.id] }">
           <div class="facility-grid">
             <div
               class="facility-item"
-              v-for="facility in room.facilities"
+              v-for="facility in visibleFacilities(room)"
               :key="facility.name"
             >
               <i :class="facility.icon"></i>
               <span>{{ facility.name }}</span>
             </div>
           </div>
+
+          <button
+            type="button"
+            class="see-more-btn"
+            @click="toggleFacilities(room.id)"
+          >
+            {{ expandedFacilities[room.id] ? 'See less' : 'See more' }}
+          </button>
         </div>
       </div>
 
@@ -147,6 +154,7 @@
           </p>
 
           <div class="price-row">
+            <span v-if="room.originalPrice" class="price-original">${{ originalTotal(room) }}</span>
             <span class="price">${{ total(room) }}</span>
             <span class="price-caption">total · taxes & fees included</span>
           </div>
@@ -227,6 +235,33 @@ const rooms = ref([
       { icon: "fa-solid fa-tree", name: "Garden View" },
       
     ]
+  },
+  {
+    // Duplicate of room 1 (Panoramic Deluxe), with an offer price:
+    // originalPrice is struck through next to the discounted total.
+    id: 3,
+    mostBooked: false,
+    name: "Panoramic Deluxe",
+    image: `${baseUrl}images/room3.jpg`,
+    tag: "Panoramic view",
+    meta: "38 m² · King bed · Private balcony",
+    price: 78,
+    originalPrice: 98,
+    offer: "Limited Time Offer",
+
+    bed: "Single",
+    meal: "Bed & Breakfast",
+
+    children: 0,
+    extraBeds: 0,
+    roomCount: 1,
+
+    facilities: [
+      { icon: "fa-solid fa-wifi", name: "Free WiFi" },
+      { icon: "fa-solid fa-tv", name: "Smart TV" },
+      { icon: "fa-solid fa-paw", name: "Pet Friendly" },
+      { icon: "fa-solid fa-mug-hot", name: "Tea/Coffee" },
+    ]
   }
 ]);
 
@@ -238,6 +273,21 @@ const EXTRA_BED_FEE = 15;
 
 function total(room) {
   return room.price * room.roomCount + room.extraBeds * EXTRA_BED_FEE;
+}
+
+function originalTotal(room) {
+  return room.originalPrice * room.roomCount + room.extraBeds * EXTRA_BED_FEE;
+}
+
+/* ---------------- facilities "see more" ---------------- */
+
+const VISIBLE_FACILITY_COUNT = 4;
+const expandedFacilities = ref({});
+
+function visibleFacilities(room) {
+  return expandedFacilities.value[room.id]
+    ? room.facilities
+    : room.facilities.slice(0, VISIBLE_FACILITY_COUNT);
 }
 
 
@@ -399,10 +449,6 @@ function total(room) {
 }
 
 .option {
-  margin-bottom: 20px;
-}
-
-.option:last-child {
   margin-bottom: 0;
 }
 
@@ -418,7 +464,7 @@ function total(room) {
 
 .rooms-left {
   margin-bottom: 10px;
-  color: #d32f2f;
+  color: rgb(242, 56, 56);
   font-size: 13px;
   font-weight: 600;
 }
@@ -454,8 +500,6 @@ function total(room) {
   border-color: var(--color-pine);
   color: #fff;
 }
-
-/* TICKET DIVIDER (signature) */
 
 .divider {
   position: relative;
@@ -570,6 +614,13 @@ function total(room) {
   color: var(--color-pine);
 }
 
+.price-original {
+  font-size: 20px;
+  font-weight: 10;
+  color: rgb(242, 56, 56);
+  text-decoration: line-through;
+}
+
 .price-caption {
   font-size: 11.5px;
   color: var(--color-ink-soft);
@@ -603,28 +654,26 @@ function total(room) {
 }
 
 .options-row {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
+  display: flex;
+  flex-direction: column;
   gap: 20px;
-}
-
-.option-divider {
-  width: 1px;
-  height: 55px; 
-  background: #d3d3d3; 
-}
-
-.option {
-  margin-bottom: 0;
+  margin-top: 24px;
 }
 
 .facilities-card {
   margin-top: 35px;
-  padding: 14px 16px;
+  padding: 12px 16px;
   background: #f8f9fb;
   border: 1px solid #e7ebf0;
   border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.facilities-card.expanded {
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .facilities-card h4 {
@@ -643,9 +692,18 @@ function total(room) {
 }
 
 .facility-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, max-content));
-  gap: 10px 20px;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow: hidden;
+  gap: 20px;
+  flex: 1;
+  min-width: 0;
+}
+
+.facilities-card.expanded .facility-grid {
+  flex-wrap: wrap;
+  overflow: visible;
+  width: 100%;
 }
 
 .facility-item {
@@ -654,11 +712,34 @@ function total(room) {
   gap: 6px;
   white-space: nowrap; /* prevents wrapping */
   font-size: 11px;
+  flex-shrink: 0;
 }
 
 .facility-item i {
   color: var(--color-pine);
   font-size: 11px;
+}
+
+.see-more-btn {
+  flex-shrink: 0;
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: var(--color-pine);
+  font-weight: 600;
+  font-size: 11px;
+  cursor: pointer;
+  white-space: nowrap;
+  padding: 0;
+}
+
+.see-more-btn:hover {
+  text-decoration: underline;
+}
+
+.facilities-card.expanded .see-more-btn {
+  margin-left: 0;
+  margin-top: 12px;
 }
 
 .offer-badge {
@@ -707,7 +788,7 @@ function total(room) {
   .room-options {
     grid-column: 1 / -1;
     margin: 20px 28px 0;
-    padding: 0 0 28px;
+    padding: 24px 0 28px;
     border-top: 1px dashed var(--color-line);
     display: flex;
     flex-direction: row;
@@ -750,19 +831,15 @@ function total(room) {
 
   .room-options {
     margin: 20px 24px 0;
-    padding: 0 0 24px;
+    padding: 32px 0 24px;
     flex-direction: column;
     align-items: stretch;
+    gap: 24px;
   }
 
   .counter-row {
     flex-direction: row;
     align-items: center;
-  }
-
-  .options-row {
-    grid-template-columns: 1fr;
-    gap: 20px;
   }
 }
 
@@ -782,11 +859,6 @@ function total(room) {
 
   .room-details {
     padding: 20px;
-  }
-
-  .facility-grid {
-    grid-template-columns: repeat(auto-fill, minmax(84px, max-content));
-    gap: 8px 14px;
   }
 
   .price {
