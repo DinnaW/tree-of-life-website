@@ -184,7 +184,6 @@ const dateFieldRef = ref(null)
 const guestFieldRef = ref(null)
 
 /* ---------------- price mock data ---------------- */
-/* deterministic pseudo-random price per date, so it stays stable on re-render */
 
 function priceForDate(date) {
   const seed = date.getFullYear() * 372 + date.getMonth() * 31 + date.getDate()
