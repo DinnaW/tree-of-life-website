@@ -3,7 +3,7 @@
 
     <div class="section-header">
       <div class="eyebrow">
-        04 — FAQ
+         — FAQ
       </div>
 
       <h2>

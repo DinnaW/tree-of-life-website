@@ -1,7 +1,8 @@
 <template>
   <section class="rooms-section">
     <div class="section-header">
-      <div class="eyebrow">03 — ROOMS</div>
+      <div class="eyebrow">
+         — ROOMS</div>
       <h2>Choose your room</h2>
 
     
@@ -32,15 +33,18 @@
 
       <!-- DETAILS -->
       <div class="room-details">
+        <div v-if="room.offer" class="offer-badge">
+            <i class="fa-solid fa-tags"></i>
+            {{ room.offer }}
+          </div>
         <div class="room-title">
           <h3>{{ room.name }}</h3>
-
           <span v-if="room.mostBooked" class="badge">
             MOST BOOKED
           </span>
         </div>
         <p class="room-meta">{{ room.meta }}</p>
-
+        
         <div class="options-row">
           <div class="option">
             <label>Bed plan</label>
@@ -58,6 +62,8 @@
               </button>
             </div>
           </div>
+
+          <div class="option-divider"></div>
 
           <div class="option">
             <label>Meal plan</label>
@@ -140,16 +146,11 @@
             Only {{ room.roomsLeft }} room left
           </p>
 
-          <div v-if="room.offer" class="offer-badge">
-            <i class="fa-solid fa-tags"></i>
-            {{ room.offer }}
-          </div>
-
           <div class="price-row">
             <span class="price">${{ total(room) }}</span>
             <span class="price-caption">total · taxes & fees included</span>
           </div>
-
+          
           <button class="reserve-btn">Reserve this room</button>
         </div>
       </div>
@@ -193,9 +194,8 @@ const rooms = ref([
     facilities: [
       { icon: "fa-solid fa-wifi", name: "Free WiFi" },
       { icon: "fa-solid fa-tv", name: "Smart TV" },
-      { icon: "fa-solid fa-snowflake", name: "Air Conditioning" },
+      { icon: "fa-solid fa-paw", name: "Pet Friendly" },
       { icon: "fa-solid fa-mug-hot", name: "Tea/Coffee" },
-      { icon: "fa-solid fa-tree", name: "Garden View" }
     
     ]
   },
@@ -225,8 +225,6 @@ const rooms = ref([
       { icon: "fa-solid fa-sun", name: "Balcony" },
       { icon: "fa-solid fa-wine-glass", name: "Mini Bar" },
       { icon: "fa-solid fa-tree", name: "Garden View" },
-      { icon: "fa-solid fa-paw", name: "Pet Friendly" },
-      { icon: "fa-solid fa-smoking", name: "Smoking Area" },
       
     ]
   }
@@ -606,9 +604,15 @@ function total(room) {
 
 .options-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  margin-top: 24px;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 20px;
+}
+
+.option-divider {
+  width: 1px;
+  height: 55px; 
+  background: #d3d3d3; 
 }
 
 .option {
@@ -638,11 +642,6 @@ function total(room) {
   letter-spacing: 0.5px;
 }
 
-/* FIX: was a fixed `repeat(5, max-content)` — with rooms that have more
-   facilities (the second room has 10), this had nowhere to go on any
-   viewport narrower than a wide desktop and just overflowed the card.
-   auto-fill lets the browser fit as many columns as actually fit, and
-   items wrap onto new rows instead of forcing horizontal overflow. */
 .facility-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(100px, max-content));

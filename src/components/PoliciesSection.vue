@@ -4,7 +4,7 @@
       <header class="section-head">
         
         <div class="eyebrow">
-        05 — POLICIES
+         — POLICIES
         </div>
         
         <h2>Things to know</h2>

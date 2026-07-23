@@ -3,7 +3,7 @@
 
     <div class="section-header">
       <div class="eyebrow">
-        01 — OVERVIEW
+         — OVERVIEW
       </div>
 
       <h2>

@@ -3,7 +3,7 @@
 
     <div class="section-header">
       <div class="eyebrow">
-        02 — AMENITIES
+         — AMENITIES
       </div>
 
       <h2>
@@ -125,76 +125,75 @@ const amenities = [
 .section-header{
   max-width:1240px;
   margin:auto;
-  padding:0 34px;
+  padding-inline: clamp(20px, 4vw, 34px);
 }
 
-.eyebrow{
-    color:#034acf;
-    font-size:10px;
-    font-weight:700;
-    letter-spacing:1px;
-    margin-bottom:10px;
+.eyebrow {
+  color: #034acf;
+  font-size: clamp(10px, 0.8vw, 12px);
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: clamp(8px, 1vw, 12px);
 }
 
-.section-header h2{
-  font-size:34px;
-  font-weight:500;
-  color:#1A51AD;
-  margin-bottom:30px;
-  line-height:1.3;
+.section-header h2 {
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 500;
+  color: #1A51AD;
+  line-height: 1.3;
+  margin-bottom: clamp(20px, 3vw, 30px);
 }
 
-.amenities-layout{
-    position:relative;
-    width:100%;
-    margin-top:40px;
-    min-height:520px;
+.amenities-layout {
+  position: relative;
+  width: 100%;
+  margin-top: clamp(24px, 4vw, 40px);
+  min-height: clamp(450px, 55vw, 520px);
 }
 
-.amenities-card{
-    position:absolute;
-    top:-50px;
-    right:max(calc((10vw - 1240px)/2 + 34px),34px);
-    width:480px;
-    background:rgba(13, 69, 139, 0.98);
-    color:white;
-    padding:55px;
-    min-height:520px;
+.amenities-card {
+  position: absolute;
+  top: clamp(-50px, -4vw, -20px);
+  right: -60px;
+  width: clamp(320px, 38vw, 480px);
+  padding: clamp(24px, 4vw, 55px);
+  background: rgba(13,69,139,.98);
+  color: white;
+  min-height: clamp(420px, 50vw, 520px);
 }
 
 .image-section{
     width:100%;
 }
 
-.amenities-image{
-    width:100vw;
-    height:430px;
-    object-fit:cover;
-    display:block;
-
-    margin-left:calc(50% - 50vw);
+.amenities-image {
+  width: 100vw;
+  height: clamp(240px, 35vw, 500px);
+  object-fit: cover;
+  display: block;
+  margin-left: calc(50% - 50vw);
 }
 
 .amenities-card h3{
-    font-size:35px;
+    font-size: clamp(22px, 3vw, 32px);
     font-weight:500;
     color:white;
-    margin-bottom:25px;
+    margin-bottom: clamp(18px, 2vw, 25px);
 
 }
 
 .amenities-card p{
     color:rgba(255,255,255,.85);
     line-height:1.8;
-    margin-bottom:35px;
-    font-size: 12px;
+    margin-bottom: clamp(20px, 3vw, 35px);
+    font-size: clamp(13px, 1vw, 14px);
 }
 
-.amenities-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:22px 35px;
-    margin-top:30px;
+.amenities-grid {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: clamp(16px,2vw,22px) clamp(20px,3vw,35px);
+  margin-top: clamp(20px,3vw,30px);
 }
 
 .amenity{
@@ -203,31 +202,28 @@ const amenities = [
     gap:14px;
 }
 
-.icon{
-    width:22px;
-    height:22px;
-    color:white;
-
+.icon {
+  width: clamp(18px,2vw,22px);
+  height: clamp(18px,2vw,22px);
 }
 
-.amenity span{
-    color:white;
-    font-size:12px;
+.amenity span {
+  font-size: clamp(12px,1vw,14px);
 }
 
 .amenities-btn{
     display:inline-flex;
     align-items:center;
     justify-content:center;
-    margin-top:40px;
-    padding:8px 20px;
+    margin-top: clamp(24px,4vw,40px);
+    padding: clamp(8px,1vw,10px) clamp(18px,2vw,24px);
     background:#ffffff;
     color:#000000;
     text-decoration:none;
     border-radius:10px;
     font-weight:600;
     transition:.3s ease;
-    font-size: 12px;
+    font-size: clamp(12px,1vw,14px);
 }
 
 .amenities-btn:hover{
@@ -244,47 +240,23 @@ const amenities = [
 @media (max-width:900px){
 
 .amenities-layout{
-
     min-height:auto;
-
-}
-
-.image-section{
-
-    width:100%;
-
-}
-
-.amenities-image{
-
-    height:320px;
-
 }
 
 .amenities-card{
-
     position:relative;
-
     top:auto;
-
     right:auto;
-
     width:100%;
-
     margin-top:-40px;
-
     padding:35px;
-
 }
 
 .amenities-grid{
-
     grid-template-columns:1fr;
-
 }
 
 @media (max-width:1240px){
- 
   .amenities-card{
     width:400px;
     padding:40px;
@@ -296,7 +268,6 @@ const amenities = [
 }
  
 @media (max-width:1024px){
- 
   .amenities-card{
     width:340px;
     padding:32px;
@@ -317,50 +288,37 @@ const amenities = [
     margin-top:20px;
   }
  
-  .section-header h2{
-    font-size:30px;
-  }
 }
  
 /* MOBILE — fully stacked layout */
 @media (max-width:900px){
  
 .amenities-layout{
- 
     min-height:auto;
  
 }
  
 .image-section{
- 
     width:100%;
  
 }
  
 .amenities-image{
- 
     height:320px;
  
 }
  
 .amenities-card{
- 
     position:relative;
- 
     top:auto;
- 
     right:auto;
- 
     width:100%;
- 
     margin-top:-40px;
- 
     padding:35px;
  
 }
  
 .amenities-grid{
- 
     grid-template-columns:1fr;
  
 }
@@ -373,12 +331,7 @@ const amenities = [
   .section-header{
     padding:0 20px;
   }
- 
-  .section-header h2{
-    font-size:24px;
-    margin-bottom:20px;
-  }
- 
+
   .amenities-image{
     height:240px;
   }

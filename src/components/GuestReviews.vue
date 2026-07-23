@@ -4,7 +4,7 @@
 
       <header class="section-head">
         <div class="eyebrow">
-          04 — GUEST REVIEWS
+           — GUEST REVIEWS
         </div>
 
         <h2>What our guests are saying</h2>
