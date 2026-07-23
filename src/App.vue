@@ -33,7 +33,6 @@
           <path d="M8.3 10.7l7.4-4.2M8.3 13.3l7.4 4.2" />
         </svg>
       </button>
-      <button class="btn-reserve">Reserve</button>
     </div>
 
     <StickyNav ref="stickyNav" :sections="sections" />
@@ -67,6 +66,10 @@
           <PoliciesSection />
         </section>
 
+        <section id="faq-section" class="content-section">
+          <FaqSection/>
+        </section>
+
       </div>
 
     <FooterSection/>
@@ -85,6 +88,8 @@ import RoomsSection from "./components/RoomsSection.vue";
 import GuestReviews from "./components/GuestReviews.vue";
 import PoliciesSection from "./components/PoliciesSection.vue";
 import FooterSection from './components/FooterSection.vue'
+import AvailabilityBar from "./components/AvailabilityBar.vue";
+import FaqSection from "./components/FaqSection.vue";
 
 
 const stickyNav = ref(null);
@@ -106,6 +111,7 @@ const sections = [
   { id: "rooms", label: "ROOMS" },
   { id: "guest-reviews", label: "GUEST REVIEWS" },
   { id: "policies", label: "POLICIES" },
+  { id: "faq-section", label: "FAQ" },
 ];
 
 function onShowAllPhotos() {
@@ -113,8 +119,6 @@ function onShowAllPhotos() {
 }
 
 function handleSearch(criteria) {
-  // TODO: replace this with real room-availability filtering using `criteria`
-  // (criteria.checkIn, criteria.checkOut, criteria.rooms, criteria.adults, criteria.children).
   console.log("Searching with:", criteria);
 
   stickyNav.value?.scrollToSection("rooms");
@@ -124,7 +128,7 @@ function handleSearch(criteria) {
 <style scoped>
 
 .container {
-  max-width: 1240px;
+  max-width: 1340px;
   margin: 0 auto;
   padding: 0 34px;
 }
@@ -205,25 +209,10 @@ function handleSearch(criteria) {
   width: 19px;
   height: 19px;
 }
-.btn-reserve {
-  background: #0179D7;
-  color: #fff;
-  border: none;
-  padding: 0 26px;
-  height: 42px;
-  border-radius: 6px;
-  font-weight: 500;
-  font-size: 14.5px;
-  cursor: pointer;
-}
-.btn-reserve:hover {
-  background: #048cf5;
-  box-shadow: 0 8px 18px rgba(45, 106, 220, 0.25);
-  transform: translateY(-1px);
-}
+
 .content {
   padding-top: 36px;
-  padding-bottom: 80px;
+  padding-bottom: 45px;
 }
 .content-section {
   min-height: 260px;

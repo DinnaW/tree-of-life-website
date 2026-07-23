@@ -15,7 +15,7 @@
           <!-- Image -->
           <div class="image-section">
             <img
-              :src="`${baseUrl}images/pool.png`"
+              :src="`${baseUrl}images/amenities.png`"
               alt="Amenities"
               class="amenities-image"
             />
@@ -154,7 +154,7 @@ const amenities = [
 .amenities-card{
     position:absolute;
     top:-50px;
-    right:max(calc((100vw - 1240px)/2 + 34px),34px);
+    right:max(calc((10vw - 1240px)/2 + 34px),34px);
     width:480px;
     background:rgba(13, 69, 139, 0.98);
     color:white;
@@ -283,5 +283,123 @@ const amenities = [
 
 }
 
+@media (max-width:1240px){
+ 
+  .amenities-card{
+    width:400px;
+    padding:40px;
+  }
+ 
+  .amenities-card h3{
+    font-size:28px;
+  }
+}
+ 
+@media (max-width:1024px){
+ 
+  .amenities-card{
+    width:340px;
+    padding:32px;
+    right:20px;
+  }
+ 
+  .amenities-card h3{
+    font-size:24px;
+    margin-bottom:18px;
+  }
+ 
+  .amenities-card p{
+    margin-bottom:24px;
+  }
+ 
+  .amenities-grid{
+    gap:16px 20px;
+    margin-top:20px;
+  }
+ 
+  .section-header h2{
+    font-size:30px;
+  }
+}
+ 
+/* MOBILE — fully stacked layout */
+@media (max-width:900px){
+ 
+.amenities-layout{
+ 
+    min-height:auto;
+ 
+}
+ 
+.image-section{
+ 
+    width:100%;
+ 
+}
+ 
+.amenities-image{
+ 
+    height:320px;
+ 
+}
+ 
+.amenities-card{
+ 
+    position:relative;
+ 
+    top:auto;
+ 
+    right:auto;
+ 
+    width:100%;
+ 
+    margin-top:-40px;
+ 
+    padding:35px;
+ 
+}
+ 
+.amenities-grid{
+ 
+    grid-template-columns:1fr;
+ 
+}
+ 
+}
+ 
+/* SMALL PHONES — tighten padding, type and image height further */
+@media (max-width:480px){
+ 
+  .section-header{
+    padding:0 20px;
+  }
+ 
+  .section-header h2{
+    font-size:24px;
+    margin-bottom:20px;
+  }
+ 
+  .amenities-image{
+    height:240px;
+  }
+ 
+  .amenities-card{
+    padding:24px;
+    margin-top:-30px;
+  }
+ 
+  .amenities-card h3{
+    font-size:22px;
+  }
+ 
+  .amenities-card p{
+    font-size:13px;
+    margin-bottom:20px;
+  }
+ 
+  .amenities-btn{
+    width:100%;
+  }
+}
 }
 </style>

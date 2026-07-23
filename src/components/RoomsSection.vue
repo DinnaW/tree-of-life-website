@@ -1,17 +1,27 @@
 <template>
   <section class="rooms-section">
-    <header class="section-head">
-      
-      <div class="eyebrow">
-        03 — ROOMS
-      </div>
-
+    <div class="section-header">
+      <div class="eyebrow">03 — ROOMS</div>
       <h2>Choose your room</h2>
 
-      <p class="subhead">
+    
+
+    <div class="bar-wrap">
+      <AvailabilityBar
+        v-model:start-date="startDate"
+        v-model:end-date="endDate"
+        v-model:travelers="travelers"
+        v-model:room-count="roomCount"
+        v-model:filter="filter"
+        :total="rooms.length"
+        :shown="filteredRooms.length"
+      />
+    </div>
+
+    <p class="subhead">
         {{ rooms.length }} room types · flexible bed and board plans, priced per room
       </p>
-    </header>
+    </div>
 
     <article class="room-card" v-for="room in rooms" :key="room.id">
       <!-- IMAGE -->
@@ -22,38 +32,62 @@
 
       <!-- DETAILS -->
       <div class="room-details">
-        <h3>{{ room.name }}</h3>
+        <div class="room-title">
+          <h3>{{ room.name }}</h3>
+
+          <span v-if="room.mostBooked" class="badge">
+            MOST BOOKED
+          </span>
+        </div>
         <p class="room-meta">{{ room.meta }}</p>
 
-        <div class="option">
-          <label>Bed plan</label>
-          <div class="pill-group" role="group" aria-label="Bed plan">
-            <button
-              v-for="bed in ['Single', 'Double', 'Triple']"
-              :key="bed"
-              type="button"
-              class="pill"
-              :class="{ active: room.bed === bed }"
-              @click="room.bed = bed"
-            >
-              {{ bed }}
-            </button>
+        <div class="options-row">
+          <div class="option">
+            <label>Bed plan</label>
+
+            <div class="pill-group" role="group" aria-label="Bed plan">
+              <button
+                v-for="bed in ['Single', 'Double', 'Triple']"
+                :key="bed"
+                type="button"
+                class="pill"
+                :class="{ active: room.bed === bed }"
+                @click="room.bed = bed"
+              >
+                {{ bed }}
+              </button>
+            </div>
+          </div>
+
+          <div class="option">
+            <label>Meal plan</label>
+
+            <div class="pill-group" role="group" aria-label="Meal plan">
+              <button
+                v-for="meal in ['Bed & Breakfast', 'Half Board']"
+                :key="meal"
+                type="button"
+                class="pill"
+                :class="{ active: room.meal === meal }"
+                @click="room.meal = meal"
+              >
+                {{ meal }}
+              </button>
+            </div>
           </div>
         </div>
 
-        <div class="option">
-          <label>Meal plan</label>
-          <div class="pill-group" role="group" aria-label="Meal plan">
-            <button
-              v-for="meal in ['Bed & Breakfast', 'Half Board']"
-              :key="meal"
-              type="button"
-              class="pill"
-              :class="{ active: room.meal === meal }"
-              @click="room.meal = meal"
+        <div class="facilities-card">
+
+          <div class="facility-grid">
+            <div
+              class="facility-item"
+              v-for="facility in room.facilities"
+              :key="facility.name"
             >
-              {{ meal }}
-            </button>
+              <i :class="facility.icon"></i>
+              <span>{{ facility.name }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -102,14 +136,21 @@
         </div>
 
         <div class="price-block">
+          <p v-if="room.roomsLeft" class="rooms-left">
+            Only {{ room.roomsLeft }} room left
+          </p>
+
+          <div v-if="room.offer" class="offer-badge">
+            <i class="fa-solid fa-tags"></i>
+            {{ room.offer }}
+          </div>
+
           <div class="price-row">
             <span class="price">${{ total(room) }}</span>
-            <span class="price-caption">total · taxes &amp; fees included</span>
+            <span class="price-caption">total · taxes & fees included</span>
           </div>
-          <p class="price-breakdown" v-if="room.extraBeds > 0">
-            incl. {{ room.extraBeds }} extra bed{{ room.extraBeds > 1 ? 's' : '' }}
-          </p>
-          <button type="button" class="reserve-btn">Reserve this room</button>
+
+          <button class="reserve-btn">Reserve this room</button>
         </div>
       </div>
     </article>
@@ -117,13 +158,25 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
+import AvailabilityBar from "./AvailabilityBar.vue";
 
 const baseUrl = import.meta.env.BASE_URL;
+
+const startDate = ref("");
+const endDate = ref("");
+const travelers = ref(2);
+const roomCount = ref(1);
+const filter = ref("all");
+
+const filteredRooms = computed(() => {
+  return rooms.value;
+});
 
 const rooms = ref([
   {
     id: 1,
+    mostBooked: true,
     name: "Panoramic Deluxe",
     image: `${baseUrl}images/room1.jpg`,
     tag: "Panoramic view",
@@ -135,22 +188,47 @@ const rooms = ref([
 
     children: 0,
     extraBeds: 0,
-    roomCount: 1
+    roomCount: 1,
+
+    facilities: [
+      { icon: "fa-solid fa-wifi", name: "Free WiFi" },
+      { icon: "fa-solid fa-tv", name: "Smart TV" },
+      { icon: "fa-solid fa-snowflake", name: "Air Conditioning" },
+      { icon: "fa-solid fa-mug-hot", name: "Tea/Coffee" },
+      { icon: "fa-solid fa-tree", name: "Garden View" }
+    
+    ]
   },
   {
     id: 2,
+    mostBooked: false,
     name: "Green Zone Deluxe",
     image: `${baseUrl}images/room2.jpg`,
     tag: "Garden view",
     meta: "34 m² · Canopy bed · Private terrace",
-    price: 78,
-
+    price: 105,
+    roomsLeft: 1,
     bed: "Single",
     meal: "Bed & Breakfast",
+    offer: "Save 20% Today",
 
     children: 0,
     extraBeds: 0,
-    roomCount: 1
+    roomCount: 1,
+
+    facilities: [
+      { icon: "fa-solid fa-wifi", name: "Free WiFi" },
+      { icon: "fa-solid fa-tv", name: "Smart TV" },
+      { icon: "fa-solid fa-snowflake", name: "Air Conditioning" },
+      { icon: "fa-solid fa-temperature-half", name: "Hot Water" },
+      { icon: "fa-solid fa-bell-concierge", name: "Room Service" },
+      { icon: "fa-solid fa-sun", name: "Balcony" },
+      { icon: "fa-solid fa-wine-glass", name: "Mini Bar" },
+      { icon: "fa-solid fa-tree", name: "Garden View" },
+      { icon: "fa-solid fa-paw", name: "Pet Friendly" },
+      { icon: "fa-solid fa-smoking", name: "Smoking Area" },
+      
+    ]
   }
 ]);
 
@@ -163,6 +241,8 @@ const EXTRA_BED_FEE = 15;
 function total(room) {
   return room.price * room.roomCount + room.extraBeds * EXTRA_BED_FEE;
 }
+
+
 </script>
 
 <style scoped>
@@ -185,8 +265,8 @@ function total(room) {
   --color-gold: #2ed4e3;
   --color-gold-deep: #413f3f;
 
-  max-width: 1200px;
-  padding: 50px 20px;
+  max-width: 1340px;
+  padding: 50px 50px;
   background:  #f8f9fb;
   color: var(--color-ink);
 }
@@ -214,7 +294,7 @@ function total(room) {
 }
 
 .subhead {
-  margin: 0;
+  margin-bottom: 20px;
   font-size: 12px;
   color: var(--color-ink-soft);
 }
@@ -273,6 +353,34 @@ function total(room) {
 }
 
 /* ROOM DETAILS */
+.room-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.room-title h3 {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 500;
+  color: var(--color-pine);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  padding: 0 16px;
+  background: #eef3fa;
+  color: #1a51ad;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-radius: 4px;
+}
 
 .room-details {
   padding: 32px 32px 32px 30px;
@@ -308,6 +416,13 @@ function total(room) {
   letter-spacing: 0.4px;
   text-transform: uppercase;
   margin-bottom: 10px;
+}
+
+.rooms-left {
+  margin-bottom: 10px;
+  color: #d32f2f;
+  font-size: 13px;
+  font-weight: 600;
 }
 
 /* PILL BUTTONS */
@@ -489,7 +604,102 @@ function total(room) {
   transform: translateY(-1px);
 }
 
-/* RESPONSIVE */
+.options-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.option {
+  margin-bottom: 0;
+}
+
+.facilities-card {
+  margin-top: 35px;
+  padding: 14px 16px;
+  background: #f8f9fb;
+  border: 1px solid #e7ebf0;
+  border-radius: 12px;
+}
+
+.facilities-card h4 {
+  font-size: 13px;
+  font-weight: 550;
+  margin-bottom: 7px;
+}
+
+.facilities-card h5 {
+  margin: 0 0 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-pine);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* FIX: was a fixed `repeat(5, max-content)` — with rooms that have more
+   facilities (the second room has 10), this had nowhere to go on any
+   viewport narrower than a wide desktop and just overflowed the card.
+   auto-fill lets the browser fit as many columns as actually fit, and
+   items wrap onto new rows instead of forcing horizontal overflow. */
+.facility-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, max-content));
+  gap: 10px 20px;
+}
+
+.facility-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap; /* prevents wrapping */
+  font-size: 11px;
+}
+
+.facility-item i {
+  color: var(--color-pine);
+  font-size: 11px;
+}
+
+.offer-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+  padding: 2px 20px;
+  background: #edf8ee;
+  color: #1b7a3d;
+  border: 1px solid #bfe5cb;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.offer-badge i {
+  font-size: 12px;
+}
+
+/* ===================== RESPONSIVE ===================== */
+
+/* TABLET — ease the crunch before the layout fully stacks at 1050px.
+   Shrinking the fixed image/booking-panel widths gives the flexible
+   1fr details column (and therefore the pills + facility grid inside
+   it) more breathing room instead of jumping straight from full-width
+   desktop columns to the stacked mobile layout. */
+@media (max-width: 1200px) {
+  .rooms-section {
+    padding: 50px 30px;
+  }
+
+  .room-card {
+    grid-template-columns: 260px 1fr 24px 220px;
+  }
+
+  .room-details {
+    padding: 26px 24px 26px 22px;
+  }
+}
 
 @media (max-width: 1050px) {
   .room-card {
@@ -502,9 +712,10 @@ function total(room) {
 
   .room-options {
     grid-column: 1 / -1;
-    padding: 0 28px 28px;
-    border-top: 1px solid var(--color-line);
-    margin-top: 20px;
+    margin: 20px 28px 0;
+    padding: 0 0 28px;
+    border-top: 1px dashed var(--color-line);
+    display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     gap: 24px;
@@ -539,12 +750,15 @@ function total(room) {
     padding: 24px;
   }
 
+  /* FIX: this was previously set to 34px — identical to the default
+     size, so it did nothing. Actually shrinking it here. */
   .rooms-section h2 {
-    font-size: 34px;
+    font-size: 26px;
   }
 
   .room-options {
-    padding: 0 24px 24px;
+    margin: 20px 24px 0;
+    padding: 0 0 24px;
     flex-direction: column;
     align-items: stretch;
   }
@@ -552,6 +766,39 @@ function total(room) {
   .counter-row {
     flex-direction: row;
     align-items: center;
+  }
+
+  .options-row {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+/* SMALL PHONES */
+@media (max-width: 480px) {
+  .rooms-section {
+    padding: 40px 16px;
+  }
+
+  .rooms-section h2 {
+    font-size: 22px;
+  }
+
+  .room-title h3 {
+    font-size: 21px;
+  }
+
+  .room-details {
+    padding: 20px;
+  }
+
+  .facility-grid {
+    grid-template-columns: repeat(auto-fill, minmax(84px, max-content));
+    gap: 8px 14px;
+  }
+
+  .price {
+    font-size: 26px;
   }
 }
 
