@@ -82,15 +82,12 @@
                   >
                     <template v-if="cell">
                       <span class="day-num">{{ cell.day }}</span>
-                      <span class="day-price">{{ formatPrice(cell.price) }}</span>
                     </template>
                   </div>
                 </div>
 
               </div>
             </div>
-
-            <p class="calendar-footnote">Approximate prices in LKR for a 1-night stay</p>
           </div>
         </div>
 
@@ -618,13 +615,6 @@ function handleSearch() {
 .day-cell.range-start .day-price,
 .day-cell.range-end .day-price {
   color: #fff;
-}
-
-.calendar-footnote {
-  text-align: center;
-  font-size: 11px;
-  color: #9ca3af;
-  margin-top: 16px;
 }
 
 /* GUEST DROPDOWN */

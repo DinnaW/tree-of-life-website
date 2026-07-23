@@ -4,7 +4,7 @@
       <header class="section-head">
         
         <div class="eyebrow">
-        05 — POLICIES
+         — POLICIES
         </div>
         
         <h2>Things to know</h2>
@@ -121,7 +121,7 @@ const policies = [
   font-size:34px;
   font-weight:500;
   color:#1A51AD;
-  margin-bottom:30px;
+  margin-bottom:55px;
   line-height:1.3;
 }
 

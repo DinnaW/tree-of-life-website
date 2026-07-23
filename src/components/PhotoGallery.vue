@@ -4,12 +4,21 @@
       <img :src="photos[0].src" :alt="photos[0].alt" />
     </div>
     <div class="gallery-grid">
-      <img :src="photos[1].src" :alt="photos[1].alt" />
-      <img :src="photos[2].src" :alt="photos[2].alt" />
-      <img :src="photos[3].src" :alt="photos[3].alt" />
+      <div class="gallery-item">
+        <img :src="photos[1].src" :alt="photos[1].alt" />
+      </div>
+
+      <div class="gallery-item">
+        <img :src="photos[2].src" :alt="photos[2].alt" />
+      </div>
+
+      <div class="gallery-item">
+        <img :src="photos[3].src" :alt="photos[3].alt" />
+      </div>
+
       <div class="gallery-last">
         <img :src="photos[4].src" :alt="photos[4].alt" />
-        <button class="show-all-btn" @click="$emit('show-all')">Show all photos</button>
+        <button class="show-all-btn">Show all photos</button>
       </div>
     </div>
   </div>
@@ -82,5 +91,21 @@ defineEmits(["show-all"]);
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
+}
+
+.gallery-item,
+.gallery-main,
+.gallery-last {
+  overflow: hidden;
+}
+
+.gallery img {
+  transition: transform 0.4s ease;
+}
+
+.gallery-item:hover img,
+.gallery-main:hover img,
+.gallery-last:hover img {
+  transform: scale(1.08);
 }
 </style>
