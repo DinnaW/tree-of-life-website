@@ -73,12 +73,25 @@
       </div>
 
     <FooterSection/>
+
+    <!-- Scroll To Top Button -->
+    <button
+      v-if="showScrollButton"
+      class="scroll-top-btn"
+      @click="scrollToTop"
+      aria-label="Scroll to top"
+    >
+      <svg viewBox="0 0 24 24">
+        <path d="M12 19V5" />
+        <path d="M5 12l7-7 7 7" />
+      </svg>
+    </button>
     
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import SiteHeader from "./components/SiteHeader.vue";
 import PhotoGallery from "./components/PhotoGallery.vue";
 import StickyNav from "./components/StickyNav.vue";
@@ -123,6 +136,34 @@ function handleSearch(criteria) {
 
   stickyNav.value?.scrollToSection("rooms");
 }
+
+const showScrollButton = ref(false);
+
+function handleScroll() {
+  const scrollPosition = window.scrollY;
+  const pageHeight = document.documentElement.scrollHeight;
+  const windowHeight = window.innerHeight;
+
+  // Show only near the bottom of the page
+  showScrollButton.value =
+    scrollPosition + windowHeight >= pageHeight - 250;
+}
+
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+
+onMounted(() => {
+  window.addEventListener("scroll", handleScroll);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("scroll", handleScroll);
+});
 </script>
 
 <style scoped>
@@ -232,5 +273,50 @@ function handleSearch(criteria) {
 .amenities-list {
   padding-left: 20px;
   margin: 0;
+}
+
+.scroll-top-btn {
+  position: fixed;
+  right: 35px;
+  bottom: 80px;
+
+  width: 52px;
+  height: 52px;
+
+  border-radius: 50%;
+  border: none;
+
+  background: #5187e4;
+  color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  box-shadow: 0 8px 25px rgba(26,81,173,0.35);
+
+  transition: all 0.3s ease;
+
+  z-index: 999;
+}
+
+
+.scroll-top-btn:hover {
+  background: #2d6adc;
+  transform: translateY(-5px);
+}
+
+
+.scroll-top-btn svg {
+  width: 22px;
+  height: 22px;
+
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 </style>

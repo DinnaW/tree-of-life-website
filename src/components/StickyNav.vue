@@ -84,7 +84,7 @@ defineExpose({ scrollToSection });
   padding: 0 34px;
 }
 .nav-wrapper {
-  margin-top: 26px;
+  margin-top: 0px;
   border-bottom: 1px solid #e5e5e5;
   background: #fff;
   z-index: 100;
