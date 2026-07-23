@@ -638,9 +638,14 @@ function total(room) {
   letter-spacing: 0.5px;
 }
 
+/* FIX: was a fixed `repeat(5, max-content)` — with rooms that have more
+   facilities (the second room has 10), this had nowhere to go on any
+   viewport narrower than a wide desktop and just overflowed the card.
+   auto-fill lets the browser fit as many columns as actually fit, and
+   items wrap onto new rows instead of forcing horizontal overflow. */
 .facility-grid {
   display: grid;
-  grid-template-columns: repeat(5, max-content);
+  grid-template-columns: repeat(auto-fill, minmax(100px, max-content));
   gap: 10px 20px;
 }
 
@@ -675,7 +680,26 @@ function total(room) {
   font-size: 12px;
 }
 
-/* RESPONSIVE */
+/* ===================== RESPONSIVE ===================== */
+
+/* TABLET — ease the crunch before the layout fully stacks at 1050px.
+   Shrinking the fixed image/booking-panel widths gives the flexible
+   1fr details column (and therefore the pills + facility grid inside
+   it) more breathing room instead of jumping straight from full-width
+   desktop columns to the stacked mobile layout. */
+@media (max-width: 1200px) {
+  .rooms-section {
+    padding: 50px 30px;
+  }
+
+  .room-card {
+    grid-template-columns: 260px 1fr 24px 220px;
+  }
+
+  .room-details {
+    padding: 26px 24px 26px 22px;
+  }
+}
 
 @media (max-width: 1050px) {
   .room-card {
@@ -688,9 +712,10 @@ function total(room) {
 
   .room-options {
     grid-column: 1 / -1;
-    padding: 0 28px 28px;
-    border-top: 1px solid var(--color-line);
-    margin-top: 20px;
+    margin: 20px 28px 0;
+    padding: 0 0 28px;
+    border-top: 1px dashed var(--color-line);
+    display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     gap: 24px;
@@ -725,12 +750,15 @@ function total(room) {
     padding: 24px;
   }
 
+  /* FIX: this was previously set to 34px — identical to the default
+     size, so it did nothing. Actually shrinking it here. */
   .rooms-section h2 {
-    font-size: 34px;
+    font-size: 26px;
   }
 
   .room-options {
-    padding: 0 24px 24px;
+    margin: 20px 24px 0;
+    padding: 0 0 24px;
     flex-direction: column;
     align-items: stretch;
   }
@@ -738,6 +766,39 @@ function total(room) {
   .counter-row {
     flex-direction: row;
     align-items: center;
+  }
+
+  .options-row {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+/* SMALL PHONES */
+@media (max-width: 480px) {
+  .rooms-section {
+    padding: 40px 16px;
+  }
+
+  .rooms-section h2 {
+    font-size: 22px;
+  }
+
+  .room-title h3 {
+    font-size: 21px;
+  }
+
+  .room-details {
+    padding: 20px;
+  }
+
+  .facility-grid {
+    grid-template-columns: repeat(auto-fill, minmax(84px, max-content));
+    gap: 8px 14px;
+  }
+
+  .price {
+    font-size: 26px;
   }
 }
 
@@ -747,13 +808,6 @@ function total(room) {
   .pill,
   .counter button {
     transition: none;
-  }
-}
-
-@media (max-width: 768px) {
-  .options-row {
-    grid-template-columns: 1fr;
-    gap: 20px;
   }
 }
 </style>
