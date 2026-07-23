@@ -13,7 +13,8 @@
     "@iconify/vue": "^5.0.1",
     "lucide-vue-next": "^1.0.0",
     "simple-icons": "^16.27.0",
-    "vue": "^3.4.21"
+    "vue": "^3.4.21",
+    "vue-router": "^5.2.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.8",
