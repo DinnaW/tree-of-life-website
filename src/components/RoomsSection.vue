@@ -679,13 +679,8 @@ function total(room) {
   font-size: 12px;
 }
 
-/* ===================== RESPONSIVE ===================== */
+/* RESPONSIVE */
 
-/* TABLET — ease the crunch before the layout fully stacks at 1050px.
-   Shrinking the fixed image/booking-panel widths gives the flexible
-   1fr details column (and therefore the pills + facility grid inside
-   it) more breathing room instead of jumping straight from full-width
-   desktop columns to the stacked mobile layout. */
 @media (max-width: 1200px) {
   .rooms-section {
     padding: 50px 30px;
@@ -749,8 +744,6 @@ function total(room) {
     padding: 24px;
   }
 
-  /* FIX: this was previously set to 34px — identical to the default
-     size, so it did nothing. Actually shrinking it here. */
   .rooms-section h2 {
     font-size: 26px;
   }
