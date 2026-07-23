@@ -155,7 +155,7 @@ const rightColumn = computed(() => indexed.filter((_, i) => i % 2 === 1))
   font-size: 34px;
   font-weight: 500;
   color: #1A51AD;
-  margin-bottom: 10px;
+  margin-bottom: 55px;
   line-height: 1.3;
 }
 

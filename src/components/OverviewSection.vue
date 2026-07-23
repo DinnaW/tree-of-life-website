@@ -183,7 +183,7 @@ const highlights = [
   font-size:34px;
   font-weight:500;
   color:#1A51AD;
-  margin-bottom:30px;
+  margin-bottom:55px;
   line-height:1.3;
 }
 

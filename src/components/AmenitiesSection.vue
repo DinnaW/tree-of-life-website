@@ -136,12 +136,12 @@ const amenities = [
   margin-bottom: clamp(8px, 1vw, 12px);
 }
 
-.section-header h2 {
-  font-size: clamp(24px, 3vw, 34px);
-  font-weight: 500;
-  color: #1A51AD;
-  line-height: 1.3;
-  margin-bottom: clamp(20px, 3vw, 30px);
+.section-header h2{
+  font-size:34px;
+  font-weight:500;
+  color:#1A51AD;
+  margin-bottom:55px;
+  line-height:1.3;
 }
 
 .amenities-layout {

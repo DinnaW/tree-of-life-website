@@ -243,12 +243,12 @@ const reviews = [
   font-size: 34px;
   font-weight: 500;
   color: #1A51AD;
-  margin-bottom: 30px;
+  margin-bottom: 55px;
   line-height: 1.3;
 }
 
 .subhead {
-  margin: 0;
+  margin-bottom: -30px;
   font-size: 15px;
   color: var(--color-ink-soft);
 }
