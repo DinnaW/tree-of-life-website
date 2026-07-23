@@ -212,7 +212,7 @@ function handleSearch(criteria) {
 
 .content {
   padding-top: 36px;
-  padding-bottom: 80px;
+  padding-bottom: 45px;
 }
 .content-section {
   min-height: 260px;
