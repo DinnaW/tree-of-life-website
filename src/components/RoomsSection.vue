@@ -1,7 +1,7 @@
 <template>
   <section class="rooms-section">
     <div class="section-header">
-      <div class="eyebrow">03 — ROOMS</div>
+      <div class="eyebrow">— ROOMS</div>
       <h2>Choose your room</h2>
 
     
@@ -96,11 +96,11 @@
           </div>
 
           <button
-            type="button"
             class="see-more-btn"
-            @click="toggleFacilities(room.id)"
-          >
-            {{ expandedFacilities[room.id] ? 'See less' : 'See more' }}
+            type="button"
+            @click="openRoomDetails(room)"
+            >
+            See More
           </button>
         </div>
       </div>
@@ -164,11 +164,18 @@
       </div>
     </article>
   </section>
+  <RoomDetailsModal
+  :is-open="isRoomModalOpen"
+  :room="selectedRoom"
+  @close="closeRoomDetails"
+  @reserve="handleRoomReservation"
+/>
 </template>
 
 <script setup>
 import { ref, computed } from "vue";
 import AvailabilityBar from "./AvailabilityBar.vue";
+import RoomDetailsModal from "./modals/RoomDetailsModal.vue";
 
 const baseUrl = import.meta.env.BASE_URL;
 
@@ -188,10 +195,41 @@ const rooms = ref([
     mostBooked: true,
     name: "Panoramic Deluxe",
     image: `${baseUrl}images/room1.jpg`,
+    images: [
+      `${baseUrl}images/room1.jpg`,
+      `${baseUrl}images/room1-2.jpg`,
+      `${baseUrl}images/room1-3.jpg`,
+      `${baseUrl}images/room1-4.jpg`
+    ],
     tag: "Panoramic view",
     meta: "38 m² · King bed · Private balcony",
     price: 78,
+    subtitle: "Panoramic mountain retreat",
+    guests: 2,
+    size: "38 m²",
+    view: "Panoramic mountain view",
 
+    description:
+      "A spacious deluxe room with warm natural interiors, a king-size bed, private balcony, and beautiful panoramic views. Ideal for couples seeking a quiet and comfortable stay.",
+
+    bathroomFacilities: [
+      "Private bathroom",
+      "Hot water",
+      "Walk-in shower",
+      "Hair dryer",
+      "Fresh towels"
+    ],
+
+    included: [
+      "Daily breakfast",
+      "Free WiFi",
+      "Free parking",
+      "Tea and coffee facilities"
+    ],
+
+    checkIn: "From 2:00 PM",
+    checkOut: "Until 11:00 AM",
+    smoking: "Non-smoking room",
     bed: "Single",
     meal: "Bed & Breakfast",
 
@@ -212,9 +250,41 @@ const rooms = ref([
     mostBooked: false,
     name: "Green Zone Deluxe",
     image: `${baseUrl}images/room2.jpg`,
+    images: [
+      `${baseUrl}images/room2.jpg`,
+      `${baseUrl}images/room2-2.jpg`,
+      `${baseUrl}images/room2-3.jpg`,
+      `${baseUrl}images/room2-4.jpg`
+    ],
     tag: "Garden view",
     meta: "34 m² · Canopy bed · Private terrace",
     price: 105,
+    subtitle: "Peaceful garden escape",
+    guests: 2,
+    size: "34 m²",
+    view: "Private garden view",
+
+    description:
+      "A tranquil deluxe room surrounded by greenery, featuring a canopy bed, private terrace, and direct views of the resort garden.",
+
+    bathroomFacilities: [
+      "Private bathroom",
+      "Hot water",
+      "Rain shower",
+      "Hair dryer",
+      "Fresh towels"
+    ],
+
+    included: [
+      "Daily breakfast",
+      "Free WiFi",
+      "Free parking",
+      "Room service"
+    ],
+
+    checkIn: "From 2:00 PM",
+    checkOut: "Until 11:00 AM",
+    smoking: "Non-smoking room",
     roomsLeft: 1,
     bed: "Single",
     meal: "Bed & Breakfast",
@@ -243,9 +313,41 @@ const rooms = ref([
     mostBooked: false,
     name: "Panoramic Deluxe",
     image: `${baseUrl}images/room3.jpg`,
+    images: [
+      `${baseUrl}images/room3.jpg`,
+      `${baseUrl}images/room3-2.jpg`,
+      `${baseUrl}images/room3-3.jpg`,
+      `${baseUrl}images/room3-4.jpg`
+    ],
     tag: "Panoramic view",
     meta: "38 m² · King bed · Private balcony",
     price: 78,
+    subtitle: "Limited-time panoramic stay",
+    guests: 2,
+    size: "38 m²",
+    view: "Panoramic mountain view",
+
+    description:
+      "A comfortable panoramic deluxe room with a king-size bed, private balcony, and a special limited-time rate.",
+
+    bathroomFacilities: [
+      "Private bathroom",
+      "Hot water",
+      "Walk-in shower",
+      "Hair dryer",
+      "Fresh towels"
+    ],
+
+    included: [
+      "Daily breakfast",
+      "Free WiFi",
+      "Free parking",
+      "Tea and coffee facilities"
+    ],
+
+    checkIn: "From 2:00 PM",
+    checkOut: "Until 11:00 AM",
+    smoking: "Non-smoking room",
     originalPrice: 98,
     offer: "Limited Time Offer",
 
@@ -290,6 +392,31 @@ function visibleFacilities(room) {
     : room.facilities.slice(0, VISIBLE_FACILITY_COUNT);
 }
 
+const selectedRoom = ref(null);
+const isRoomModalOpen = ref(false);
+
+function openRoomDetails(room) {
+  selectedRoom.value = room;
+  isRoomModalOpen.value = true;
+}
+
+function closeRoomDetails() {
+  isRoomModalOpen.value = false;
+  selectedRoom.value = null;
+}
+
+function handleRoomReservation(room) {
+  console.log("Selected room:", room);
+
+  closeRoomDetails();
+
+  document
+    .querySelector("#availability")
+    ?.scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+}
 
 </script>
 
@@ -313,8 +440,8 @@ function visibleFacilities(room) {
   --color-gold: #2ed4e3;
   --color-gold-deep: #413f3f;
 
-  max-width: 1340px;
-  padding: 50px 50px;
+  max-width: max(1340px, 93.0556vw);
+  padding: max(50px, 3.4722vw) max(50px, 3.4722vw);
   background:  #f8f9fb;
   color: var(--color-ink);
 }
@@ -322,28 +449,36 @@ function visibleFacilities(room) {
 /* SECTION HEAD */
 
 .section-head {
-  margin-bottom: 48px;
+  margin-bottom: max(48px, 3.3333vw);
 }
 
 .eyebrow {
-  color:#034acf;
-  font-size: 10px;
+  color: #034acf;
+  font-size: clamp(max(10px, 0.6944vw), 0.8vw, max(12px, 0.8333vw));
   font-weight: 700;
-  letter-spacing: 1px;
-  margin-bottom:10px;
+  letter-spacing: max(1px, 0.0694vw);
+  margin-bottom: clamp(max(8px, 0.5556vw), 1vw, max(12px, 0.8333vw));
+}
+
+.section-header h2{
+  font-size:max(34px, 2.3611vw);
+  font-weight:500;
+  color:#1A51AD;
+  margin-bottom: max(80px, 5.5556vw);
+  line-height:1.3;
 }
 
 .rooms-section h2 {
-  font-size:34px;
+  font-size:max(34px, 2.3611vw);
   font-weight:500;
   color:#1A51AD;
-  margin-bottom:55px;
+  margin-bottom:max(55px, 3.8194vw);
   line-height:1.3;
 }
 
 .subhead {
-  margin-bottom: 20px;
-  font-size: 12px;
+  margin-bottom: max(20px, 1.3889vw);
+  font-size: max(12px, 0.8333vw);
   color: var(--color-ink-soft);
 }
 
@@ -352,20 +487,20 @@ function visibleFacilities(room) {
 .room-card {
   position: relative;
   display: grid;
-  grid-template-columns: 300px 1fr 24px 260px;
+  grid-template-columns: max(300px, 20.8333vw) 1fr max(24px, 1.6667vw) max(260px, 18.0556vw);
   align-items: stretch;
   gap: 0;
   background: var(--color-surface);
-  border-radius: 20px;
-  margin-bottom: 28px;
-  box-shadow: 0 1px 2px rgba(31, 46, 36, 0.04);
+  border-radius: max(20px, 1.3889vw);
+  margin-bottom: max(28px, 1.9444vw);
+  box-shadow: 0 max(1px, 0.0694vw) max(2px, 0.1389vw) rgba(31, 46, 36, 0.04);
   transition: box-shadow 0.25s ease, transform 0.25s ease;
   
 }
 
 .room-card:hover {
-  box-shadow: 0 18px 40px rgba(31, 46, 36, 0.1);
-  transform: translateY(-2px);
+  box-shadow: 0 max(18px, 1.25vw) max(40px, 2.7778vw) rgba(31, 46, 36, 0.1);
+  transform: translateY(min(-2px, -0.1389vw));
 }
 
 /* IMAGE */
@@ -374,9 +509,9 @@ function visibleFacilities(room) {
   position: relative;
   width: 100%;
   height: 100%;
-  min-height: 280px;
+  min-height: max(280px, 19.4444vw);
   overflow: hidden;
-  border-radius: 20px 0px 0px 20px;
+  border-radius: max(20px, 1.3889vw) 0 0 max(20px, 1.3889vw);
 }
 
 .room-image {
@@ -388,29 +523,29 @@ function visibleFacilities(room) {
 
 .room-tag {
   position: absolute;
-  left: 14px;
-  bottom: 14px;
-  padding: 6px 14px;
-  border-radius: 20px;
+  left: max(14px, 0.9722vw);
+  bottom: max(14px, 0.9722vw);
+  padding: max(6px, 0.4167vw) max(14px, 0.9722vw);
+  border-radius: max(20px, 1.3889vw);
   background: rgba(68, 68, 68, 0.55);
-  backdrop-filter: blur(6px);
+  backdrop-filter: blur(max(6px, 0.4167vw));
   color: #fff;
-  font-size: 12px;
+  font-size: max(12px, 0.8333vw);
   font-weight: 500;
-  letter-spacing: 0.3px;
+  letter-spacing: max(0.3px, 0.0208vw);
 }
 
 /* ROOM DETAILS */
 .room-title {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 6px;
+  gap: max(12px, 0.8333vw);
+  margin-bottom: max(6px, 0.4167vw);
 }
 
 .room-title h3 {
   margin: 0;
-  font-size: 26px;
+  font-size: max(26px, 1.8056vw);
   font-weight: 500;
   color: var(--color-pine);
 }
@@ -419,32 +554,32 @@ function visibleFacilities(room) {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 28px;
-  padding: 0 16px;
+  height: max(28px, 1.9444vw);
+  padding: 0 max(16px, 1.1111vw);
   background: #eef3fa;
   color: #1a51ad;
-  font-size: 11px;
+  font-size: max(11px, 0.7639vw);
   font-weight: 600;
-  letter-spacing: 1px;
+  letter-spacing: max(1px, 0.0694vw);
   text-transform: uppercase;
-  border-radius: 4px;
+  border-radius: max(4px, 0.2778vw);
 }
 
 .room-details {
-  padding: 32px 32px 32px 30px;
+  padding: max(32px, 2.2222vw) max(32px, 2.2222vw) max(32px, 2.2222vw) max(30px, 2.0833vw);
 }
 
 .room-details h3 {
-  margin: 0 0 6px;
+  margin: 0 0 max(6px, 0.4167vw);
  
-  font-size: 26px;
+  font-size: max(26px, 1.8056vw);
   font-weight: 500;
   color: var(--color-pine);
 }
 
 .room-meta {
-  margin: 0 0 26px;
-  font-size: 13.5px;
+  margin: 0 0 max(26px, 1.8056vw);
+  font-size: max(13.5px, 0.9375vw);
   color: var(--color-ink-soft);
 }
 
@@ -454,18 +589,18 @@ function visibleFacilities(room) {
 
 .option label {
   display: block;
-  font-size: 12.5px;
+  font-size: max(12.5px, 0.8681vw);
   color: var(--color-ink-soft);
   font-weight: 600;
-  letter-spacing: 0.4px;
+  letter-spacing: max(0.4px, 0.0278vw);
   text-transform: uppercase;
-  margin-bottom: 10px;
+  margin-bottom: max(10px, 0.6944vw);
 }
 
 .rooms-left {
-  margin-bottom: 10px;
+  margin-bottom: max(10px, 0.6944vw);
   color: rgb(242, 56, 56);
-  font-size: 13px;
+  font-size: max(13px, 0.9028vw);
   font-weight: 600;
 }
 
@@ -473,19 +608,19 @@ function visibleFacilities(room) {
 
 .pill-group {
   display: flex;
-  gap: 8px;
+  gap: max(8px, 0.5556vw);
   flex-wrap: wrap;
 }
 
 .pill {
-  height: 38px;
-  padding: 0 18px;
-  border-radius: 10px;
-  border: 1px solid var(--color-line);
+  height: max(38px, 2.6389vw);
+  padding: 0 max(18px, 1.25vw);
+  border-radius: max(10px, 0.6944vw);
+  border: max(1px, 0.0694vw) solid var(--color-line);
   background: #fff;
   color: var(--color-ink);
  
-  font-size: 12px;
+  font-size: max(12px, 0.8333vw);
   font-weight: 500;
   cursor: pointer;
   transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
@@ -503,34 +638,34 @@ function visibleFacilities(room) {
 
 .divider {
   position: relative;
-  border-left: 1px dashed var(--color-line);
-  margin: 24px 0;
+  border-left: max(1px, 0.0694vw) dashed var(--color-line);
+  margin: max(24px, 1.6667vw) 0;
 }
 
 .notch {
   position: absolute;
-  left: -9px;
-  width: 18px;
-  height: 18px;
+  left: min(-9px, -0.625vw);
+  width: max(18px, 1.25vw);
+  height: max(18px, 1.25vw);
   border-radius: 50%;
   background: var(--color-bg);
 }
 
 .notch-top {
-  top: -24px;
+  top: min(-24px, -1.6667vw);
 }
 
 .notch-bottom {
-  bottom: -24px;
+  bottom: min(-24px, -1.6667vw);
 }
 
 /* BOOKING PANEL */
 
 .room-options {
-  padding: 28px 28px 28px 4px;
+  padding: max(28px, 1.9444vw) max(28px, 1.9444vw) max(28px, 1.9444vw) max(4px, 0.2778vw);
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: max(18px, 1.25vw);
 }
 
 .counter-row {
@@ -540,7 +675,7 @@ function visibleFacilities(room) {
 }
 
 .counter-row span:first-child {
-  font-size: 13.5px;
+  font-size: max(13.5px, 0.9375vw);
   color: var(--color-ink);
   font-weight: 500;
 }
@@ -548,17 +683,17 @@ function visibleFacilities(room) {
 .counter {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: max(10px, 0.6944vw);
 }
 
 .counter button {
-  width: 28px;
-  height: 28px;
+  width: max(28px, 1.9444vw);
+  height: max(28px, 1.9444vw);
   border-radius: 25%;
-  border: 1px solid var(--color-line);
+  border: max(1px, 0.0694vw) solid var(--color-line);
   background: #fff;
   color: var(--color-pine);
-  font-size: 15px;
+  font-size: max(15px, 1.0417vw);
   line-height: 1;
   cursor: pointer;
   transition: border-color 0.15s ease, background 0.15s ease, opacity 0.15s ease;
@@ -575,100 +710,100 @@ function visibleFacilities(room) {
 }
 
 .counter-value {
-  width: 16px;
+  width: max(16px, 1.1111vw);
   text-align: center;
   font-weight: 600;
-  font-size: 14px;
+  font-size: max(14px, 0.9722vw);
 }
 
 .select-wrap select {
-  width: 100px;
-  height: 32px;
-  border-radius: 16px;
-  border: 1px solid var(--color-line);
+  width: max(100px, 6.9444vw);
+  height: max(32px, 2.2222vw);
+  border-radius: max(16px, 1.1111vw);
+  border: max(1px, 0.0694vw) solid var(--color-line);
   background: #fff;
-  padding: 0 12px;
+  padding: 0 max(12px, 0.8333vw);
 
-  font-size: 13px;
+  font-size: max(13px, 0.9028vw);
   color: var(--color-ink);
   cursor: pointer;
 }
 
 .price-block {
-  margin-top: 6px;
-  padding-top: 18px;
-  border-top: 1px solid var(--color-line);
+  margin-top: max(6px, 0.4167vw);
+  padding-top: max(18px, 1.25vw);
+  border-top: max(1px, 0.0694vw) solid var(--color-line);
 }
 
 .price-row {
   display: flex;
   align-items: baseline;
-  gap: 8px;
+  gap: max(8px, 0.5556vw);
   flex-wrap: wrap;
 }
 
 .price {
 
-  font-size: 30px;
+  font-size: max(30px, 2.0833vw);
   font-weight: 600;
   color: var(--color-pine);
 }
 
 .price-original {
-  font-size: 20px;
+  font-size: max(20px, 1.3889vw);
   font-weight: 10;
   color: rgb(242, 56, 56);
   text-decoration: line-through;
 }
 
 .price-caption {
-  font-size: 11.5px;
+  font-size: max(11.5px, 0.7986vw);
   color: var(--color-ink-soft);
 }
 
 .price-breakdown {
-  margin: 4px 0 0;
-  font-size: 12px;
+  margin: max(4px, 0.2778vw) 0 0;
+  font-size: max(12px, 0.8333vw);
   color: var(--color-gold-deep);
 }
 
 .reserve-btn {
   width: 100%;
-  height: 46px;
-  margin-top: 16px;
+  height: max(46px, 3.1944vw);
+  margin-top: max(16px, 1.1111vw);
   border: none;
-  border-radius: 15px;
+  border-radius: max(15px, 1.0417vw);
   background: #3B3B3B;
   color: #fff;
   font-family: "Work Sans", sans-serif;
-  font-size: 14px;
+  font-size: max(14px, 0.9722vw);
   font-weight: 480;
-  letter-spacing: 0.2px;
+  letter-spacing: max(0.2px, 0.0139vw);
   cursor: pointer;
   transition: background 0.15s ease, transform 0.15s ease;
 }
 
 .reserve-btn:hover {
   background: #021c44;
-  transform: translateY(-1px);
+  transform: translateY(min(-1px, -0.0694vw));
 }
 
 .options-row {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  margin-top: 24px;
+  gap: max(20px, 1.3889vw);
+  margin-top: max(24px, 1.6667vw);
 }
 
 .facilities-card {
-  margin-top: 35px;
-  padding: 12px 16px;
+  margin-top: max(35px, 2.4306vw);
+  padding: max(12px, 0.8333vw) max(16px, 1.1111vw);
   background: #f8f9fb;
-  border: 1px solid #e7ebf0;
-  border-radius: 12px;
+  border: max(1px, 0.0694vw) solid #e7ebf0;
+  border-radius: max(12px, 0.8333vw);
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: max(14px, 0.9722vw);
 }
 
 .facilities-card.expanded {
@@ -677,25 +812,25 @@ function visibleFacilities(room) {
 }
 
 .facilities-card h4 {
-  font-size: 13px;
+  font-size: max(13px, 0.9028vw);
   font-weight: 550;
-  margin-bottom: 7px;
+  margin-bottom: max(7px, 0.4861vw);
 }
 
 .facilities-card h5 {
-  margin: 0 0 12px;
-  font-size: 13px;
+  margin: 0 0 max(12px, 0.8333vw);
+  font-size: max(13px, 0.9028vw);
   font-weight: 600;
   color: var(--color-pine);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: max(0.5px, 0.0347vw);
 }
 
 .facility-grid {
   display: flex;
   flex-wrap: nowrap;
   overflow: hidden;
-  gap: 20px;
+  gap: max(20px, 1.3889vw);
   flex: 1;
   min-width: 0;
 }
@@ -709,15 +844,15 @@ function visibleFacilities(room) {
 .facility-item {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: max(6px, 0.4167vw);
   white-space: nowrap; /* prevents wrapping */
-  font-size: 11px;
+  font-size: max(11px, 0.7639vw);
   flex-shrink: 0;
 }
 
 .facility-item i {
   color: var(--color-pine);
-  font-size: 11px;
+  font-size: max(11px, 0.7639vw);
 }
 
 .see-more-btn {
@@ -727,7 +862,7 @@ function visibleFacilities(room) {
   border: none;
   color: var(--color-pine);
   font-weight: 600;
-  font-size: 11px;
+  font-size: max(11px, 0.7639vw);
   cursor: pointer;
   white-space: nowrap;
   padding: 0;
@@ -739,25 +874,25 @@ function visibleFacilities(room) {
 
 .facilities-card.expanded .see-more-btn {
   margin-left: 0;
-  margin-top: 12px;
+  margin-top: max(12px, 0.8333vw);
 }
 
 .offer-badge {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  margin-bottom: 12px;
-  padding: 2px 20px;
+  gap: max(6px, 0.4167vw);
+  margin-bottom: max(12px, 0.8333vw);
+  padding: max(2px, 0.1389vw) max(20px, 1.3889vw);
   background: #edf8ee;
   color: #1b7a3d;
-  border: 1px solid #bfe5cb;
-  border-radius: 8px;
-  font-size: 12px;
+  border: max(1px, 0.0694vw) solid #bfe5cb;
+  border-radius: max(8px, 0.5556vw);
+  font-size: max(12px, 0.8333vw);
   font-weight: 600;
 }
 
 .offer-badge i {
-  font-size: 12px;
+  font-size: max(12px, 0.8333vw);
 }
 
 /* RESPONSIVE */

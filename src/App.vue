@@ -169,77 +169,77 @@ onUnmounted(() => {
 <style scoped>
 
 .container {
-  max-width: 1340px;
+  max-width: max(1340px, 93.0556vw);
   margin: 0 auto;
-  padding: 0 34px;
+  padding: 0 max(34px, 2.3611vw);
 }
 
 .title-block {
-  margin-top: 70px;
+  margin-top: max(70px, 4.8611vw);
 }
 
 .title-block h1 {
   color: #1A51AD;
-  font-size: 39px;
-  font-weight: 600;
-  margin: 0 0 10px;
+  font-size: max(39px, 2.7083vw);
+  font-weight: 550;
+  margin: 0 0 max(10px, 0.6944vw);
 }
 .meta {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 14px;
+  gap: max(8px, 0.5556vw);
+  font-size: max(14px, 0.9722vw);
   color: #555;
 }
 .rating {
   display: inline-flex;
   align-items: center;
-  margin-bottom: 40px;
-  gap: 5px;
+  margin-bottom: max(40px, 2.7778vw);
+  gap: max(5px, 0.3472vw);
   color: #1a1a1a;
   font-weight: 700;
 }
 .star {
-  width: 15px;
-  height: 15px;
+  width: max(15px, 1.0417vw);
+  height: max(15px, 1.0417vw);
   fill: #f5c347;
 }
 .reviews {
   color: #6b6b6b;
-  margin-bottom: 40px;
+  margin-bottom: max(40px, 2.7778vw);
 }
 
 .dot {
   color: #ccc;
-  margin-bottom: 40px;
+  margin-bottom: max(40px, 2.7778vw);
 
 }
 .pin {
-  width: 15px;
-  height: 15px;
+  width: max(15px, 1.0417vw);
+  height: max(15px, 1.0417vw);
   color: #6b6b6b;
-  margin-bottom: 40px;
+  margin-bottom: max(40px, 2.7778vw);
 }
 .location {
-  letter-spacing: 0.4px;
+  letter-spacing: max(0.4px, 0.0278vw);
   color: #6b6b6b;
-  font-size: 12.5px;
+  font-size: max(12.5px, 0.8681vw);
   font-weight: 300;
-  margin-bottom: 40px;
+  margin-bottom: max(40px, 2.7778vw);
 }
 .action-row {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: 12px;
-  margin-top: 18px;
+  gap: max(12px, 0.8333vw);
+  margin-top: max(18px, 1.25vw);
 }
 .icon-btn {
   background: none;
-  border: 1px solid #dcdcdc;
-  border-radius: 6px;
-  width: 42px;
-  height: 42px;
+  border: max(1px, 0.0694vw) solid #dcdcdc;
+  border-radius: max(6px, 0.4167vw);
+  width: max(42px, 2.9167vw);
+  height: max(42px, 2.9167vw);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -247,41 +247,41 @@ onUnmounted(() => {
   color: #2d6adc;
 }
 .icon-btn svg {
-  width: 19px;
-  height: 19px;
+  width: max(19px, 1.3194vw);
+  height: max(19px, 1.3194vw);
 }
 
 .content {
-  padding-top: 36px;
-  padding-bottom: 45px;
+  padding-top: max(36px, 2.5vw);
+  padding-bottom: max(45px, 3.125vw);
 }
 .content-section {
-  min-height: 260px;
-  padding: 36px 0;
-  border-bottom: 1px solid #f0f0f0;
+  min-height: max(260px, 18.0556vw);
+  padding: max(36px, 2.5vw) 0;
+  border-bottom: max(1px, 0.0694vw) solid #f0f0f0;
   color: #444;
   line-height: 1.7;
-  font-size: 15px;
+  font-size: max(15px, 1.0417vw);
 }
 .eyebrow {
   color: #2d6adc;
   font-weight: 700;
-  letter-spacing: 1px;
-  font-size: 13px;
-  margin-bottom: 18px;
+  letter-spacing: max(1px, 0.0694vw);
+  font-size: max(13px, 0.9028vw);
+  margin-bottom: max(18px, 1.25vw);
 }
 .amenities-list {
-  padding-left: 20px;
+  padding-left: max(20px, 1.3889vw);
   margin: 0;
 }
 
 .scroll-top-btn {
   position: fixed;
-  right: 35px;
-  bottom: 80px;
+  right: max(35px, 2.4306vw);
+  bottom: max(80px, 5.5556vw);
 
-  width: 52px;
-  height: 52px;
+  width: max(52px, 3.6111vw);
+  height: max(52px, 3.6111vw);
 
   border-radius: 50%;
   border: none;
@@ -295,7 +295,7 @@ onUnmounted(() => {
 
   cursor: pointer;
 
-  box-shadow: 0 8px 25px rgba(26,81,173,0.35);
+  box-shadow: 0 max(8px, 0.5556vw) max(25px, 1.7361vw) rgba(26,81,173,0.35);
 
   transition: all 0.3s ease;
 
@@ -305,13 +305,13 @@ onUnmounted(() => {
 
 .scroll-top-btn:hover {
   background: #2d6adc;
-  transform: translateY(-5px);
+  transform: translateY(min(-5px, -0.3472vw));
 }
 
 
 .scroll-top-btn svg {
-  width: 22px;
-  height: 22px;
+  width: max(22px, 1.5278vw);
+  height: max(22px, 1.5278vw);
 
   fill: none;
   stroke: currentColor;

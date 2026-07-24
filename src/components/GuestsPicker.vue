@@ -30,40 +30,40 @@ defineEmits(["update:adults", "update:children", "close"]);
 
 <style scoped>
 .picker {
-  width: 240px;
-  padding: 16px;
+  width: max(240px, 16.6667vw);
+  padding: max(16px, 1.1111vw);
   background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 12px 32px rgba(20, 40, 70, 0.2);
-  border: 1px solid #ececec;
+  border-radius: max(10px, 0.6944vw);
+  box-shadow: 0 max(12px, 0.8333vw) max(32px, 2.2222vw) rgba(20, 40, 70, 0.2);
+  border: max(1px, 0.0694vw) solid #ececec;
 }
 .row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 0;
+  padding: max(8px, 0.5556vw) 0;
 }
 .row + .row {
-  border-top: 1px solid #f0f0f0;
+  border-top: max(1px, 0.0694vw) solid #f0f0f0;
 }
 .label {
-  font-size: 14px;
+  font-size: max(14px, 0.9722vw);
   font-weight: 600;
   color: #1a1a1a;
 }
 .stepper {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: max(10px, 0.6944vw);
 }
 .step-btn {
-  width: 26px;
-  height: 26px;
+  width: max(26px, 1.8056vw);
+  height: max(26px, 1.8056vw);
   border-radius: 50%;
-  border: 1px solid #dcdcdc;
+  border: max(1px, 0.0694vw) solid #dcdcdc;
   background: #fff;
   color: #2d6adc;
-  font-size: 15px;
+  font-size: max(15px, 1.0417vw);
   line-height: 1;
   cursor: pointer;
 }
@@ -73,20 +73,20 @@ defineEmits(["update:adults", "update:children", "close"]);
   cursor: not-allowed;
 }
 .count {
-  min-width: 16px;
+  min-width: max(16px, 1.1111vw);
   text-align: center;
-  font-size: 14px;
+  font-size: max(14px, 0.9722vw);
   font-weight: 600;
 }
 .done-btn {
   width: 100%;
-  margin-top: 14px;
+  margin-top: max(14px, 0.9722vw);
   background: #3477d0;
   color: #fff;
   border: none;
-  padding: 8px 0;
-  border-radius: 6px;
-  font-size: 12.5px;
+  padding: max(8px, 0.5556vw) 0;
+  border-radius: max(6px, 0.4167vw);
+  font-size: max(12.5px, 0.8681vw);
   font-weight: 700;
   cursor: pointer;
 }

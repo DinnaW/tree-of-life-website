@@ -36,20 +36,20 @@ defineEmits(["show-all"]);
 
 <style scoped>
 .container {
-  max-width: 1340px;
+  max-width: max(1340px, 93.0556vw);
   margin: 0 auto;
-  padding: 0 34px;
+  padding: 0 max(34px, 2.3611vw);
 }
 .gallery {
   display: grid;
   grid-template-columns: 1.28fr 1fr;
-  gap: 5px;
-  height: 470px;
+  gap: max(5px, 0.3472vw);
+  height: max(470px, 32.6389vw);
 }
 .gallery-main {
   min-height: 0;
   overflow: hidden;
-  border-radius: 0px;
+  border-radius: 0;
 }
 .gallery-main img {
   width: 100%;
@@ -61,7 +61,7 @@ defineEmits(["show-all"]);
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 1fr);
-  gap: 5px;
+  gap: max(5px, 0.3472vw);
   height: 100%;
 }
 .gallery-grid img {
@@ -70,25 +70,25 @@ defineEmits(["show-all"]);
   min-width: 0;
   min-height: 0;
   object-fit: cover;
-  border-radius: 0px;
+  border-radius: 0;
   display: block;
 }
 .gallery-last {
   position: relative;
   min-height: 0;
   overflow: hidden;
-  border-radius: 0px;
+  border-radius: 0;
 }
 .show-all-btn {
   position: absolute;
-  bottom: 12px;
-  right: 12px;
+  bottom: max(12px, 0.8333vw);
+  right: max(12px, 0.8333vw);
   background: rgba(20, 20, 20, 0.72);
   color: #fff;
   border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-size: 13px;
+  padding: max(8px, 0.5556vw) max(16px, 1.1111vw);
+  border-radius: max(6px, 0.4167vw);
+  font-size: max(13px, 0.9028vw);
   font-weight: 600;
   cursor: pointer;
 }

@@ -364,13 +364,13 @@ function handleSearch() {
 .availability-section {
   width: 100%;
   background: #f8f9fb;
-  margin-bottom: 50px;
+  margin-bottom: max(50px, 3.4722vw);
 }
 
 .section-header {
-  max-width: 1200px;
+  max-width: max(1200px, 83.3333vw);
   margin: auto;
-  padding: 0 20px;
+  padding: 0 max(20px, 1.3889vw);
 }
 
 .top-row {
@@ -378,12 +378,12 @@ function handleSearch() {
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 18px;
+  gap: max(12px, 0.8333vw);
+  margin-bottom: max(18px, 1.25vw);
 }
 
 .top-row h2 {
-  font-size: 20px;
+  font-size: max(20px, 1.3889vw);
   font-weight: 550;
   color: #031b35;
 }
@@ -391,34 +391,34 @@ function handleSearch() {
 .price-match {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 13px;
+  gap: max(6px, 0.4167vw);
+  font-size: max(13px, 0.9028vw);
   font-weight: 600;
   color: #0179D7;
 }
 
 .price-match svg {
-  width: 16px;
-  height: 16px;
+  width: max(16px, 1.1111vw);
+  height: max(16px, 1.1111vw);
 }
 
 .notice {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: max(8px, 0.5556vw);
   color: #b42318;
   background: #fef3f2;
-  border: 1px solid #fee4e2;
-  padding: 10px 14px;
-  border-radius: 8px;
-  font-size: 13px;
+  border: max(1px, 0.0694vw) solid #fee4e2;
+  padding: max(10px, 0.6944vw) max(14px, 0.9722vw);
+  border-radius: max(8px, 0.5556vw);
+  font-size: max(13px, 0.9028vw);
   font-weight: 500;
-  margin-bottom: 18px;
+  margin-bottom: max(18px, 1.25vw);
 }
 
 .notice svg {
-  width: 16px;
-  height: 16px;
+  width: max(16px, 1.1111vw);
+  height: max(16px, 1.1111vw);
   flex-shrink: 0;
 }
 
@@ -427,8 +427,8 @@ function handleSearch() {
 .search-bar {
   display: grid;
   grid-template-columns: 2fr 1.4fr auto;
-  gap: 12px;
-  margin-bottom: 30px;
+  gap: max(12px, 0.8333vw);
+  margin-bottom: max(30px, 2.0833vw);
 }
 
 .field {
@@ -439,12 +439,12 @@ function handleSearch() {
   width: 100%;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: max(10px, 0.6944vw);
   background: #fff;
-  border: 1px solid #d1d5db;
-  border-radius: 10px;
-  padding: 14px 16px;
-  font-size: 14px;
+  border: max(1px, 0.0694vw) solid #d1d5db;
+  border-radius: max(10px, 0.6944vw);
+  padding: max(14px, 0.9722vw) max(16px, 1.1111vw);
+  font-size: max(14px, 0.9722vw);
   color: #222;
   cursor: pointer;
   text-align: left;
@@ -456,8 +456,8 @@ function handleSearch() {
 }
 
 .field-icon {
-  width: 18px;
-  height: 18px;
+  width: max(18px, 1.25vw);
+  height: max(18px, 1.25vw);
   color: #0179D7;
   flex-shrink: 0;
 }
@@ -466,9 +466,9 @@ function handleSearch() {
   background: #0179D7;
   color: #fff;
   border: none;
-  border-radius: 10px;
-  padding: 14px 32px;
-  font-size: 15px;
+  border-radius: max(10px, 0.6944vw);
+  padding: max(14px, 0.9722vw) max(32px, 2.2222vw);
+  font-size: max(15px, 1.0417vw);
   font-weight: 550;
   cursor: pointer;
   transition: .2s;
@@ -482,45 +482,45 @@ function handleSearch() {
 
 .calendar-dropdown {
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + max(8px, 0.5556vw));
   left: 0;
   z-index: 30;
   background: #fff;
-  border: 1px solid #e8edf3;
-  border-radius: 16px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, .12);
-  padding: 22px;
-  width: min(680px, 90vw);
+  border: max(1px, 0.0694vw) solid #e8edf3;
+  border-radius: max(16px, 1.1111vw);
+  box-shadow: 0 max(15px, 1.0417vw) max(40px, 2.7778vw) rgba(0, 0, 0, .12);
+  padding: max(22px, 1.5278vw);
+  width: min(max(680px, 47.2222vw), 90vw);
 }
 
 .calendar-months {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 24px;
+  gap: max(24px, 1.6667vw);
 }
 
 .month-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 14px;
+  margin-bottom: max(14px, 0.9722vw);
 }
 
 .month-header h4 {
-  font-size: 15px;
+  font-size: max(15px, 1.0417vw);
   font-weight: 600;
   color: #222;
 }
 
 .nav-btn {
-  width: 26px;
-  height: 26px;
+  width: max(26px, 1.8056vw);
+  height: max(26px, 1.8056vw);
   border-radius: 50%;
-  border: 1px solid #d1d5db;
+  border: max(1px, 0.0694vw) solid #d1d5db;
   background: #fff;
   color: #374151;
   cursor: pointer;
-  font-size: 14px;
+  font-size: max(14px, 0.9722vw);
   line-height: 1;
 }
 
@@ -535,19 +535,19 @@ function handleSearch() {
 }
 
 .nav-spacer {
-  width: 26px;
-  height: 26px;
+  width: max(26px, 1.8056vw);
+  height: max(26px, 1.8056vw);
 }
 
 .weekday-row {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  margin-bottom: 6px;
+  margin-bottom: max(6px, 0.4167vw);
 }
 
 .weekday-row span {
   text-align: center;
-  font-size: 11px;
+  font-size: max(11px, 0.7639vw);
   font-weight: 600;
   color: #9ca3af;
 }
@@ -555,7 +555,7 @@ function handleSearch() {
 .day-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 2px;
+  gap: max(2px, 0.1389vw);
 }
 
 .day-cell {
@@ -564,9 +564,9 @@ function handleSearch() {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
+  border-radius: max(8px, 0.5556vw);
   cursor: pointer;
-  font-size: 11px;
+  font-size: max(11px, 0.7639vw);
   color: #222;
   transition: .15s;
 }
@@ -581,11 +581,11 @@ function handleSearch() {
 
 .day-num {
   font-weight: 600;
-  font-size: 12px;
+  font-size: max(12px, 0.8333vw);
 }
 
 .day-price {
-  font-size: 9px;
+  font-size: max(9px, 0.625vw);
   color: #6b7280;
 }
 
@@ -606,7 +606,7 @@ function handleSearch() {
 .day-cell.range-start,
 .day-cell.range-end {
   background: #0179D7;
-  border-radius: 8px;
+  border-radius: max(8px, 0.5556vw);
 }
 
 .day-cell.range-start .day-num,
@@ -620,23 +620,23 @@ function handleSearch() {
 
 .guest-dropdown {
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + max(8px, 0.5556vw));
   right: 0;
   z-index: 30;
   background: #fff;
-  border: 1px solid #e8edf3;
-  border-radius: 16px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, .12);
-  padding: 20px;
-  width: 260px;
+  border: max(1px, 0.0694vw) solid #e8edf3;
+  border-radius: max(16px, 1.1111vw);
+  box-shadow: 0 max(15px, 1.0417vw) max(40px, 2.7778vw) rgba(0, 0, 0, .12);
+  padding: max(20px, 1.3889vw);
+  width: max(260px, 18.0556vw);
 }
 
 .guest-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 0;
-  border-bottom: 1px solid #f1f1f1;
+  padding: max(12px, 0.8333vw) 0;
+  border-bottom: max(1px, 0.0694vw) solid #f1f1f1;
 }
 
 .guest-row:last-of-type {
@@ -644,7 +644,7 @@ function handleSearch() {
 }
 
 .guest-row-label strong {
-  font-size: 14px;
+  font-size: max(14px, 0.9722vw);
   color: #222;
   font-weight: 600;
 }
@@ -652,17 +652,17 @@ function handleSearch() {
 .stepper {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: max(14px, 0.9722vw);
 }
 
 .stepper button {
-  width: 28px;
-  height: 28px;
+  width: max(28px, 1.9444vw);
+  height: max(28px, 1.9444vw);
   border-radius: 50%;
-  border: 1px solid #d1d5db;
+  border: max(1px, 0.0694vw) solid #d1d5db;
   background: #fff;
   color: #0179D7;
-  font-size: 16px;
+  font-size: max(16px, 1.1111vw);
   font-weight: 700;
   cursor: pointer;
   line-height: 1;
@@ -674,21 +674,21 @@ function handleSearch() {
 }
 
 .stepper span {
-  min-width: 14px;
+  min-width: max(14px, 0.9722vw);
   text-align: center;
-  font-size: 14px;
+  font-size: max(14px, 0.9722vw);
   font-weight: 600;
 }
 
 .done-btn {
   width: 100%;
-  margin-top: 14px;
+  margin-top: max(14px, 0.9722vw);
   background: #3B3B3B;
   color: #fff;
   border: none;
-  border-radius: 8px;
-  padding: 10px;
-  font-size: 13px;
+  border-radius: max(8px, 0.5556vw);
+  padding: max(10px, 0.6944vw);
+  font-size: max(13px, 0.9028vw);
   font-weight: 700;
   cursor: pointer;
 }
@@ -701,27 +701,27 @@ function handleSearch() {
 
 .room-table {
   background: #fff;
-  border: 1px solid #e8edf3;
-  border-radius: 16px;
+  border: max(1px, 0.0694vw) solid #e8edf3;
+  border-radius: max(16px, 1.1111vw);
   overflow: hidden;
 }
 
 .room-table-header {
   display: grid;
-  grid-template-columns: 2fr 1fr 160px;
+  grid-template-columns: 2fr 1fr max(160px, 11.1111vw);
   background: #1A51AD;
   color: #fff;
-  padding: 14px 20px;
-  font-size: 13px;
+  padding: max(14px, 0.9722vw) max(20px, 1.3889vw);
+  font-size: max(13px, 0.9028vw);
   font-weight: 600;
 }
 
 .room-row {
   display: grid;
-  grid-template-columns: 2fr 1fr 160px;
+  grid-template-columns: 2fr 1fr max(160px, 11.1111vw);
   align-items: center;
-  padding: 18px 20px;
-  border-bottom: 1px solid #f1f1f1;
+  padding: max(18px, 1.25vw) max(20px, 1.3889vw);
+  border-bottom: max(1px, 0.0694vw) solid #f1f1f1;
 }
 
 .room-row:last-child {
@@ -731,13 +731,13 @@ function handleSearch() {
 .room-info {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: max(10px, 0.6944vw);
   cursor: pointer;
 }
 
 .expand-icon {
-  width: 14px;
-  height: 14px;
+  width: max(14px, 0.9722vw);
+  height: max(14px, 0.9722vw);
   color: #6b7280;
   transition: transform .2s;
   flex-shrink: 0;
@@ -748,7 +748,7 @@ function handleSearch() {
 }
 
 .room-name {
-  font-size: 14px;
+  font-size: max(14px, 0.9722vw);
   font-weight: 600;
   color: #034acf;
   text-decoration: none;
@@ -761,25 +761,25 @@ function handleSearch() {
 .bed-info {
   display: flex;
   align-items: center;
-  gap: 6px;
-  margin-top: 4px;
-  font-size: 12px;
+  gap: max(6px, 0.4167vw);
+  margin-top: max(4px, 0.2778vw);
+  font-size: max(12px, 0.8333vw);
   color: #6b7280;
 }
 
 .bed-info svg {
-  width: 14px;
-  height: 14px;
+  width: max(14px, 0.9722vw);
+  height: max(14px, 0.9722vw);
 }
 
 .guests-col {
   display: flex;
-  gap: 4px;
+  gap: max(4px, 0.2778vw);
 }
 
 .guest-icon svg {
-  width: 16px;
-  height: 16px;
+  width: max(16px, 1.1111vw);
+  height: max(16px, 1.1111vw);
   color: #374151;
 }
 
@@ -791,9 +791,9 @@ function handleSearch() {
   background: #034acf;
   color: #fff;
   border: none;
-  border-radius: 6px;
-  padding: 10px 18px;
-  font-size: 13px;
+  border-radius: max(6px, 0.4167vw);
+  padding: max(10px, 0.6944vw) max(18px, 1.25vw);
+  font-size: max(13px, 0.9028vw);
   font-weight: 600;
   cursor: pointer;
   white-space: nowrap;

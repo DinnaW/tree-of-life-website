@@ -214,42 +214,41 @@ const reviews = [
   --color-blue-dark: #19509d;
   --color-blue-light: #2a6bb0;
 
-  padding: 50px 0;
+  padding: max(50px, 3.4722vw) 0;
   background: var(--color-bg);
   background: #ffffff;
 }
 
 .container {
-  max-width: 1200px;
+  max-width: max(1200px, 83.3333vw);
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 max(20px, 1.3889vw);
 }
 
 /* SECTION HEAD */
 
+.section-head {
+  margin-bottom: max(56px, 3.8889vw);
+}
 .eyebrow {
   color: #034acf;
-  font-size: 10px;
+  font-size: clamp(max(10px, 0.6944vw), 0.8vw, max(12px, 0.8333vw));
   font-weight: 700;
-  letter-spacing: 1px;
-  margin-bottom: 10px;
+  letter-spacing: max(1px, 0.0694vw);
+  margin-bottom: clamp(max(8px, 0.5556vw), 1vw, max(12px, 0.8333vw));
 }
 
-.section-head {
-  margin-bottom: 56px;
-}
-
-.section-head h2 {
-  font-size: 34px;
-  font-weight: 500;
-  color: #1A51AD;
-  margin-bottom: 55px;
-  line-height: 1.3;
+.section-head h2{
+  font-size:max(34px, 2.3611vw);
+  font-weight:500;
+  color:#1A51AD;
+  margin-bottom: max(80px, 5.5556vw);
+  line-height:1.3;
 }
 
 .subhead {
-  margin-bottom: -30px;
-  font-size: 15px;
+  margin-bottom: min(-30px, -2.0833vw);
+  font-size: max(15px, 1.0417vw);
   color: var(--color-ink-soft);
 }
 
@@ -262,30 +261,30 @@ const reviews = [
 .score-row {
   display: flex;
   align-items: center;
-  gap: 18px;
-  margin-bottom: 45px;
+  gap: max(18px, 1.25vw);
+  margin-bottom: max(45px, 3.125vw);
 }
 
 .badge {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
+  width: max(32px, 2.2222vw);
+  height: max(32px, 2.2222vw);
+  border-radius: max(8px, 0.5556vw);
   background: var(--color-blue-dark);
   color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: 650;
-  font-size: 12px;
+  font-size: max(12px, 0.8333vw);
 }
 
 .score-row p {
   color: var(--color-ink-soft);
-  font-size: 12px;
+  font-size: max(12px, 0.8333vw);
 }
 
 .score-row a {
-  margin-left: 8px;
+  margin-left: max(8px, 0.5556vw);
   color: var(--color-blue-light);
   text-decoration: none;
   font-weight: 600;
@@ -296,8 +295,8 @@ const reviews = [
 }
 
 .section-title {
-  font-size: 25px;
-  margin-bottom: 30px;
+  font-size: max(25px, 1.7361vw);
+  margin-bottom: max(30px, 2.0833vw);
   font-weight: 550;
   color: var(--color-ink);
 }
@@ -306,14 +305,14 @@ const reviews = [
 
 .ratings-grid {
   display: grid;
-  grid-template-columns: 220px 1fr 1fr;
-  gap: 60px;
+  grid-template-columns: max(220px, 15.2778vw) 1fr 1fr;
+  gap: max(60px, 4.1667vw);
   align-items: start;
 }
 
 .circle {
-  width: 180px;
-  height: 180px;
+  width: max(180px, 12.5vw);
+  height: max(180px, 12.5vw);
   border-radius: 50%;
   position: relative;
 
@@ -325,13 +324,13 @@ const reviews = [
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 20px;
+  font-size: max(20px, 1.3889vw);
 }
 
 .circle::before {
   content: "";
   position: absolute;
-  inset: 10px;
+  inset: max(10px, 0.6944vw);
   border-radius: 50%;
   background: white;
 }
@@ -344,38 +343,38 @@ const reviews = [
 }
 
 .rating-item {
-  margin-bottom: 28px;
+  margin-bottom: max(28px, 1.9444vw);
 }
 
 .label {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: max(10px, 0.6944vw);
   color: var(--color-ink);
 }
 
 .progress {
-  height: 8px;
+  height: max(8px, 0.5556vw);
   background: var(--color-line);
-  border-radius: 20px;
+  border-radius: max(20px, 1.3889vw);
   overflow: hidden;
 }
 
 .fill {
   height: 100%;
   background: var(--color-blue-dark);
-  border-radius: 20px;
+  border-radius: max(20px, 1.3889vw);
 }
 
 /* TOPICS */
 
 .topics-section {
-  margin-top: 30px;
+  margin-top: max(30px, 2.0833vw);
 }
 
 .topics-section h3 {
-  font-size: 25px;
-  margin-bottom: 20px;
+  font-size: max(25px, 1.7361vw);
+  margin-bottom: max(20px, 1.3889vw);
   font-weight: 550;
   color: var(--color-ink);
 }
@@ -383,17 +382,17 @@ const reviews = [
 .topics {
   display: flex;
   flex-wrap: wrap;
-  gap: 14px;
+  gap: max(14px, 0.9722vw);
 }
 
 .topics button {
-  padding: 8px 20px;
-  border-radius: 30px;
+  padding: max(8px, 0.5556vw) max(20px, 1.3889vw);
+  border-radius: max(30px, 2.0833vw);
   background: #fff;
-  border: 1px solid var(--color-line);
+  border: max(1px, 0.0694vw) solid var(--color-line);
   cursor: pointer;
   transition: .3s;
-  font-size: 15px;
+  font-size: max(15px, 1.0417vw);
   color: var(--color-ink);
 }
 
@@ -406,12 +405,12 @@ const reviews = [
 /* REVIEWS */
 
 .reviews-section-cards {
-  margin-top: 40px;
+  margin-top: max(40px, 2.7778vw);
 }
 
 .love-title {
-  font-size: 25px;
-  margin-bottom: 20px;
+  font-size: max(25px, 1.7361vw);
+  margin-bottom: max(20px, 1.3889vw);
   font-weight: 550;
   color: var(--color-ink);
 }
@@ -419,55 +418,55 @@ const reviews = [
 .reviews-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 28px;
+  gap: max(28px, 1.9444vw);
 }
 
 .review-card {
   background: white;
-  border-radius: 16px;
-  border: 1px solid var(--color-line);
-  padding: 28px;
-  min-height: 300px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, .05);
+  border-radius: max(16px, 1.1111vw);
+  border: max(1px, 0.0694vw) solid var(--color-line);
+  padding: max(28px, 1.9444vw);
+  min-height: max(300px, 20.8333vw);
+  box-shadow: 0 max(6px, 0.4167vw) max(20px, 1.3889vw) rgba(0, 0, 0, .05);
   transition: .3s;
 }
 
 .review-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 14px 35px rgba(0, 0, 0, .12);
+  transform: translateY(min(-5px, -0.3472vw));
+  box-shadow: 0 max(14px, 0.9722vw) max(35px, 2.4306vw) rgba(0, 0, 0, .12);
 }
 
 .review-header {
   display: flex;
-  gap: 15px;
+  gap: max(15px, 1.0417vw);
   align-items: flex-start;
-  margin-bottom: 20px;
+  margin-bottom: max(20px, 1.3889vw);
 }
 
 .avatar {
-  width: 48px;
-  height: 48px;
+  width: max(48px, 3.3333vw);
+  height: max(48px, 3.3333vw);
   border-radius: 50%;
   background: var(--color-blue-light);
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 18px;
+  font-size: max(18px, 1.25vw);
   font-weight: 700;
   flex-shrink: 0;
 }
 
 .review-info h4 {
   margin: 0;
-  font-size: 18px;
+  font-size: max(18px, 1.25vw);
   color: var(--color-ink);
 }
 
 .review-info small {
   display: block;
   color: var(--color-ink-soft);
-  margin: 4px 0;
+  margin: max(4px, 0.2778vw) 0;
 }
 
 .review-info p {
@@ -478,7 +477,7 @@ const reviews = [
 .review-text {
   color: var(--color-ink-soft);
   line-height: 1.8;
-  margin-bottom: 20px;
+  margin-bottom: max(20px, 1.3889vw);
 }
 
 .review-card a {
@@ -492,15 +491,15 @@ const reviews = [
 }
 
 .read-all {
-  margin-top: 45px;
+  margin-top: max(45px, 3.125vw);
   background: #3B3B3B;
   color: white;
   border: none;
-  padding: 15px 28px;
-  border-radius: 8px;
+  padding: max(15px, 1.0417vw) max(28px, 1.9444vw);
+  border-radius: max(8px, 0.5556vw);
   cursor: pointer;
   transition: .3s;
-  font-size: 12px;
+  font-size: max(12px, 0.8333vw);
 }
 
 .read-all:hover {
