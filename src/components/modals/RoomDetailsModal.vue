@@ -207,9 +207,6 @@
                 Reserve this room
               </button>
 
-              <p class="booking-message">
-                You will not be charged at this stage.
-              </p>
             </aside>
           </div>
         </div>
