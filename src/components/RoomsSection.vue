@@ -96,11 +96,11 @@
           </div>
 
           <button
-            type="button"
             class="see-more-btn"
-            @click="toggleFacilities(room.id)"
-          >
-            {{ expandedFacilities[room.id] ? 'See less' : 'See more' }}
+            type="button"
+            @click="openRoomDetails(room)"
+            >
+            See More
           </button>
         </div>
       </div>
@@ -164,11 +164,18 @@
       </div>
     </article>
   </section>
+  <RoomDetailsModal
+  :is-open="isRoomModalOpen"
+  :room="selectedRoom"
+  @close="closeRoomDetails"
+  @reserve="handleRoomReservation"
+/>
 </template>
 
 <script setup>
 import { ref, computed } from "vue";
 import AvailabilityBar from "./AvailabilityBar.vue";
+import RoomDetailsModal from "./modals/RoomDetailsModal.vue";
 
 const baseUrl = import.meta.env.BASE_URL;
 
@@ -188,10 +195,41 @@ const rooms = ref([
     mostBooked: true,
     name: "Panoramic Deluxe",
     image: `${baseUrl}images/room1.jpg`,
+    images: [
+      `${baseUrl}images/room1.jpg`,
+      `${baseUrl}images/room1-2.jpg`,
+      `${baseUrl}images/room1-3.jpg`,
+      `${baseUrl}images/room1-4.jpg`
+    ],
     tag: "Panoramic view",
     meta: "38 m² · King bed · Private balcony",
     price: 78,
+    subtitle: "Panoramic mountain retreat",
+    guests: 2,
+    size: "38 m²",
+    view: "Panoramic mountain view",
 
+    description:
+      "A spacious deluxe room with warm natural interiors, a king-size bed, private balcony, and beautiful panoramic views. Ideal for couples seeking a quiet and comfortable stay.",
+
+    bathroomFacilities: [
+      "Private bathroom",
+      "Hot water",
+      "Walk-in shower",
+      "Hair dryer",
+      "Fresh towels"
+    ],
+
+    included: [
+      "Daily breakfast",
+      "Free WiFi",
+      "Free parking",
+      "Tea and coffee facilities"
+    ],
+
+    checkIn: "From 2:00 PM",
+    checkOut: "Until 11:00 AM",
+    smoking: "Non-smoking room",
     bed: "Single",
     meal: "Bed & Breakfast",
 
@@ -212,9 +250,41 @@ const rooms = ref([
     mostBooked: false,
     name: "Green Zone Deluxe",
     image: `${baseUrl}images/room2.jpg`,
+    images: [
+      `${baseUrl}images/room2.jpg`,
+      `${baseUrl}images/room2-2.jpg`,
+      `${baseUrl}images/room2-3.jpg`,
+      `${baseUrl}images/room2-4.jpg`
+    ],
     tag: "Garden view",
     meta: "34 m² · Canopy bed · Private terrace",
     price: 105,
+    subtitle: "Peaceful garden escape",
+    guests: 2,
+    size: "34 m²",
+    view: "Private garden view",
+
+    description:
+      "A tranquil deluxe room surrounded by greenery, featuring a canopy bed, private terrace, and direct views of the resort garden.",
+
+    bathroomFacilities: [
+      "Private bathroom",
+      "Hot water",
+      "Rain shower",
+      "Hair dryer",
+      "Fresh towels"
+    ],
+
+    included: [
+      "Daily breakfast",
+      "Free WiFi",
+      "Free parking",
+      "Room service"
+    ],
+
+    checkIn: "From 2:00 PM",
+    checkOut: "Until 11:00 AM",
+    smoking: "Non-smoking room",
     roomsLeft: 1,
     bed: "Single",
     meal: "Bed & Breakfast",
@@ -243,9 +313,41 @@ const rooms = ref([
     mostBooked: false,
     name: "Panoramic Deluxe",
     image: `${baseUrl}images/room3.jpg`,
+    images: [
+      `${baseUrl}images/room3.jpg`,
+      `${baseUrl}images/room3-2.jpg`,
+      `${baseUrl}images/room3-3.jpg`,
+      `${baseUrl}images/room3-4.jpg`
+    ],
     tag: "Panoramic view",
     meta: "38 m² · King bed · Private balcony",
     price: 78,
+    subtitle: "Limited-time panoramic stay",
+    guests: 2,
+    size: "38 m²",
+    view: "Panoramic mountain view",
+
+    description:
+      "A comfortable panoramic deluxe room with a king-size bed, private balcony, and a special limited-time rate.",
+
+    bathroomFacilities: [
+      "Private bathroom",
+      "Hot water",
+      "Walk-in shower",
+      "Hair dryer",
+      "Fresh towels"
+    ],
+
+    included: [
+      "Daily breakfast",
+      "Free WiFi",
+      "Free parking",
+      "Tea and coffee facilities"
+    ],
+
+    checkIn: "From 2:00 PM",
+    checkOut: "Until 11:00 AM",
+    smoking: "Non-smoking room",
     originalPrice: 98,
     offer: "Limited Time Offer",
 
@@ -290,6 +392,31 @@ function visibleFacilities(room) {
     : room.facilities.slice(0, VISIBLE_FACILITY_COUNT);
 }
 
+const selectedRoom = ref(null);
+const isRoomModalOpen = ref(false);
+
+function openRoomDetails(room) {
+  selectedRoom.value = room;
+  isRoomModalOpen.value = true;
+}
+
+function closeRoomDetails() {
+  isRoomModalOpen.value = false;
+  selectedRoom.value = null;
+}
+
+function handleRoomReservation(room) {
+  console.log("Selected room:", room);
+
+  closeRoomDetails();
+
+  document
+    .querySelector("#availability")
+    ?.scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+}
 
 </script>
 
