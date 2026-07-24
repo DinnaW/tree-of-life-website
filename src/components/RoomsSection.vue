@@ -1,7 +1,7 @@
 <template>
   <section class="rooms-section">
     <div class="section-header">
-      <div class="eyebrow">03 — ROOMS</div>
+      <div class="eyebrow">— ROOMS</div>
       <h2>Choose your room</h2>
 
     
@@ -325,12 +325,12 @@ function visibleFacilities(room) {
   margin-bottom: 48px;
 }
 
-.eyebrow {
-  color:#034acf;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  margin-bottom:10px;
+.eyebrow{
+    color:#034acf;
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:1px;
+    margin-bottom:10px;
 }
 
 .rooms-section h2 {

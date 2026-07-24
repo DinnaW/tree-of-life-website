@@ -227,12 +227,12 @@ const reviews = [
 
 /* SECTION HEAD */
 
-.eyebrow {
-  color: #034acf;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  margin-bottom: 10px;
+.eyebrow{
+    color:#034acf;
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:1px;
+    margin-bottom:10px;
 }
 
 .section-head {

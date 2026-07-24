@@ -128,12 +128,12 @@ const amenities = [
   padding-inline: clamp(20px, 4vw, 34px);
 }
 
-.eyebrow {
-  color: #034acf;
-  font-size: clamp(10px, 0.8vw, 12px);
-  font-weight: 700;
-  letter-spacing: 1px;
-  margin-bottom: clamp(8px, 1vw, 12px);
+.eyebrow{
+    color:#034acf;
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:1px;
+    margin-bottom:10px;
 }
 
 .section-header h2{

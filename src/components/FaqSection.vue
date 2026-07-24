@@ -143,12 +143,12 @@ const rightColumn = computed(() => indexed.filter((_, i) => i % 2 === 1))
   padding: 0 20px;
 }
 
-.eyebrow {
-  color: #034acf;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  margin-bottom: 10px;
+.eyebrow{
+    color:#034acf;
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:1px;
+    margin-bottom:10px;
 }
 
 .section-header h2 {
