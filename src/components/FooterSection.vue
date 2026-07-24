@@ -33,14 +33,14 @@ const scrollToTop = () => {
   position: relative;
   width: 100%;
   background: #d9e8f7;
-  padding: 18px 0;
+  padding: max(18px, 1.25vw) 0;
   color: #ffffff;
 }
 
 .container {
-  max-width: 1200px;
+  max-width: max(1200px, 83.3333vw);
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 max(20px, 1.3889vw);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -50,7 +50,7 @@ const scrollToTop = () => {
 .footer p{
     text-align:center;
     font-family:'Figtree',sans-serif;
-    font-size:12px;
+    font-size:max(12px, 0.8333vw);
     font-weight:400;
     color:#2f2f2f;
     margin:0;
@@ -59,7 +59,7 @@ const scrollToTop = () => {
 .right-content {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: max(24px, 1.6667vw);
 }
 
 @media (max-width: 768px) {

@@ -133,43 +133,43 @@ const rightColumn = computed(() => indexed.filter((_, i) => i % 2 === 1))
 
 .faq-section {
   width: 100%;
-  padding: 50px 0;
+  padding: max(50px, 3.4722vw) 0;
   background: #ffffff;
 }
 
 .section-header {
-  max-width: 1200px;
+  max-width: max(1200px, 83.3333vw);
   margin: auto;
-  padding: 0 20px;
+  padding: 0 max(20px, 1.3889vw);
 }
 
-.eyebrow{
-    color:#034acf;
-    font-size:10px;
-    font-weight:700;
-    letter-spacing:1px;
-    margin-bottom:10px;
+.eyebrow {
+  color: #034acf;
+  font-size: clamp(max(10px, 0.6944vw), 0.8vw, max(12px, 0.8333vw));
+  font-weight: 700;
+  letter-spacing: max(1px, 0.0694vw);
+  margin-bottom: clamp(max(8px, 0.5556vw), 1vw, max(12px, 0.8333vw));
 }
 
-.section-header h2 {
-  font-size: 34px;
-  font-weight: 500;
-  color: #1A51AD;
-  margin-bottom: 55px;
-  line-height: 1.3;
+.section-header h2{
+  font-size:max(34px, 2.3611vw);
+  font-weight:500;
+  color:#1A51AD;
+  margin-bottom: max(80px, 5.5556vw);
+  line-height:1.3;
 }
 
 .subhead {
-  font-size: 14px;
+  font-size: max(14px, 0.9722vw);
   color: #6b7280;
-  margin-bottom: 30px;
+  margin-bottom: max(30px, 2.0833vw);
 }
 
 /* FAQ LIST */
 
 .faq-columns {
   display: flex;
-  gap: 14px;
+  gap: max(14px, 0.9722vw);
   align-items: flex-start;
 }
 
@@ -177,14 +177,14 @@ const rightColumn = computed(() => indexed.filter((_, i) => i % 2 === 1))
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: max(14px, 0.9722vw);
   min-width: 0;
 }
 
 .faq-item {
   background: #fff;
-  border: 1px solid #e8edf3;
-  border-radius: 16px;
+  border: max(1px, 0.0694vw) solid #e8edf3;
+  border-radius: max(16px, 1.1111vw);
   overflow: hidden;
   transition: .3s;
 }
@@ -194,7 +194,7 @@ const rightColumn = computed(() => indexed.filter((_, i) => i % 2 === 1))
 }
 
 .faq-item.open {
-  box-shadow: 0 10px 25px rgba(0, 0, 0, .06);
+  box-shadow: 0 max(10px, 0.6944vw) max(25px, 1.7361vw) rgba(0, 0, 0, .06);
 }
 
 .faq-question {
@@ -203,14 +203,14 @@ const rightColumn = computed(() => indexed.filter((_, i) => i % 2 === 1))
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  padding: 20px 24px;
+  gap: max(16px, 1.1111vw);
+  padding: max(20px, 1.3889vw) max(24px, 1.6667vw);
   cursor: pointer;
   box-sizing: border-box;
 }
 
 .faq-question span {
-  font-size: 15px;
+  font-size: max(15px, 1.0417vw);
   font-weight: 600;
   color: #222;
   line-height: 1.5;
@@ -218,15 +218,15 @@ const rightColumn = computed(() => indexed.filter((_, i) => i % 2 === 1))
 
 .toggle-icon {
   flex-shrink: 0;
-  width: 30px;
-  height: 30px;
+  width: max(30px, 2.0833vw);
+  height: max(30px, 2.0833vw);
   border-radius: 50%;
   background: #f3f6ff;
   color: #034acf;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: max(12px, 0.8333vw);
   transition: transform .3s ease, background .3s ease, color .3s ease;
 }
 
@@ -253,8 +253,8 @@ const rightColumn = computed(() => indexed.filter((_, i) => i % 2 === 1))
 }
 
 .faq-answer p {
-  padding: 0 24px 22px;
-  font-size: 13.5px;
+  padding: 0 max(24px, 1.6667vw) max(22px, 1.5278vw);
+  font-size: max(13.5px, 0.9375vw);
   color: #555;
   line-height: 1.8;
 }

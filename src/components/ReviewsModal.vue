@@ -230,12 +230,12 @@ defineEmits(["close"])
 
 .modal{
     width:90%;
-    max-width:1200px;
+    max-width:max(1200px, 83.3333vw);
     height:85vh;
 
     background:#fff;
-    border-radius:20px;
-    padding:30px;
+    border-radius:max(20px, 1.3889vw);
+    padding:max(30px, 2.0833vw);
 }
 
 .modal-header{
@@ -247,7 +247,7 @@ defineEmits(["close"])
 
 .modal-body{
 
-    padding:35px;
+    padding:max(35px, 2.4306vw);
 
     overflow-y:auto;
 
@@ -261,20 +261,20 @@ defineEmits(["close"])
     background:none;
     border:none;
 
-    font-size:28px;
+    font-size:max(28px, 1.9444vw);
     cursor:pointer;
 }
 
 .summary-grid{
     display:grid;
-    grid-template-columns:220px 1fr 1fr;
-    gap:50px;
+    grid-template-columns:max(220px, 15.2778vw) 1fr 1fr;
+    gap:max(50px, 3.4722vw);
     align-items:start;
 }
 
 .circle{
-    width:220px;
-    height:220px;
+    width:max(220px, 15.2778vw);
+    height:max(220px, 15.2778vw);
     border-radius:50%;
     background:#8eb8df;
 
@@ -290,28 +290,28 @@ defineEmits(["close"])
 .circle-content h1{
     margin:0;
     color:white;
-    font-size:72px;
+    font-size:max(72px, 5vw);
 }
 
 .circle-content span{
     color:white;
-    font-size:28px;
+    font-size:max(28px, 1.9444vw);
 }
 
 .rating-item{
-    margin-bottom:28px;
+    margin-bottom:max(28px, 1.9444vw);
 }
 
 .label{
     display:flex;
     justify-content:space-between;
-    margin-bottom:10px;
+    margin-bottom:max(10px, 0.6944vw);
 }
 
 .progress{
-    height:8px;
+    height:max(8px, 0.5556vw);
     background:#ececec;
-    border-radius:20px;
+    border-radius:max(20px, 1.3889vw);
     overflow:hidden;
 }
 
@@ -325,30 +325,30 @@ defineEmits(["close"])
     justify-content:space-between;
     align-items:center;
 
-    margin-top:50px;
-    margin-bottom:40px;
+    margin-top:max(50px, 3.4722vw);
+    margin-bottom:max(40px, 2.7778vw);
 
-    gap:20px;
+    gap:max(20px, 1.3889vw);
 }
 
 .filters{
     display:flex;
-    gap:16px;
+    gap:max(16px, 1.1111vw);
 }
 
 .filters select{
 
-    width:180px;
+    width:max(180px, 12.5vw);
 
-    height:46px;
+    height:max(46px, 3.1944vw);
 
-    padding:0 16px;
+    padding:0 max(16px, 1.1111vw);
 
-    border:1px solid #ddd;
+    border:max(1px, 0.0694vw) solid #ddd;
 
-    border-radius:8px;
+    border-radius:max(8px, 0.5556vw);
 
-    font-size:15px;
+    font-size:max(15px, 1.0417vw);
 
     background:white;
 
@@ -357,17 +357,17 @@ defineEmits(["close"])
 
 .search-box{
 
-    width:320px;
+    width:max(320px, 22.2222vw);
 
-    height:46px;
+    height:max(46px, 3.1944vw);
 
-    padding:0 16px;
+    padding:0 max(16px, 1.1111vw);
 
-    border:1px solid #ddd;
+    border:max(1px, 0.0694vw) solid #ddd;
 
-    border-radius:8px;
+    border-radius:max(8px, 0.5556vw);
 
-    font-size:15px;
+    font-size:max(15px, 1.0417vw);
 }
 
 .search-box:focus,
@@ -380,9 +380,9 @@ defineEmits(["close"])
 
 .all-reviews-title{
 
-    margin-bottom:30px;
+    margin-bottom:max(30px, 2.0833vw);
 
-    font-size:32px;
+    font-size:max(32px, 2.2222vw);
 
     color:#222;
 }
@@ -393,16 +393,16 @@ defineEmits(["close"])
 
     flex-direction:column;
 
-    gap:24px;
+    gap:max(24px, 1.6667vw);
 }
 
 .review-item{
 
-    border:1px solid #e5e5e5;
+    border:max(1px, 0.0694vw) solid #e5e5e5;
 
-    border-radius:16px;
+    border-radius:max(16px, 1.1111vw);
 
-    padding:28px;
+    padding:max(28px, 1.9444vw);
 
     background:#fff;
 
@@ -411,23 +411,23 @@ defineEmits(["close"])
 
 .review-item:hover{
 
-    box-shadow:0 8px 24px rgba(0,0,0,.08);
+    box-shadow:0 max(8px, 0.5556vw) max(24px, 1.6667vw) rgba(0,0,0,.08);
 }
 
 .review-top{
 
     display:flex;
 
-    gap:18px;
+    gap:max(18px, 1.25vw);
 
-    margin-bottom:18px;
+    margin-bottom:max(18px, 1.25vw);
 }
 
 .avatar{
 
-    width:50px;
+    width:max(50px, 3.4722vw);
 
-    height:50px;
+    height:max(50px, 3.4722vw);
 
     border-radius:50%;
 
@@ -456,7 +456,7 @@ defineEmits(["close"])
 
 .review-info p{
 
-    margin-top:5px;
+    margin-top:max(5px, 0.3472vw);
 
     color:#666;
 }
@@ -470,7 +470,7 @@ defineEmits(["close"])
 
 .read-more{
 
-    margin-top:18px;
+    margin-top:max(18px, 1.25vw);
 
     border:none;
 

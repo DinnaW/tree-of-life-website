@@ -79,13 +79,13 @@ defineExpose({ scrollToSection });
 
 <style scoped>
 .container {
-  max-width: 1240px;
+  max-width: max(1240px, 86.1111vw);
   margin: 0 auto;
-  padding: 0 34px;
+  padding: 0 max(34px, 2.3611vw);
 }
 .nav-wrapper {
-  margin-top: 0px;
-  border-bottom: 1px solid #e5e5e5;
+  margin-top: 0;
+  border-bottom: max(1px, 0.0694vw) solid #e5e5e5;
   background: #fff;
   z-index: 100;
 }
@@ -95,7 +95,7 @@ defineExpose({ scrollToSection });
   left: 0;
   right: 0;
   margin-top: 0;
-  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.09);
+  box-shadow: 0 max(2px, 0.1389vw) max(14px, 0.9722vw) rgba(0, 0, 0, 0.09);
   animation: slideDown 0.18s ease-out;
 }
 @keyframes slideDown {
@@ -108,16 +108,16 @@ defineExpose({ scrollToSection });
 }
 .tabs {
   display: flex;
-  gap: 80px;
+  gap: max(80px, 5.5556vw);
 }
 .tab {
-  padding: 18px 0;
-  font-size: 13px;
+  padding: max(18px, 1.25vw) 0;
+  font-size: max(13px, 0.9028vw);
   font-weight: 350;
-  letter-spacing: 0.7px;
+  letter-spacing: max(0.7px, 0.0486vw);
   color: #6b6b6b;
   text-decoration: none;
-  border-bottom: 3px solid transparent;
+  border-bottom: max(3px, 0.2083vw) solid transparent;
   transition: color 0.15s ease, border-color 0.15s ease;
   cursor: pointer;
 }

@@ -139,33 +139,33 @@ function nextMonth() {
 
 <style scoped>
 .picker {
-  width: 300px;
-  max-height: 380px;
+  width: max(300px, 20.8333vw);
+  max-height: max(380px, 26.3889vw);
   overflow-y: auto;
-  padding: 16px;
+  padding: max(16px, 1.1111vw);
   background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 12px 32px rgba(20, 40, 70, 0.2);
-  border: 1px solid #ececec;
+  border-radius: max(10px, 0.6944vw);
+  box-shadow: 0 max(12px, 0.8333vw) max(32px, 2.2222vw) rgba(20, 40, 70, 0.2);
+  border: max(1px, 0.0694vw) solid #ececec;
 }
 .picker-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: max(10px, 0.6944vw);
 }
 .month-label {
   font-weight: 700;
-  font-size: 14px;
+  font-size: max(14px, 0.9722vw);
   color: #1a1a1a;
 }
 .nav-btn {
   background: none;
-  border: 1px solid #dcdcdc;
-  border-radius: 6px;
-  width: 28px;
-  height: 28px;
-  font-size: 16px;
+  border: max(1px, 0.0694vw) solid #dcdcdc;
+  border-radius: max(6px, 0.4167vw);
+  width: max(28px, 1.9444vw);
+  height: max(28px, 1.9444vw);
+  font-size: max(16px, 1.1111vw);
   line-height: 1;
   cursor: pointer;
   color: #2d6adc;
@@ -173,24 +173,24 @@ function nextMonth() {
 .weekdays {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  font-size: 11px;
+  font-size: max(11px, 0.7639vw);
   color: #8a8a8a;
   font-weight: 600;
   text-align: center;
-  margin-bottom: 4px;
+  margin-bottom: max(4px, 0.2778vw);
 }
 .days {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  row-gap: 2px;
+  row-gap: max(2px, 0.1389vw);
 }
 .day {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 32px;
-  font-size: 13px;
-  border-radius: 6px;
+  height: max(32px, 2.2222vw);
+  font-size: max(13px, 0.9028vw);
+  border-radius: max(6px, 0.4167vw);
   cursor: pointer;
   color: #1a1a1a;
 }
@@ -217,25 +217,25 @@ function nextMonth() {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 12px;
-  padding-top: 10px;
-  border-top: 1px solid #ececec;
+  margin-top: max(12px, 0.8333vw);
+  padding-top: max(10px, 0.6944vw);
+  border-top: max(1px, 0.0694vw) solid #ececec;
   position: sticky;
-  bottom: -16px;
+  bottom: min(-16px, -1.1111vw);
   background: #fff;
-  padding-bottom: 16px;
+  padding-bottom: max(16px, 1.1111vw);
 }
 .hint {
-  font-size: 12px;
+  font-size: max(12px, 0.8333vw);
   color: #8a8a8a;
 }
 .done-btn {
   background: #3477d0;
   color: #fff;
   border: none;
-  padding: 6px 14px;
-  border-radius: 6px;
-  font-size: 12.5px;
+  padding: max(6px, 0.4167vw) max(14px, 0.9722vw);
+  border-radius: max(6px, 0.4167vw);
+  font-size: max(12.5px, 0.8681vw);
   font-weight: 700;
   cursor: pointer;
 }

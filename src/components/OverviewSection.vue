@@ -161,36 +161,36 @@ const highlights = [
 
 .overview-section{
   width:100%;
-  padding:50px 0;
+  padding:max(50px, 3.4722vw) 0;
   background:#f8f9fb;
 }
 
 .section-header{
-  max-width:1200px;
+  max-width:max(1200px, 83.3333vw);
   margin:auto;
-  padding:0 20px;
+  padding:0 max(20px, 1.3889vw);
 }
 
-.eyebrow{
-    color:#034acf;
-    font-size:10px;
-    font-weight:700;
-    letter-spacing:1px;
-    margin-bottom:10px;
+.eyebrow {
+  color: #034acf;
+  font-size: clamp(max(10px, 0.6944vw), 0.8vw, max(12px, 0.8333vw));
+  font-weight: 700;
+  letter-spacing: max(1px, 0.0694vw);
+  margin-bottom: clamp(max(8px, 0.5556vw), 1vw, max(12px, 0.8333vw));
 }
 
 .section-header h2{
-  font-size:34px;
+  font-size:max(34px, 2.3611vw);
   font-weight:500;
   color:#1A51AD;
-  margin-bottom:55px;
+  margin-bottom: max(80px, 5.5556vw);
   line-height:1.3;
 }
 
 .overview-grid{
   display:grid;
   grid-template-columns:2fr 1fr;
-  gap:25px;
+  gap:max(25px, 1.7361vw);
   align-items:start;
 }
 
@@ -198,22 +198,22 @@ const highlights = [
 
 .hotel-card{
   background:#fff;
-  border:1px solid #e8edf3;
-  border-radius:16px;
-  padding:24px;
+  border:max(1px, 0.0694vw) solid #e8edf3;
+  border-radius:max(16px, 1.1111vw);
+  padding:max(24px, 1.6667vw);
   transition:.3s;
 }
 
 .hotel-card:hover{
-  transform:translateY(-3px);
-  box-shadow:0 10px 25px rgba(0,0,0,.08);
+  transform:translateY(min(-3px, -0.2083vw));
+  box-shadow:0 max(10px, 0.6944vw) max(25px, 1.7361vw) rgba(0,0,0,.08);
 }
 
 .hotel-card h3{
-  font-size:26px;
+  font-size:max(26px, 1.8056vw);
   font-weight:600;
   color:#222;
-  margin:16px 0;
+  margin:max(16px, 1.1111vw) 0;
   line-height:1.4;
 }
 
@@ -221,29 +221,29 @@ const highlights = [
   display:flex;
   align-items:center;
   flex-wrap:wrap;
-  gap:8px;
-  margin-bottom:22px;
+  gap:max(8px, 0.5556vw);
+  margin-bottom:max(22px, 1.5278vw);
 }
 
 .location-icon{
-  width:18px;
-  height:18px;
+  width:max(18px, 1.25vw);
+  height:max(18px, 1.25vw);
   color:#034acf;
 }
 
 .location-row span{
-  font-size:10px;
+  font-size:max(10px, 0.6944vw);
   color:#555;
 }
 
 .location-row a{
   display:inline-flex;
   align-items:center;
-  border-radius:6px;
+  border-radius:max(6px, 0.4167vw);
   background:#fff;
   color:#374151;
   text-decoration:none;
-  font-size:10px;
+  font-size:max(10px, 0.6944vw);
   font-weight:650;
   transition:.3s;
 }
@@ -263,33 +263,33 @@ const highlights = [
 .rating-row{
   display:flex;
   align-items:center;
-  gap:12px;
-  margin-bottom:22px;
+  gap:max(12px, 0.8333vw);
+  margin-bottom:max(22px, 1.5278vw);
 }
 
 .score-box{
-  width:46px;
-  height:46px;
+  width:max(46px, 3.1944vw);
+  height:max(46px, 3.1944vw);
   background:#1f2937;
   color:#fff;
-  border-radius:8px;
+  border-radius:max(8px, 0.5556vw);
   display:flex;
   justify-content:center;
   align-items:center;
-  font-size:18px;
+  font-size:max(18px, 1.25vw);
   font-weight:700;
 }
 
 .rating-info h4{
-  font-size:18px;
+  font-size:max(18px, 1.25vw);
   color:#222;
-  margin-bottom:4px;
+  margin-bottom:max(4px, 0.2778vw);
 }
 
 .rating-info a{
   text-decoration:none;
   color:#034acf;
-  font-size:14px;
+  font-size:max(14px, 0.9722vw);
 }
 
 .rating-info a:hover{
@@ -298,7 +298,7 @@ const highlights = [
 
 .hotel-card p{
   color:#555;
-  font-size:14px;
+  font-size:max(14px, 0.9722vw);
   line-height:1.8;
 }
 
@@ -306,54 +306,54 @@ const highlights = [
 
 .map-card{
   background:#fff;
-  border:1px solid #e8edf3;
-  border-radius:16px;
-  padding:20px;
+  border:max(1px, 0.0694vw) solid #e8edf3;
+  border-radius:max(16px, 1.1111vw);
+  padding:max(20px, 1.3889vw);
   transition:.3s;
 }
 
 .map-card:hover{
-  transform:translateY(-3px);
-  box-shadow:0 10px 25px rgba(0,0,0,.08);
+  transform:translateY(min(-3px, -0.2083vw));
+  box-shadow:0 max(10px, 0.6944vw) max(25px, 1.7361vw) rgba(0,0,0,.08);
 }
 
 .map-card h3{
-  font-size:22px;
-  margin-bottom:18px;
+  font-size:max(22px, 1.5278vw);
+  margin-bottom:max(18px, 1.25vw);
   font-weight: 600;
   color:#222;
 }
 
 .map-container{
   overflow:hidden;
-  border-radius:12px;
-  margin-bottom:18px;
+  border-radius:max(12px, 0.8333vw);
+  margin-bottom:max(18px, 1.25vw);
 }
 
 .map-container iframe{
   width:100%;
-  height:220px;
+  height:max(220px, 15.2778vw);
   border:0;
 }
 
 .address{
   color:#666;
-  font-size:12px;
+  font-size:max(12px, 0.8333vw);
   line-height:1.6;
-  margin-bottom:16px;
+  margin-bottom:max(16px, 1.1111vw);
 }
 
 .map-card>a{
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  padding:8px 16px;
-  border:1px solid #d1d5db;
-  border-radius:6px;
+  padding:max(8px, 0.5556vw) max(16px, 1.1111vw);
+  border:max(1px, 0.0694vw) solid #d1d5db;
+  border-radius:max(6px, 0.4167vw);
   background:#fff;
   color:#374151;
   text-decoration:none;
-  font-size:12px;
+  font-size:max(12px, 0.8333vw);
   font-weight:500;
   transition:.3s;
 }
@@ -370,23 +370,23 @@ const highlights = [
 
 .map-card hr{
   border:none;
-  border-top:1px solid #ececec;
-  margin:20px 0;
+  border-top:max(1px, 0.0694vw) solid #ececec;
+  margin:max(20px, 1.3889vw) 0;
 }
 
 .map-card h4{
-  font-size:16px;
+  font-size:max(16px, 1.1111vw);
   color:#222;
-  margin-bottom:12px;
+  margin-bottom:max(12px, 0.8333vw);
 }
 
 .place-row{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:10px 0;
-  border-bottom:1px solid #f1f1f1;
-  font-size:14px;
+  padding:max(10px, 0.6944vw) 0;
+  border-bottom:max(1px, 0.0694vw) solid #f1f1f1;
+  font-size:max(14px, 0.9722vw);
 }
 
 .place-row:last-child{
@@ -458,46 +458,46 @@ const highlights = [
 }
 
 .highlights{
-  margin:20px 0;
+  margin:max(20px, 1.3889vw) 0;
 }
 
 .highlights h4{
-  font-size:18px;
+  font-size:max(18px, 1.25vw);
   color:#222;
-  margin-bottom:15px;
+  margin-bottom:max(15px, 1.0417vw);
   font-weight:600;
 }
 
 .highlight-grid{
   display:grid;
   grid-template-columns:repeat(5,max-content);
-  gap:14px;
+  gap:max(14px, 0.9722vw);
 }
 
 .highlight-item{
   display:flex;
   align-items:center;
-  gap:12px;
-  padding:5px;
-  border:1px solid #e8edf3;
-  border-radius:10px;
+  gap:max(12px, 0.8333vw);
+  padding:max(5px, 0.3472vw);
+  border:max(1px, 0.0694vw) solid #e8edf3;
+  border-radius:max(10px, 0.6944vw);
   background:#fff;
   transition:.25s;
 }
 
 .highlight-item:hover{
   border-color:#1A51AD;
-  transform:translateY(-2px);
+  transform:translateY(min(-2px, -0.1389vw));
 }
 
 .highlight-item i{
-  font-size:15px;
+  font-size:max(15px, 1.0417vw);
   color:#1A51AD;
-  width:24px;
+  width:max(24px, 1.6667vw);
 }
 
 .highlight-item span{
-  font-size:13px;
+  font-size:max(13px, 0.9028vw);
   font-weight:500;
   color:#222;
 }

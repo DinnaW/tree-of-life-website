@@ -123,43 +123,43 @@ const amenities = [
 }
 
 .section-header{
-  max-width:1240px;
+  max-width:max(1240px, 86.1111vw);
   margin:auto;
-  padding-inline: clamp(20px, 4vw, 34px);
+  padding-inline: clamp(max(20px, 1.3889vw), 4vw, max(34px, 2.3611vw));
 }
 
-.eyebrow{
-    color:#034acf;
-    font-size:10px;
-    font-weight:700;
-    letter-spacing:1px;
-    margin-bottom:10px;
+.eyebrow {
+  color: #034acf;
+  font-size: clamp(max(10px, 0.6944vw), 0.8vw, max(12px, 0.8333vw));
+  font-weight: 700;
+  letter-spacing: max(1px, 0.0694vw);
+  margin-bottom: clamp(max(8px, 0.5556vw), 1vw, max(12px, 0.8333vw));
 }
 
 .section-header h2{
-  font-size:34px;
+  font-size:max(34px, 2.3611vw);
   font-weight:500;
   color:#1A51AD;
-  margin-bottom: 80px;
+  margin-bottom: max(80px, 5.5556vw);
   line-height:1.3;
 }
 
 .amenities-layout {
   position: relative;
   width: 100%;
-  margin-top: clamp(24px, 4vw, 40px);
-  min-height: clamp(450px, 55vw, 520px);
+  margin-top: clamp(max(24px, 1.6667vw), 4vw, max(40px, 2.7778vw));
+  min-height: clamp(max(450px, 31.25vw), 55vw, max(520px, 36.1111vw));
 }
 
 .amenities-card {
   position: absolute;
-  top: clamp(-50px, -4vw, -20px);
-  right: -60px;
-  width: clamp(320px, 38vw, 480px);
-  padding: clamp(24px, 4vw, 55px);
+  top: clamp(min(-50px, -3.4722vw), -4vw, min(-20px, -1.3889vw));
+  right: min(-60px, -4.1667vw);
+  width: clamp(max(320px, 22.2222vw), 38vw, max(480px, 33.3333vw));
+  padding: clamp(max(24px, 1.6667vw), 4vw, max(55px, 3.8194vw));
   background: rgba(13,69,139,.98);
   color: white;
-  min-height: clamp(420px, 50vw, 520px);
+  min-height: clamp(max(420px, 29.1667vw), 50vw, max(520px, 36.1111vw));
 }
 
 .image-section{
@@ -168,67 +168,67 @@ const amenities = [
 
 .amenities-image {
   width: 100vw;
-  height: clamp(240px, 31vw, 470px);
+  height: clamp(max(240px, 16.6667vw), 31vw, max(470px, 32.6389vw));
   object-fit: cover;
   display: block;
   margin-left: calc(50% - 50vw);
 }
 
 .amenities-card h3{
-    font-size: clamp(22px, 3vw, 32px);
+    font-size: clamp(max(22px, 1.5278vw), 3vw, max(32px, 2.2222vw));
     font-weight:500;
     color:white;
-    margin-bottom: clamp(18px, 2vw, 25px);
+    margin-bottom: clamp(max(18px, 1.25vw), 2vw, max(25px, 1.7361vw));
 
 }
 
 .amenities-card p{
     color:rgba(255,255,255,.85);
     line-height:1.8;
-    margin-bottom: clamp(20px, 3vw, 35px);
-    font-size: clamp(13px, 1vw, 14px);
+    margin-bottom: clamp(max(20px, 1.3889vw), 3vw, max(35px, 2.4306vw));
+    font-size: clamp(max(13px, 0.9028vw), 1vw, max(14px, 0.9722vw));
 }
 
 .amenities-grid {
   display: grid;
   grid-template-columns: repeat(2,1fr);
-  gap: clamp(16px,2vw,22px) clamp(20px,3vw,35px);
-  margin-top: clamp(20px,3vw,30px);
+  gap: clamp(max(16px, 1.1111vw),2vw,max(22px, 1.5278vw)) clamp(max(20px, 1.3889vw),3vw,max(35px, 2.4306vw));
+  margin-top: clamp(max(20px, 1.3889vw),3vw,max(30px, 2.0833vw));
 }
 
 .amenity{
     display:flex;
     align-items:center;
-    gap:14px;
+    gap:max(14px, 0.9722vw);
 }
 
 .icon {
-  width: clamp(18px,2vw,22px);
-  height: clamp(18px,2vw,22px);
+  width: clamp(max(18px, 1.25vw),2vw,max(22px, 1.5278vw));
+  height: clamp(max(18px, 1.25vw),2vw,max(22px, 1.5278vw));
 }
 
 .amenity span {
-  font-size: clamp(12px,1vw,14px);
+  font-size: clamp(max(12px, 0.8333vw),1vw,max(14px, 0.9722vw));
 }
 
 .amenities-btn{
     display:inline-flex;
     align-items:center;
     justify-content:center;
-    margin-top: clamp(24px,4vw,40px);
-    padding: clamp(8px,1vw,10px) clamp(18px,2vw,24px);
+    margin-top: clamp(max(24px, 1.6667vw),4vw,max(40px, 2.7778vw));
+    padding: clamp(max(8px, 0.5556vw),1vw,max(10px, 0.6944vw)) clamp(max(18px, 1.25vw),2vw,max(24px, 1.6667vw));
     background:#ffffff;
     color:#000000;
     text-decoration:none;
-    border-radius:10px;
+    border-radius:max(10px, 0.6944vw);
     font-weight:600;
     transition:.3s ease;
-    font-size: clamp(12px,1vw,14px);
+    font-size: clamp(max(12px, 0.8333vw),1vw,max(14px, 0.9722vw));
 }
 
 .amenities-btn:hover{
     background:#d6d6d6;
-    transform:translateY(-2px);
+    transform:translateY(min(-2px, -0.1389vw));
 }
 
 .amenities-full{

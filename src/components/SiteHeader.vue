@@ -214,10 +214,10 @@ function selectCurrency(item) {
 <style scoped>
 .header {
   background: linear-gradient(135deg, #1A51AD 0%, #083377 100%);
-  padding: 26px 34px 0;
+  padding: max(26px, 1.8056vw) max(34px, 2.3611vw) 0;
 }
 .header-inner {
-  max-width: 1240px;
+  max-width: max(1240px, 86.1111vw);
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -225,48 +225,46 @@ function selectCurrency(item) {
   color: #fff;
 }
 .logo {
-  font-size: 25px;
-  font-weight: 600;
-  letter-spacing: 0.2px;
+  font-size: max(25px, 1.7361vw);
+  font-weight: 550;
+  letter-spacing: max(0.2px, 0.0139vw);
   
 }
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 22px;
-  font-size: 14px;
+  gap: max(22px, 1.5278vw);
+  font-size: max(14px, 0.9722vw);
   font-weight: 500;
 }
 .help-circle {
-  width: 22px;
-  height: 22px;
-  border: 1.5px solid rgba(255, 255, 255, 0.8);
+  width: max(22px, 1.5278vw);
+  height: max(22px, 1.5278vw);
+  border: max(1.5px, 0.1042vw) solid rgba(255, 255, 255, 0.8);
   border-radius: 50%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: max(12px, 0.8333vw);
 }
 .packages {
-  letter-spacing: 0.5px;
-  font-weight: 500;
+  letter-spacing: max(0.5px, 0.0347vw);
+  font-weight: 450;
 }
 
 .search-bar {
-  max-width: 1240px;
-  margin: 22px auto 0;
+  max-width: max(1240px, 86.1111vw);
+  margin: max(22px, 1.5278vw) auto 0;
   position: relative;
-  top: 30px;
+  top: max(30px, 2.0833vw);
   background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(20, 40, 70, 0.18);
+  border-radius: max(10px, 0.6944vw);
+  box-shadow: 0 max(10px, 0.6944vw) max(30px, 2.0833vw) rgba(20, 40, 70, 0.18);
   display: flex;
   align-items: stretch;
   overflow: visible;
 }
 
-/* Wraps Check-in + Check-out so the shared DateRangePicker has one
-   relatively-positioned ancestor to anchor below, spanning both fields. */
 .date-group {
   flex: 2;
   display: flex;
@@ -280,33 +278,33 @@ function selectCurrency(item) {
   flex: 1;
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 14px 22px;
-  border-right: 1px solid #ececec;
+  gap: max(12px, 0.8333vw);
+  padding: max(14px, 0.9722vw) max(22px, 1.5278vw);
+  border-right: max(1px, 0.0694vw) solid #ececec;
   cursor: pointer;
   position: relative;
 }
 .search-field:first-child {
-  border-radius: 10px 0 0 10px;
+  border-radius: max(10px, 0.6944vw) 0 0 max(10px, 0.6944vw);
 }
 .search-field:hover {
   background: #fafbfd;
 }
 .search-field .icon {
-  width: 20px;
-  height: 20px;
+  width: max(20px, 1.3889vw);
+  height: max(20px, 1.3889vw);
   color: #8a8a8a;
   flex-shrink: 0;
 }
 .search-field label {
   display: block;
-  font-size: 11.5px;
+  font-size: max(11.5px, 0.7986vw);
   color: #8a8a8a;
-  margin-bottom: 3px;
+  margin-bottom: max(3px, 0.2083vw);
   cursor: pointer;
 }
 .search-field .value {
-  font-size: 14.5px;
+  font-size: max(14.5px, 1.0069vw);
   font-weight: 600;
   color: #4a4848;
 }
@@ -314,28 +312,24 @@ function selectCurrency(item) {
   background: #0179D7;
   color: #fff;
   border: none;
-  padding: 0 38px;
+  padding: 0 max(38px, 2.6389vw);
   font-weight: 500;
-  font-size: 15px;
+  font-size: max(15px, 1.0417vw);
   cursor: pointer;
-  border-radius: 0 10px 10px 0;
+  border-radius: 0 max(10px, 0.6944vw) max(10px, 0.6944vw) 0;
   transition: background-color 0.25s ease, transform 0.2s ease,
     box-shadow 0.25s ease;
 }
 
 .btn-search:hover {
   background: #048cf5;
-  box-shadow: 0 8px 18px rgba(45, 106, 220, 0.25);
-  transform: translateY(-1px);
+  box-shadow: 0 max(8px, 0.5556vw) max(18px, 1.25vw) rgba(45, 106, 220, 0.25);
+  transform: translateY(min(-1px, -0.0694vw));
 }
 
-/* Simple, scroll-friendly popover anchoring — matches AvailabilityBar's
-   .field / .calendar-dropdown pattern instead of JS-computed fixed
-   positioning, so it scrolls naturally with the page and never detaches
-   from its field. */
 .popover {
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + max(8px, 0.5556vw));
   left: 0;
   z-index: 200;
 }
@@ -354,7 +348,7 @@ function selectCurrency(item) {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
-  transform: translateY(-4px);
+  transform: translateY(min(-4px, -0.2778vw));
 }
 
 .currency-dropdown {
@@ -368,18 +362,18 @@ function selectCurrency(item) {
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  font-weight: 500;
+  gap: max(6px, 0.4167vw);
+  font-size: max(14px, 0.9722vw);
+  font-weight: 450;
 }
 
 .flag {
-  font-size: 18px;
+  font-size: max(18px, 1.25vw);
 }
 
 .currency-btn .rotate,
 .currency-btn .arrow {
-  font-size: 10px;
+  font-size: max(10px, 0.6944vw);
   transition: transform .2s;
 }
 
@@ -389,12 +383,12 @@ function selectCurrency(item) {
 
 .currency-menu {
   position: absolute;
-  top: 32px;
+  top: max(32px, 2.2222vw);
   left: 0;
-  width: 80px;
+  width: max(80px, 5.5556vw);
   background: white;
-  border-radius: 8px;
-  box-shadow: 0 8px 24px rgba(0,0,0,.15);
+  border-radius: max(8px, 0.5556vw);
+  box-shadow: 0 max(8px, 0.5556vw) max(24px, 1.6667vw) rgba(0,0,0,.15);
   overflow: hidden;
   z-index: 500;
 }
@@ -402,8 +396,8 @@ function selectCurrency(item) {
 .currency-item {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 14px;
+  gap: max(10px, 0.6944vw);
+  padding: max(10px, 0.6944vw) max(14px, 0.9722vw);
   color: #333;
   cursor: pointer;
   transition: background .2s;
