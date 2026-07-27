@@ -101,17 +101,59 @@
                 {{ room.subtitle }}
               </p>
 
-              <h2 :id="`room-title-${room.id}`">
-                {{ room.name }}
-              </h2>
+              <div class="room-modal-heading-row">
+                <h2 :id="`room-title-${room.id}`">
+                  {{ room.name }}
+                </h2>
+
+                <span v-if="room.mostBooked" class="modal-badge modal-badge-booked">
+                  MOST BOOKED
+                </span>
+
+                <span v-if="room.roomsLeft" class="modal-badge modal-badge-scarcity">
+                  Only {{ room.roomsLeft }} left
+                </span>
+              </div>
+
+              <!-- BED & MEAL PLAN (kept in sync with the room card) -->
+              <div class="room-modal-plans">
+                <div class="option">
+                  <label>Bed plan</label>
+
+                  <div class="pill-group" role="group" aria-label="Bed plan">
+                    <button
+                      v-for="bed in ['Single', 'Double', 'Triple']"
+                      :key="bed"
+                      type="button"
+                      class="pill"
+                      :class="{ active: room.bed === bed }"
+                      @click="room.bed = bed"
+                    >
+                      {{ bed }}
+                    </button>
+                  </div>
+                </div>
+
+                <div class="option">
+                  <label>Meal plan</label>
+
+                  <div class="pill-group" role="group" aria-label="Meal plan">
+                    <button
+                      v-for="meal in ['Bed & Breakfast', 'Half Board']"
+                      :key="meal"
+                      type="button"
+                      class="pill"
+                      :class="{ active: room.meal === meal }"
+                      @click="room.meal = meal"
+                    >
+                      {{ meal }}
+                    </button>
+                  </div>
+                </div>
+              </div>
 
               <!-- ROOM INFORMATION -->
               <div class="room-information">
-                <div class="room-information-item">
-                  <span>Bed type</span>
-                  <strong>{{ room.bed || "King bed" }}</strong>
-                </div>
-
                 <div class="room-information-item">
                   <span>Guests</span>
                   <strong>
@@ -179,8 +221,8 @@
                     :key="facility"
                     class="facility-item"
                   >
-                    <span class="facility-check">
-                      <i class="fa-solid fa-check"></i>
+                    <span class="facility-icon">
+                      <i :class="facilityIcon(facility)"></i>
                     </span>
 
                     <span>{{ facility }}</span>
@@ -195,14 +237,14 @@
               >
                 <h3>Included with your stay</h3>
 
-                <div class="included-list">
+                <div class="facilities-grid">
                   <div
                     v-for="item in includedItems"
                     :key="item"
-                    class="included-item"
+                    class="facility-item"
                   >
-                    <span class="facility-check">
-                      <i class="fa-solid fa-check"></i>
+                    <span class="facility-icon">
+                      <i :class="facilityIcon(item)"></i>
                     </span>
 
                     <span>{{ item }}</span>
@@ -237,6 +279,21 @@
                   </div>
                 </div>
               </section>
+
+              <!-- CANCELLATION POLICY -->
+              <section class="room-detail-section">
+                <h3>Cancellation policy</h3>
+
+                <div
+                  class="cancellation-callout"
+                  :class="{ 'non-refundable': isNonRefundable }"
+                >
+                  <i :class="isNonRefundable ? 'fa-solid fa-triangle-exclamation' : 'fa-solid fa-circle-check'"></i>
+                  <span>
+                    {{ room.cancellation || "Free cancellation up to 48 hours before check-in" }}
+                  </span>
+                </div>
+              </section>
             </div>
 
             <!-- BOOKING CARD -->
@@ -245,12 +302,49 @@
                 Starting from
               </span>
 
+              <span
+                v-if="room.offer"
+                class="booking-offer"
+              >
+                <i class="fa-solid fa-tag"></i>
+                {{ room.offer }}
+              </span>
+
               <div class="booking-price">
-                <strong>
-                  $ {{ formatPrice(room.price) }}
-                </strong>
+                <div class="booking-price-values">
+                  <span
+                    v-if="room.originalPrice"
+                    class="booking-original-price"
+                  >
+                    $ {{ formatPrice(room.originalPrice) }}
+                  </span>
+
+                  <strong>
+                    $ {{ formatPrice(room.price) }}
+                  </strong>
+                </div>
 
                 <span>/ night</span>
+              </div>
+
+              <div class="price-breakdown-list">
+                <div class="price-breakdown-row">
+                  <span>
+                    $ {{ formatPrice(room.price) }} × {{ nights }} {{ nights === 1 ? "night" : "nights" }}
+                    × {{ room.roomCount || 1 }} {{ (room.roomCount || 1) > 1 ? "rooms" : "room" }}
+                  </span>
+                  <span>$ {{ formatPrice(room.price * (room.roomCount || 1) * nights) }}</span>
+                </div>
+
+                <div v-if="room.extraBeds" class="price-breakdown-row">
+                  <span>Extra beds ({{ room.extraBeds }} × $ {{ extraBedFee }})</span>
+                  <span>$ {{ formatPrice(room.extraBeds * extraBedFee) }}</span>
+                </div>
+
+                <div class="price-breakdown-row price-breakdown-total">
+                  <span>Total</span>
+                  <span>$ {{ formatPrice(roomTotal) }}</span>
+                </div>
               </div>
 
               <div class="booking-benefits">
@@ -267,9 +361,7 @@
                 Reserve this room
               </button>
 
-              <p class="booking-message">
-                You will not be charged at this stage.
-              </p>
+
             </aside>
           </div>
         </div>
@@ -394,6 +486,16 @@ const props = defineProps({
   room: {
     type: Object,
     default: null
+  },
+
+  nights: {
+    type: Number,
+    default: 1
+  },
+
+  extraBedFee: {
+    type: Number,
+    default: 15
   }
 });
 
@@ -450,15 +552,6 @@ const activeImage = computed(() => {
   );
 });
 
-/*
-  SMALL PREVIEW IMAGES
-
-  This now starts from index 0.
-
-  Therefore:
-  - First small image = roomImages[0]
-  - Initial large image = roomImages[0]
-*/
 const previewGalleryImages = computed(() => {
   return roomImages.value
     .slice(0, 4)
@@ -503,6 +596,31 @@ const normalisedFacilities = computed(() => {
   });
 });
 
+/*
+  Known facility-name → icon lookup, used for the Bathroom facilities
+  and Included with your stay lists, which are stored as plain strings
+  on the room data (no icon attached). Falls back to a generic check
+  icon for anything not in the list.
+*/
+const FACILITY_ICON_MAP = {
+  "private bathroom": "fa-solid fa-bath",
+  "hot water": "fa-solid fa-temperature-high",
+  "walk-in shower": "fa-solid fa-shower",
+  "rain shower": "fa-solid fa-shower",
+  "hair dryer": "fa-solid fa-wind",
+  "fresh towels": "fa-solid fa-soap",
+
+  "daily breakfast": "fa-solid fa-mug-saucer",
+  "free wifi": "fa-solid fa-wifi",
+  "free parking": "fa-solid fa-square-parking",
+  "tea and coffee facilities": "fa-solid fa-mug-hot",
+  "room service": "fa-solid fa-bell-concierge"
+};
+
+function facilityIcon(name) {
+  return FACILITY_ICON_MAP[name?.toLowerCase()] || "fa-solid fa-circle-check";
+}
+
 const bathroomFacilities = computed(() => {
   if (
     Array.isArray(props.room?.bathroomFacilities) &&
@@ -535,24 +653,28 @@ const includedItems = computed(() => {
   ];
 });
 
-/*
-  CLICKING A SMALL IMAGE CHANGES THE LARGE IMAGE
-*/
+const roomTotal = computed(() => {
+  if (!props.room) return 0;
+
+  const nightsCost = props.room.price * (props.room.roomCount || 1) * props.nights;
+  const extraBedsCost = (props.room.extraBeds || 0) * props.extraBedFee;
+
+  return nightsCost + extraBedsCost;
+});
+
+const isNonRefundable = computed(() => {
+  return /non-refundable/i.test(props.room?.cancellation || "");
+});
+
 function selectGalleryImage(index) {
   activeImageIndex.value = index;
 }
 
-/*
-  OPEN FULL GALLERY FROM CURRENT LARGE IMAGE
-*/
 function openFullGallery(index = 0) {
   lightboxImageIndex.value = index;
   isGalleryOpen.value = true;
 }
 
-/*
-  CLICKING A LIGHTBOX THUMBNAIL
-*/
 function selectLightboxImage(index) {
   lightboxImageIndex.value = index;
 }
@@ -695,28 +817,22 @@ onBeforeUnmount(() => {
   font-family: "Figtree", sans-serif;
 }
 
-/* =========================
-   ROOM MODAL
-========================= */
+/* ROOM MODAL */
 
 .room-modal-overlay {
   position: fixed;
   inset: 0;
   z-index: 5000;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   padding: clamp(24px, 2vw, 42px);
-
   background: rgba(7, 18, 34, 0.72);
   backdrop-filter: blur(5px);
 }
 
 .room-modal-container {
   position: relative;
-
   width: min(
     clamp(1180px, 82vw, 1380px),
     calc(100vw - clamp(48px, 4vw, 84px))
@@ -728,12 +844,9 @@ onBeforeUnmount(() => {
 
   overflow-x: hidden;
   overflow-y: auto;
-
   background: #ffffff;
-
   border: 1px solid rgba(218, 226, 237, 0.9);
   border-radius: clamp(22px, 1.4vw, 28px);
-
   box-shadow:
     0 30px 90px
     rgba(0, 0, 0, 0.3);
@@ -751,37 +864,27 @@ onBeforeUnmount(() => {
   border-radius: 10px;
 }
 
-/* =========================
-   CLOSE BUTTON
-========================= */
+/* CLOSE BUTTON */
 
 .room-modal-close {
   position: absolute;
   top: clamp(18px, 1.1vw, 24px);
   right: clamp(18px, 1.1vw, 24px);
   z-index: 20;
-
   width: clamp(44px, 2.5vw, 52px);
   height: clamp(44px, 2.5vw, 52px);
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   padding: 0;
-
   color: #1a51ad;
   background: rgba(255, 255, 255, 0.96);
-
   border: 1px solid rgba(218, 226, 237, 0.9);
   border-radius: 50%;
-
   cursor: pointer;
-
   box-shadow:
     0 5px 18px
     rgba(0, 0, 0, 0.18);
-
   transition:
     color 0.25s ease,
     background 0.25s ease,
@@ -797,20 +900,15 @@ onBeforeUnmount(() => {
 .room-modal-close svg {
   width: clamp(21px, 1.2vw, 25px);
   height: clamp(21px, 1.2vw, 25px);
-
   stroke-width: 1.8;
   stroke-linecap: round;
 }
 
-/* =========================
-   GALLERY PREVIEW
-========================= */
+/* GALLERY PREVIEW */
 
 .room-modal-images {
   padding: clamp(10px, 0.8vw, 16px);
-
   background: #f3f6fa;
-
   border-radius:
     clamp(22px, 1.4vw, 28px)
     clamp(22px, 1.4vw, 28px)
@@ -820,31 +918,23 @@ onBeforeUnmount(() => {
 
 .room-gallery-grid {
   position: relative;
-
   display: grid;
-
   grid-template-columns:
     minmax(0, 1.3fr)
     minmax(360px, 1fr);
 
   gap: clamp(6px, 0.45vw, 10px);
-
   height: clamp(420px, 30vw, 540px);
 }
 
 .room-gallery-item {
   position: relative;
-
   width: 100%;
   height: 100%;
-
   padding: 0;
   overflow: hidden;
-
   background: #e5eaf0;
-
   border: 2px solid transparent;
-
   font-family: inherit;
   cursor: pointer;
 }
@@ -852,11 +942,8 @@ onBeforeUnmount(() => {
 .room-gallery-item img {
   width: 100%;
   height: 100%;
-
   display: block;
-
   object-fit: cover;
-
   transition: transform 0.4s ease;
 }
 
@@ -879,23 +966,16 @@ onBeforeUnmount(() => {
   left: clamp(14px, 1vw, 20px);
   bottom: clamp(14px, 1vw, 20px);
   z-index: 4;
-
   min-height: 34px;
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
   padding: 0 13px;
-
   color: #ffffff;
   background: rgba(13, 27, 46, 0.72);
-
   border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 18px;
-
   backdrop-filter: blur(6px);
-
   font-size: clamp(11px, 0.7vw, 13px);
   font-weight: 600;
 }
@@ -904,15 +984,11 @@ onBeforeUnmount(() => {
 
 .room-gallery-side {
   display: grid;
-
   grid-template-columns:
     repeat(2, minmax(0, 1fr));
-
   grid-template-rows:
     repeat(2, minmax(0, 1fr));
-
   gap: clamp(6px, 0.45vw, 10px);
-
   min-width: 0;
   min-height: 0;
 }
@@ -925,11 +1001,8 @@ onBeforeUnmount(() => {
 .room-gallery-hover {
   position: absolute;
   inset: 0;
-
   pointer-events: none;
-
   background: rgba(9, 22, 40, 0);
-
   transition: background 0.25s ease;
 }
 
@@ -937,9 +1010,7 @@ onBeforeUnmount(() => {
   background: rgba(9, 22, 40, 0.1);
 }
 
-/*
-  SELECTED SMALL IMAGE
-*/
+/* SELECTED SMALL IMAGE */
 
 .room-gallery-small.active {
   border-color: #1a51ad;
@@ -981,46 +1052,32 @@ onBeforeUnmount(() => {
     0;
 }
 
-/* =========================
-   SHOW ALL PHOTOS
-========================= */
-
 .show-all-photos {
   position: absolute;
   right: clamp(14px, 1vw, 20px);
   bottom: clamp(14px, 1vw, 20px);
   z-index: 10;
-
   min-height: clamp(38px, 2.5vw, 46px);
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
   gap: 8px;
-
   padding:
     0
     clamp(14px, 1vw, 20px);
 
   color: #ffffff;
   background: rgba(20, 29, 39, 0.86);
-
   border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: clamp(7px, 0.5vw, 10px);
-
   backdrop-filter: blur(6px);
-
   font-family: inherit;
   font-size: clamp(12px, 0.78vw, 15px);
   font-weight: 700;
-
   cursor: pointer;
-
   box-shadow:
     0 8px 24px
     rgba(0, 0, 0, 0.24);
-
   transition:
     background 0.25s ease,
     transform 0.25s ease;
@@ -1031,9 +1088,7 @@ onBeforeUnmount(() => {
   transform: translateY(-2px);
 }
 
-/* =========================
-   MODAL CONTENT
-========================= */
+/* MODAL CONTENT */
 
 .room-modal-content {
   display: grid;
@@ -1052,9 +1107,7 @@ onBeforeUnmount(() => {
 
 .room-modal-eyebrow {
   margin: 0 0 8px;
-
   color: #2d6adc;
-
   font-size: clamp(12px, 0.72vw, 14px);
   font-weight: 700;
   letter-spacing: 1.2px;
@@ -1063,26 +1116,162 @@ onBeforeUnmount(() => {
 
 .room-modal-details h2 {
   margin: 0;
-
   color: #1a51ad;
-
   font-size: clamp(30px, 2.4vw, 46px);
   font-weight: 600;
   line-height: 1.2;
 }
 
-/* =========================
-   ROOM INFORMATION
-========================= */
+/* HEADING ROW + BADGES */
+
+.room-modal-heading-row {
+  display: flex;
+  margin-bottom: 45px;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.modal-badge {
+  display: inline-flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 12px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.modal-badge-booked {
+  background: #eef3fa;
+  color: #1a51ad;
+}
+
+.modal-badge-scarcity {
+  background: #fdeeee;
+  color: #c62828;
+}
+
+/* BED / MEAL PLAN PILLS */
+
+.room-modal-plans {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-top: clamp(20px, 1.3vw, 26px);
+}
+
+.room-modal-plans .option label {
+  display: block;
+  margin-bottom: 8px;
+  color: #87909c;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.pill-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pill {
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 9px;
+  border: 1px solid #d5dbe3;
+  background: #ffffff;
+  color: #25364c;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.pill:hover {
+  border-color: #1a51ad;
+}
+
+.pill.active {
+  background: #1a51ad;
+  border-color: #1a51ad;
+  color: #ffffff;
+}
+
+/* CANCELLATION POLICY */
+
+.cancellation-callout {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 18px;
+  background: #edf8ee;
+  border: 1px solid #bfe5cb;
+  border-radius: 12px;
+  color: #1b5e2e;
+  font-size: clamp(13px, 0.8vw, 15px);
+  line-height: 1.6;
+}
+
+.cancellation-callout i {
+  margin-top: 2px;
+  color: #1b7a3d;
+}
+
+.cancellation-callout.non-refundable {
+  background: #fdf3ee;
+  border-color: #f3d0bd;
+  color: #8a3d13;
+}
+
+.cancellation-callout.non-refundable i {
+  color: #c8631f;
+}
+
+/* PRICE BREAKDOWN */
+
+.price-breakdown-list {
+  padding-bottom: clamp(20px, 1.25vw, 26px);
+  margin-bottom: clamp(20px, 1.25vw, 26px);
+  border-bottom: 1px solid #e7ebf0;
+}
+
+.price-breakdown-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+  color: #56616e;
+  font-size: 12.5px;
+}
+
+.price-breakdown-row span:first-child {
+  max-width: 65%;
+}
+
+.price-breakdown-total {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed #e7ebf0;
+  color: #1a51ad;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* ROOM INFORMATION */
 
 .room-information {
   display: grid;
-
   grid-template-columns:
     repeat(2, minmax(0, 1fr));
-
   gap: clamp(14px, 0.9vw, 18px);
-
   margin:
     clamp(28px, 1.8vw, 36px)
     0;
@@ -1090,9 +1279,7 @@ onBeforeUnmount(() => {
 
 .room-information-item {
   padding: clamp(15px, 0.95vw, 19px);
-
   background: #f6f8fb;
-
   border: 1px solid #edf0f4;
   border-radius: clamp(10px, 0.65vw, 14px);
 }
@@ -1100,62 +1287,46 @@ onBeforeUnmount(() => {
 .room-information-item span,
 .room-policies span {
   display: block;
-
   color: #87909c;
-
   font-size: clamp(11px, 0.67vw, 13px);
 }
 
 .room-information-item strong,
 .room-policies strong {
   display: block;
-
   margin-top: 3px;
-
   color: #25364c;
-
   font-size: clamp(13px, 0.78vw, 15px);
   font-weight: 600;
 }
 
-/* =========================
-   DETAIL SECTIONS
-========================= */
+/* DETAIL SECTIONS */
 
 .room-detail-section {
   padding: clamp(25px, 1.55vw, 32px) 0;
-
   border-top: 1px solid #e8edf2;
 }
 
 .room-detail-section h3 {
   margin: 0 0 clamp(15px, 0.95vw, 19px);
-
   color: #25364c;
-
   font-size: clamp(19px, 1.18vw, 24px);
   font-weight: 600;
 }
 
 .room-detail-section p {
   margin: 0;
-
   color: #626d7a;
-
   font-size: clamp(14px, 0.85vw, 17px);
   line-height: 1.8;
 }
 
-/* =========================
-   FACILITIES
-========================= */
+/* FACILITIES */
 
 .facilities-grid {
   display: grid;
-
   grid-template-columns:
     repeat(5, minmax(0, 1fr));
-
   gap:
     clamp(12px, 0.8vw, 16px)
     clamp(20px, 1.3vw, 26px);
@@ -1165,47 +1336,34 @@ onBeforeUnmount(() => {
 .included-item {
   display: flex;
   align-items: center;
-
   gap: clamp(9px, 0.6vw, 12px);
-
   color: #56616e;
-
   font-size: clamp(13px, 0.78vw, 15px);
 }
 
 .facility-icon {
   width: clamp(30px, 1.8vw, 38px);
   height: clamp(30px, 1.8vw, 38px);
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
   flex-shrink: 0;
-
   color: #1a51ad;
   background: #edf3fb;
-
   border-radius: clamp(8px, 0.5vw, 11px);
-
   font-size: clamp(12px, 0.72vw, 14px);
 }
 
 .facility-check {
   width: clamp(22px, 1.35vw, 27px);
   height: clamp(22px, 1.35vw, 27px);
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
   flex-shrink: 0;
-
   color: #ffffff;
   background: #25a46c;
-
   border-radius: 50%;
-
   font-size: 10px;
 }
 
@@ -1214,45 +1372,61 @@ onBeforeUnmount(() => {
   gap: clamp(11px, 0.7vw, 14px);
 }
 
-/* =========================
-   POLICIES
-========================= */
+.booking-price-values {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: clamp(8px, 0.55vw, 12px);
+}
+
+.booking-price-values {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(8px, 0.55vw, 12px);
+  flex-wrap: wrap;
+}
+
+.booking-price .booking-original-price {
+  margin-left: 0;
+  color: #e53935 !important;
+  font-size: clamp(16px, 1vw, 20px);
+  font-weight: 300;
+  text-decoration: line-through;
+  text-decoration-color: #e53935;
+  text-decoration-thickness: 2px;
+  opacity: 1;
+}
+
+.booking-price-values strong {
+  color: #1a51ad;
+}
+
+/* POLICIES */
 
 .room-policies {
   display: grid;
-
   grid-template-columns:
     repeat(3, minmax(0, 1fr));
-
   gap: clamp(12px, 0.8vw, 16px);
 }
 
 .room-policies > div {
   padding: clamp(14px, 0.9vw, 18px);
-
   background: #f6f8fb;
-
   border: 1px solid #edf0f4;
   border-radius: clamp(10px, 0.65vw, 14px);
 }
 
-/* =========================
-   BOOKING CARD
-========================= */
+/* BOOKING CARD */
 
 .room-booking-card {
   position: sticky;
   top: clamp(20px, 1.25vw, 26px);
-
   align-self: start;
-
   padding: clamp(25px, 1.5vw, 34px);
-
   background: #ffffff;
-
   border: 1px solid #dfe5ed;
   border-radius: clamp(15px, 0.95vw, 19px);
-
   box-shadow:
     0 12px 35px
     rgba(28, 55, 89, 0.1);
@@ -1260,37 +1434,49 @@ onBeforeUnmount(() => {
 
 .booking-label {
   color: #7c8693;
-
   font-size: clamp(12px, 0.72vw, 14px);
+}
+
+.booking-offer {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 10px;
+  padding: 7px 11px;
+  color: #1b7a3d;
+  background: #edf8ee;
+  border: max(1px, 0.0694vw) solid #bfe5cb;
+  border-radius: 6px;
+  font-size: clamp(11px, 0.68vw, 13px);
+  font-weight: 700;
+}
+
+.booking-offer i {
+  font-size: clamp(10px, 0.62vw, 12px);
 }
 
 .booking-price {
   padding-bottom: clamp(20px, 1.25vw, 26px);
-
   margin-top: 5px;
   margin-bottom: clamp(20px, 1.25vw, 26px);
-
   border-bottom: 1px solid #e7ebf0;
 }
 
 .booking-price strong {
   color: #1a51ad;
-
   font-size: clamp(25px, 1.55vw, 32px);
   font-weight: 700;
 }
 
-.booking-price span {
+.booking-price > span {
   margin-left: 4px;
-
   color: #7c8693;
-
   font-size: clamp(11px, 0.67vw, 13px);
 }
 
 .booking-benefits {
   color: #56616e;
-
   font-size: clamp(12px, 0.72vw, 14px);
 }
 
@@ -1301,82 +1487,63 @@ onBeforeUnmount(() => {
 .room-booking-button {
   width: 100%;
   min-height: clamp(46px, 2.8vw, 56px);
-
   margin-top: 12px;
   padding: 0 16px;
-
   color: #ffffff;
-  background: #1a51ad;
-
+  background: #021c44;
   border: none;
   border-radius: clamp(9px, 0.6vw, 12px);
-
   font-family: inherit;
-
   font-size: clamp(13px, 0.78vw, 15px);
   font-weight: 700;
-
   cursor: pointer;
-
   transition:
     background 0.25s ease,
     transform 0.25s ease;
 }
 
 .room-booking-button:hover {
-  background: #103f8d;
+  background: #032d6b;
   transform: translateY(-1px);
 }
 
 .booking-message {
   margin: 12px 0 0;
-
   color: #929aa5;
-
   font-size: clamp(10px, 0.6vw, 12px);
   text-align: center;
 }
 
-/* =========================
-   FULL-SCREEN GALLERY
-========================= */
+/* FULL-SCREEN GALLERY */
 
 .photo-lightbox-overlay {
   position: fixed;
   inset: 0;
   z-index: 9999;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   padding: clamp(18px, 2vw, 36px);
-
   background: rgba(4, 11, 22, 0.95);
   backdrop-filter: blur(8px);
 }
 
 .photo-lightbox-container {
   position: relative;
-
   width: min(1500px, 96vw);
   height: min(900px, 92vh);
-
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
   gap: clamp(12px, 1vw, 18px);
 }
 
 .photo-lightbox-image {
   width: 100%;
-
   height: calc(
     100% - clamp(90px, 7vw, 120px)
   );
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1385,7 +1552,6 @@ onBeforeUnmount(() => {
 .photo-lightbox-image img {
   width: 100%;
   height: 100%;
-
   display: block;
   object-fit: contain;
 }
@@ -1395,24 +1561,17 @@ onBeforeUnmount(() => {
   top: 0;
   right: 0;
   z-index: 5;
-
   width: clamp(42px, 2.6vw, 52px);
   height: clamp(42px, 2.6vw, 52px);
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   padding: 0;
-
   color: #ffffff;
   background: rgba(255, 255, 255, 0.12);
-
   border: 1px solid rgba(255, 255, 255, 0.24);
   border-radius: 50%;
-
   cursor: pointer;
-
   transition:
     background 0.25s ease,
     transform 0.25s ease;
@@ -1426,7 +1585,6 @@ onBeforeUnmount(() => {
 .photo-lightbox-close svg {
   width: 21px;
   height: 21px;
-
   stroke-width: 1.8;
   stroke-linecap: round;
 }
@@ -1436,17 +1594,12 @@ onBeforeUnmount(() => {
   top: 10px;
   left: 50%;
   z-index: 5;
-
   padding: 8px 15px;
-
   color: #ffffff;
   background: rgba(255, 255, 255, 0.12);
-
   border-radius: 20px;
-
   font-size: clamp(12px, 0.8vw, 15px);
   font-weight: 600;
-
   transform: translateX(-50%);
 }
 
@@ -1454,26 +1607,18 @@ onBeforeUnmount(() => {
   position: absolute;
   top: 50%;
   z-index: 5;
-
   width: clamp(44px, 3vw, 58px);
   height: clamp(44px, 3vw, 58px);
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   padding: 0;
-
   color: #173b73;
   background: rgba(255, 255, 255, 0.94);
-
   border: none;
   border-radius: 50%;
-
   cursor: pointer;
-
   transform: translateY(-50%);
-
   transition:
     color 0.25s ease,
     background 0.25s ease;
@@ -1495,12 +1640,9 @@ onBeforeUnmount(() => {
 .photo-lightbox-thumbnails {
   width: 100%;
   height: clamp(72px, 5vw, 96px);
-
   display: flex;
   justify-content: center;
-
   gap: clamp(7px, 0.55vw, 11px);
-
   overflow-x: auto;
 }
 
@@ -1508,18 +1650,13 @@ onBeforeUnmount(() => {
   width: clamp(90px, 7vw, 130px);
   min-width: clamp(90px, 7vw, 130px);
   height: 100%;
-
   padding: 0;
   overflow: hidden;
-
   background: transparent;
-
   border: 2px solid transparent;
   border-radius: clamp(8px, 0.55vw, 12px);
-
   cursor: pointer;
   opacity: 0.55;
-
   transition:
     opacity 0.2s ease,
     border-color 0.2s ease;
@@ -1534,14 +1671,11 @@ onBeforeUnmount(() => {
 .photo-lightbox-thumbnail img {
   width: 100%;
   height: 100%;
-
   display: block;
   object-fit: cover;
 }
 
-/* =========================
-   TRANSITIONS
-========================= */
+/* TRANSITIONS */
 
 .room-modal-enter-active,
 .room-modal-leave-active {
@@ -1562,7 +1696,6 @@ onBeforeUnmount(() => {
 
 .room-modal-enter-from .room-modal-container {
   opacity: 0;
-
   transform:
     translateY(30px)
     scale(0.97);
@@ -1570,7 +1703,6 @@ onBeforeUnmount(() => {
 
 .room-modal-leave-to .room-modal-container {
   opacity: 0;
-
   transform:
     translateY(20px)
     scale(0.98);
@@ -1596,9 +1728,7 @@ onBeforeUnmount(() => {
   opacity: 0;
 }
 
-/* =========================
-   TABLET
-========================= */
+/* TABLET */
 
 @media (max-width: 1000px) {
   .room-gallery-grid {
@@ -1632,9 +1762,7 @@ onBeforeUnmount(() => {
   }
 }
 
-/* =========================
-   MOBILE
-========================= */
+/* MOBILE */
 
 @media (max-width: 700px) {
   .room-modal-overlay {
