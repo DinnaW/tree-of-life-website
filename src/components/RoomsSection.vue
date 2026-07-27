@@ -217,7 +217,7 @@ const rooms = ref([
       "Hot water",
       "Walk-in shower",
       "Hair dryer",
-      "Fresh towels"
+      "Fresh towels",
     ],
 
     included: [
@@ -242,6 +242,11 @@ const rooms = ref([
       { icon: "fa-solid fa-tv", name: "Smart TV" },
       { icon: "fa-solid fa-paw", name: "Pet Friendly" },
       { icon: "fa-solid fa-mug-hot", name: "Tea/Coffee" },
+      { icon: "fa-solid fa-snowflake", name: "Air Conditioning" },
+      { icon: "fa-solid fa-bell-concierge", name: "Room Service" },
+      { icon: "fa-solid fa-sun", name: "Balcony" },
+      { icon: "fa-solid fa-wine-glass", name: "Mini Bar" },
+      { icon: "fa-solid fa-tree", name: "Garden View" }
     
     ]
   },
@@ -279,7 +284,7 @@ const rooms = ref([
       "Daily breakfast",
       "Free WiFi",
       "Free parking",
-      "Room service"
+      "Room service",
     ],
 
     checkIn: "From 2:00 PM",
@@ -307,8 +312,7 @@ const rooms = ref([
     ]
   },
   {
-    // Duplicate of room 1 (Panoramic Deluxe), with an offer price:
-    // originalPrice is struck through next to the discounted total.
+
     id: 3,
     mostBooked: false,
     name: "Panoramic Deluxe",
