@@ -156,7 +156,9 @@
           <div class="price-row">
             <span v-if="room.originalPrice" class="price-original">${{ originalTotal(room) }}</span>
             <span class="price">${{ total(room) }}</span>
-            <span class="price-caption">total · taxes & fees included</span>
+            <span class="price-caption">
+              total for {{ nights }} {{ nights === 1 ? "night" : "nights" }} · taxes & fees included
+            </span>
           </div>
           
           <button class="reserve-btn">Reserve this room</button>
@@ -167,9 +169,32 @@
   <RoomDetailsModal
   :is-open="isRoomModalOpen"
   :room="selectedRoom"
+  :nights="nights"
+  :extra-bed-fee="EXTRA_BED_FEE"
   @close="closeRoomDetails"
   @reserve="handleRoomReservation"
 />
+
+  <Transition name="toast-fade">
+    <div v-if="reservationToast" class="reservation-toast" role="status">
+      <i class="fa-solid fa-circle-check"></i>
+      <div>
+        <strong>Reserved: {{ reservationToast.name }}</strong>
+        <span>
+          {{ reservationToast.nights }} {{ reservationToast.nights === 1 ? "night" : "nights" }}
+          · ${{ reservationToast.total }} total
+        </span>
+      </div>
+      <button
+        type="button"
+        class="reservation-toast-close"
+        aria-label="Dismiss"
+        @click="reservationToast = null"
+      >
+        ✕
+      </button>
+    </div>
+  </Transition>
 </template>
 
 <script setup>
@@ -217,7 +242,7 @@ const rooms = ref([
       "Hot water",
       "Walk-in shower",
       "Hair dryer",
-      "Fresh towels",
+      "Fresh towels"
     ],
 
     included: [
@@ -232,6 +257,7 @@ const rooms = ref([
     smoking: "Non-smoking room",
     bed: "Single",
     meal: "Bed & Breakfast",
+    cancellation: "Free cancellation up to 48 hours before check-in",
 
     children: 0,
     extraBeds: 0,
@@ -242,11 +268,6 @@ const rooms = ref([
       { icon: "fa-solid fa-tv", name: "Smart TV" },
       { icon: "fa-solid fa-paw", name: "Pet Friendly" },
       { icon: "fa-solid fa-mug-hot", name: "Tea/Coffee" },
-      { icon: "fa-solid fa-snowflake", name: "Air Conditioning" },
-      { icon: "fa-solid fa-bell-concierge", name: "Room Service" },
-      { icon: "fa-solid fa-sun", name: "Balcony" },
-      { icon: "fa-solid fa-wine-glass", name: "Mini Bar" },
-      { icon: "fa-solid fa-tree", name: "Garden View" }
     
     ]
   },
@@ -268,7 +289,7 @@ const rooms = ref([
     guests: 2,
     size: "34 m²",
     view: "Private garden view",
-
+    offer: "Save 20% Today",
     description:
       "A tranquil deluxe room surrounded by greenery, featuring a canopy bed, private terrace, and direct views of the resort garden.",
 
@@ -284,7 +305,7 @@ const rooms = ref([
       "Daily breakfast",
       "Free WiFi",
       "Free parking",
-      "Room service",
+      "Room service"
     ],
 
     checkIn: "From 2:00 PM",
@@ -294,6 +315,7 @@ const rooms = ref([
     bed: "Single",
     meal: "Bed & Breakfast",
     offer: "Save 20% Today",
+    cancellation: "Non-refundable — this rate cannot be changed or cancelled",
 
     children: 0,
     extraBeds: 0,
@@ -330,7 +352,7 @@ const rooms = ref([
     guests: 2,
     size: "38 m²",
     view: "Panoramic mountain view",
-
+    offer: "Limited Time Offer",
     description:
       "A comfortable panoramic deluxe room with a king-size bed, private balcony, and a special limited-time rate.",
 
@@ -354,6 +376,7 @@ const rooms = ref([
     smoking: "Non-smoking room",
     originalPrice: 98,
     offer: "Limited Time Offer",
+    cancellation: "Non-refundable — this rate cannot be changed or cancelled",
 
     bed: "Single",
     meal: "Bed & Breakfast",
@@ -377,12 +400,24 @@ function decrement(room, key) {
 
 const EXTRA_BED_FEE = 15;
 
+// How many nights the guest has picked in the availability bar.
+// Defaults to 1 night so prices still make sense before dates are chosen.
+const nights = computed(() => {
+  if (!startDate.value || !endDate.value) return 1;
+
+  const start = new Date(startDate.value);
+  const end = new Date(endDate.value);
+  const diffDays = Math.round((end - start) / (1000 * 60 * 60 * 24));
+
+  return diffDays > 0 ? diffDays : 1;
+});
+
 function total(room) {
-  return room.price * room.roomCount + room.extraBeds * EXTRA_BED_FEE;
+  return room.price * room.roomCount * nights.value + room.extraBeds * EXTRA_BED_FEE;
 }
 
 function originalTotal(room) {
-  return room.originalPrice * room.roomCount + room.extraBeds * EXTRA_BED_FEE;
+  return room.originalPrice * room.roomCount * nights.value + room.extraBeds * EXTRA_BED_FEE;
 }
 
 /* ---------------- facilities "see more" ---------------- */
@@ -409,10 +444,21 @@ function closeRoomDetails() {
   selectedRoom.value = null;
 }
 
-function handleRoomReservation(room) {
-  console.log("Selected room:", room);
+const reservationToast = ref(null);
 
+function handleRoomReservation(room) {
   closeRoomDetails();
+
+  reservationToast.value = {
+    name: room.name,
+    nights: nights.value,
+    total: total(room)
+  };
+
+  // Auto-dismiss after a few seconds; the guest can also close it early.
+  setTimeout(() => {
+    reservationToast.value = null;
+  }, 5000);
 
   document
     .querySelector("#availability")
@@ -777,7 +823,7 @@ function handleRoomReservation(room) {
   margin-top: max(16px, 1.1111vw);
   border: none;
   border-radius: max(15px, 1.0417vw);
-  background: #3B3B3B;
+  background: #021c44;
   color: #fff;
   font-family: "Work Sans", sans-serif;
   font-size: max(14px, 0.9722vw);
@@ -788,7 +834,7 @@ function handleRoomReservation(room) {
 }
 
 .reserve-btn:hover {
-  background: #021c44;
+  background: #032d6b;
   transform: translateY(min(-1px, -0.0694vw));
 }
 
@@ -1012,5 +1058,74 @@ function handleRoomReservation(room) {
   .counter button {
     transition: none;
   }
+}
+
+/* RESERVATION TOAST */
+
+.reservation-toast {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 6000;
+
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  max-width: 340px;
+  padding: 16px 18px;
+
+  background: #ffffff;
+  border: 1px solid #dfe5ed;
+  border-radius: 14px;
+  box-shadow: 0 16px 40px rgba(28, 55, 89, 0.18);
+}
+
+.reservation-toast > i {
+  margin-top: 2px;
+  color: #1b7a3d;
+  font-size: 18px;
+}
+
+.reservation-toast div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+}
+
+.reservation-toast strong {
+  color: #1a51ad;
+  font-size: 14px;
+}
+
+.reservation-toast span {
+  color: #5d5d5d;
+  font-size: 12.5px;
+}
+
+.reservation-toast-close {
+  border: none;
+  background: none;
+  color: #9aa3ad;
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1;
+  padding: 2px;
+}
+
+.reservation-toast-close:hover {
+  color: #5d5d5d;
+}
+
+.toast-fade-enter-active,
+.toast-fade-leave-active {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.toast-fade-enter-from,
+.toast-fade-leave-to {
+  opacity: 0;
+  transform: translateY(12px);
 }
 </style>

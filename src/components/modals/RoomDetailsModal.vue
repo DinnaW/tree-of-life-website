@@ -101,17 +101,59 @@
                 {{ room.subtitle }}
               </p>
 
-              <h2 :id="`room-title-${room.id}`">
-                {{ room.name }}
-              </h2>
+              <div class="room-modal-heading-row">
+                <h2 :id="`room-title-${room.id}`">
+                  {{ room.name }}
+                </h2>
+
+                <span v-if="room.mostBooked" class="modal-badge modal-badge-booked">
+                  MOST BOOKED
+                </span>
+
+                <span v-if="room.roomsLeft" class="modal-badge modal-badge-scarcity">
+                  Only {{ room.roomsLeft }} left
+                </span>
+              </div>
+
+              <!-- BED & MEAL PLAN (kept in sync with the room card) -->
+              <div class="room-modal-plans">
+                <div class="option">
+                  <label>Bed plan</label>
+
+                  <div class="pill-group" role="group" aria-label="Bed plan">
+                    <button
+                      v-for="bed in ['Single', 'Double', 'Triple']"
+                      :key="bed"
+                      type="button"
+                      class="pill"
+                      :class="{ active: room.bed === bed }"
+                      @click="room.bed = bed"
+                    >
+                      {{ bed }}
+                    </button>
+                  </div>
+                </div>
+
+                <div class="option">
+                  <label>Meal plan</label>
+
+                  <div class="pill-group" role="group" aria-label="Meal plan">
+                    <button
+                      v-for="meal in ['Bed & Breakfast', 'Half Board']"
+                      :key="meal"
+                      type="button"
+                      class="pill"
+                      :class="{ active: room.meal === meal }"
+                      @click="room.meal = meal"
+                    >
+                      {{ meal }}
+                    </button>
+                  </div>
+                </div>
+              </div>
 
               <!-- ROOM INFORMATION -->
               <div class="room-information">
-                <div class="room-information-item">
-                  <span>Bed type</span>
-                  <strong>{{ room.bed || "King bed" }}</strong>
-                </div>
-
                 <div class="room-information-item">
                   <span>Guests</span>
                   <strong>
@@ -237,6 +279,21 @@
                   </div>
                 </div>
               </section>
+
+              <!-- CANCELLATION POLICY -->
+              <section class="room-detail-section">
+                <h3>Cancellation policy</h3>
+
+                <div
+                  class="cancellation-callout"
+                  :class="{ 'non-refundable': isNonRefundable }"
+                >
+                  <i :class="isNonRefundable ? 'fa-solid fa-triangle-exclamation' : 'fa-solid fa-circle-check'"></i>
+                  <span>
+                    {{ room.cancellation || "Free cancellation up to 48 hours before check-in" }}
+                  </span>
+                </div>
+              </section>
             </div>
 
             <!-- BOOKING CARD -->
@@ -245,12 +302,49 @@
                 Starting from
               </span>
 
+              <span
+                v-if="room.offer"
+                class="booking-offer"
+              >
+                <i class="fa-solid fa-tag"></i>
+                {{ room.offer }}
+              </span>
+
               <div class="booking-price">
-                <strong>
-                  $ {{ formatPrice(room.price) }}
-                </strong>
+                <div class="booking-price-values">
+                  <span
+                    v-if="room.originalPrice"
+                    class="booking-original-price"
+                  >
+                    $ {{ formatPrice(room.originalPrice) }}
+                  </span>
+
+                  <strong>
+                    $ {{ formatPrice(room.price) }}
+                  </strong>
+                </div>
 
                 <span>/ night</span>
+              </div>
+
+              <div class="price-breakdown-list">
+                <div class="price-breakdown-row">
+                  <span>
+                    $ {{ formatPrice(room.price) }} × {{ nights }} {{ nights === 1 ? "night" : "nights" }}
+                    × {{ room.roomCount || 1 }} {{ (room.roomCount || 1) > 1 ? "rooms" : "room" }}
+                  </span>
+                  <span>$ {{ formatPrice(room.price * (room.roomCount || 1) * nights) }}</span>
+                </div>
+
+                <div v-if="room.extraBeds" class="price-breakdown-row">
+                  <span>Extra beds ({{ room.extraBeds }} × $ {{ extraBedFee }})</span>
+                  <span>$ {{ formatPrice(room.extraBeds * extraBedFee) }}</span>
+                </div>
+
+                <div class="price-breakdown-row price-breakdown-total">
+                  <span>Total</span>
+                  <span>$ {{ formatPrice(roomTotal) }}</span>
+                </div>
               </div>
 
               <div class="booking-benefits">
@@ -392,6 +486,16 @@ const props = defineProps({
   room: {
     type: Object,
     default: null
+  },
+
+  nights: {
+    type: Number,
+    default: 1
+  },
+
+  extraBedFee: {
+    type: Number,
+    default: 15
   }
 });
 
@@ -505,7 +609,7 @@ const FACILITY_ICON_MAP = {
   "rain shower": "fa-solid fa-shower",
   "hair dryer": "fa-solid fa-wind",
   "fresh towels": "fa-solid fa-soap",
-  
+
   "daily breakfast": "fa-solid fa-mug-saucer",
   "free wifi": "fa-solid fa-wifi",
   "free parking": "fa-solid fa-square-parking",
@@ -547,6 +651,19 @@ const includedItems = computed(() => {
     "Free parking",
     "Tea and coffee facilities"
   ];
+});
+
+const roomTotal = computed(() => {
+  if (!props.room) return 0;
+
+  const nightsCost = props.room.price * (props.room.roomCount || 1) * props.nights;
+  const extraBedsCost = (props.room.extraBeds || 0) * props.extraBedFee;
+
+  return nightsCost + extraBedsCost;
+});
+
+const isNonRefundable = computed(() => {
+  return /non-refundable/i.test(props.room?.cancellation || "");
 });
 
 function selectGalleryImage(index) {
@@ -655,7 +772,10 @@ watch(
     props.room
   ],
   () => {
-
+    /*
+      Always start with the first image.
+      The first large image and first small image match.
+    */
     activeImageIndex.value = 0;
     lightboxImageIndex.value = 0;
     isGalleryOpen.value = false;
@@ -1002,6 +1122,149 @@ onBeforeUnmount(() => {
   line-height: 1.2;
 }
 
+/* HEADING ROW + BADGES */
+
+.room-modal-heading-row {
+  display: flex;
+  margin-bottom: 45px;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.modal-badge {
+  display: inline-flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 12px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.modal-badge-booked {
+  background: #eef3fa;
+  color: #1a51ad;
+}
+
+.modal-badge-scarcity {
+  background: #fdeeee;
+  color: #c62828;
+}
+
+/* BED / MEAL PLAN PILLS */
+
+.room-modal-plans {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-top: clamp(20px, 1.3vw, 26px);
+}
+
+.room-modal-plans .option label {
+  display: block;
+  margin-bottom: 8px;
+  color: #87909c;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.pill-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pill {
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 9px;
+  border: 1px solid #d5dbe3;
+  background: #ffffff;
+  color: #25364c;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.pill:hover {
+  border-color: #1a51ad;
+}
+
+.pill.active {
+  background: #1a51ad;
+  border-color: #1a51ad;
+  color: #ffffff;
+}
+
+/* CANCELLATION POLICY */
+
+.cancellation-callout {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 18px;
+  background: #edf8ee;
+  border: 1px solid #bfe5cb;
+  border-radius: 12px;
+  color: #1b5e2e;
+  font-size: clamp(13px, 0.8vw, 15px);
+  line-height: 1.6;
+}
+
+.cancellation-callout i {
+  margin-top: 2px;
+  color: #1b7a3d;
+}
+
+.cancellation-callout.non-refundable {
+  background: #fdf3ee;
+  border-color: #f3d0bd;
+  color: #8a3d13;
+}
+
+.cancellation-callout.non-refundable i {
+  color: #c8631f;
+}
+
+/* PRICE BREAKDOWN */
+
+.price-breakdown-list {
+  padding-bottom: clamp(20px, 1.25vw, 26px);
+  margin-bottom: clamp(20px, 1.25vw, 26px);
+  border-bottom: 1px solid #e7ebf0;
+}
+
+.price-breakdown-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+  color: #56616e;
+  font-size: 12.5px;
+}
+
+.price-breakdown-row span:first-child {
+  max-width: 65%;
+}
+
+.price-breakdown-total {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed #e7ebf0;
+  color: #1a51ad;
+  font-size: 16px;
+  font-weight: 700;
+}
+
 /* ROOM INFORMATION */
 
 .room-information {
@@ -1109,6 +1372,35 @@ onBeforeUnmount(() => {
   gap: clamp(11px, 0.7vw, 14px);
 }
 
+.booking-price-values {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: clamp(8px, 0.55vw, 12px);
+}
+
+.booking-price-values {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(8px, 0.55vw, 12px);
+  flex-wrap: wrap;
+}
+
+.booking-price .booking-original-price {
+  margin-left: 0;
+  color: #e53935 !important;
+  font-size: clamp(16px, 1vw, 20px);
+  font-weight: 300;
+  text-decoration: line-through;
+  text-decoration-color: #e53935;
+  text-decoration-thickness: 2px;
+  opacity: 1;
+}
+
+.booking-price-values strong {
+  color: #1a51ad;
+}
+
 /* POLICIES */
 
 .room-policies {
@@ -1145,6 +1437,25 @@ onBeforeUnmount(() => {
   font-size: clamp(12px, 0.72vw, 14px);
 }
 
+.booking-offer {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 10px;
+  padding: 7px 11px;
+  color: #1b7a3d;
+  background: #edf8ee;
+  border: max(1px, 0.0694vw) solid #bfe5cb;
+  border-radius: 6px;
+  font-size: clamp(11px, 0.68vw, 13px);
+  font-weight: 700;
+}
+
+.booking-offer i {
+  font-size: clamp(10px, 0.62vw, 12px);
+}
+
 .booking-price {
   padding-bottom: clamp(20px, 1.25vw, 26px);
   margin-top: 5px;
@@ -1158,7 +1469,7 @@ onBeforeUnmount(() => {
   font-weight: 700;
 }
 
-.booking-price span {
+.booking-price > span {
   margin-left: 4px;
   color: #7c8693;
   font-size: clamp(11px, 0.67vw, 13px);
@@ -1179,7 +1490,7 @@ onBeforeUnmount(() => {
   margin-top: 12px;
   padding: 0 16px;
   color: #ffffff;
-  background: #1a51ad;
+  background: #021c44;
   border: none;
   border-radius: clamp(9px, 0.6vw, 12px);
   font-family: inherit;
@@ -1192,7 +1503,7 @@ onBeforeUnmount(() => {
 }
 
 .room-booking-button:hover {
-  background: #103f8d;
+  background: #032d6b;
   transform: translateY(-1px);
 }
 
