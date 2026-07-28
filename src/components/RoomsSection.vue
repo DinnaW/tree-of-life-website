@@ -26,7 +26,8 @@
     <article class="room-card" v-for="room in rooms" :key="room.id">
       <!-- IMAGE -->
       <div class="room-image-box">
-        <img :src="room.image" :alt="room.name" class="room-image" />
+        <img :src="room.image" :alt="room.name" class="room-image" 
+        @click="openRoomDetails(room)" />
         <span class="room-tag">{{ room.tag }}</span>
       </div>
 
@@ -556,6 +557,7 @@ function handleRoomReservation(room) {
 /* IMAGE */
 
 .room-image-box {
+  cursor: pointer;
   position: relative;
   width: 100%;
   height: 100%;
