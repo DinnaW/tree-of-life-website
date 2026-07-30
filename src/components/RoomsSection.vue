@@ -162,7 +162,7 @@
             </span>
           </div>
           
-          <button class="reserve-btn">Reserve this room</button>
+          <button class="reserve-btn" @click="reserveFromCard(room)">Reserve this room</button>
         </div>
       </div>
     </article>
@@ -175,33 +175,14 @@
   @close="closeRoomDetails"
   @reserve="handleRoomReservation"
 />
-
-  <Transition name="toast-fade">
-    <div v-if="reservationToast" class="reservation-toast" role="status">
-      <i class="fa-solid fa-circle-check"></i>
-      <div>
-        <strong>Reserved: {{ reservationToast.name }}</strong>
-        <span>
-          {{ reservationToast.nights }} {{ reservationToast.nights === 1 ? "night" : "nights" }}
-          · ${{ reservationToast.total }} total
-        </span>
-      </div>
-      <button
-        type="button"
-        class="reservation-toast-close"
-        aria-label="Dismiss"
-        @click="reservationToast = null"
-      >
-        ✕
-      </button>
-    </div>
-  </Transition>
 </template>
 
 <script setup>
 import { ref, computed } from "vue";
 import AvailabilityBar from "./AvailabilityBar.vue";
 import RoomDetailsModal from "./modals/RoomDetailsModal.vue";
+
+const emit = defineEmits(["reserve"]);
 
 const baseUrl = import.meta.env.BASE_URL;
 
@@ -445,28 +426,15 @@ function closeRoomDetails() {
   selectedRoom.value = null;
 }
 
-const reservationToast = ref(null);
+/* ---------------- reserve -> tell App.vue to show the checkout page ---------------- */
+
+function reserveFromCard(room) {
+  emit("reserve", { room, nights: nights.value });
+}
 
 function handleRoomReservation(room) {
   closeRoomDetails();
-
-  reservationToast.value = {
-    name: room.name,
-    nights: nights.value,
-    total: total(room)
-  };
-
-  // Auto-dismiss after a few seconds; the guest can also close it early.
-  setTimeout(() => {
-    reservationToast.value = null;
-  }, 5000);
-
-  document
-    .querySelector("#availability")
-    ?.scrollIntoView({
-      behavior: "smooth",
-      block: "center"
-    });
+  emit("reserve", { room, nights: nights.value });
 }
 
 </script>
@@ -1060,74 +1028,5 @@ function handleRoomReservation(room) {
   .counter button {
     transition: none;
   }
-}
-
-/* RESERVATION TOAST */
-
-.reservation-toast {
-  position: fixed;
-  right: 24px;
-  bottom: 24px;
-  z-index: 6000;
-
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-
-  max-width: 340px;
-  padding: 16px 18px;
-
-  background: #ffffff;
-  border: 1px solid #dfe5ed;
-  border-radius: 14px;
-  box-shadow: 0 16px 40px rgba(28, 55, 89, 0.18);
-}
-
-.reservation-toast > i {
-  margin-top: 2px;
-  color: #1b7a3d;
-  font-size: 18px;
-}
-
-.reservation-toast div {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  flex: 1;
-}
-
-.reservation-toast strong {
-  color: #1a51ad;
-  font-size: 14px;
-}
-
-.reservation-toast span {
-  color: #5d5d5d;
-  font-size: 12.5px;
-}
-
-.reservation-toast-close {
-  border: none;
-  background: none;
-  color: #9aa3ad;
-  cursor: pointer;
-  font-size: 13px;
-  line-height: 1;
-  padding: 2px;
-}
-
-.reservation-toast-close:hover {
-  color: #5d5d5d;
-}
-
-.toast-fade-enter-active,
-.toast-fade-leave-active {
-  transition: opacity 0.25s ease, transform 0.25s ease;
-}
-
-.toast-fade-enter-from,
-.toast-fade-leave-to {
-  opacity: 0;
-  transform: translateY(12px);
 }
 </style>
