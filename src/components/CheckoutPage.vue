@@ -88,6 +88,10 @@
                 <div class="field">
                   <label>Confirm email</label>
                   <input v-model="form.confirmEmail" type="email" placeholder="johndoe@gmail.com" required />
+                  <span v-if="form.confirmEmail && form.confirmEmail !== form.email" class="field-error">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    Emails don't match
+                  </span>
                 </div>
               </div>
 
@@ -161,7 +165,12 @@
               </div>
             </section>
 
-            <button type="submit" class="checkout-submit" :disabled="!room">
+            <p v-if="!step1Valid && step1MissingFields.length" class="payment-missing">
+              <i class="fa-solid fa-circle-info"></i>
+              Still needed: {{ step1MissingFields.join(", ") }}
+            </p>
+
+            <button type="submit" class="checkout-submit" :disabled="!room || !step1Valid">
               Continue to payment
               <i class="fa-solid fa-arrow-right"></i>
             </button>
@@ -178,6 +187,11 @@
                   <p>Secured and encrypted</p>
                 </div>
               </div>
+
+              <p v-if="!paymentValid && missingFields.length" class="payment-missing">
+                <i class="fa-solid fa-circle-info"></i>
+                Still needed: {{ missingFields.join(", ") }}
+              </p>
 
               <!-- CARD BRANDS ACCEPTED -->
               <div class="card-brands">
@@ -293,7 +307,7 @@
             <span class="summary-empty-icon"><i class="fa-solid fa-cart-shopping"></i></span>
             <h4>Your cart is empty</h4>
             <p>Pick a room and it'll show up here.</p>
-            <button type="button" class="summary-empty-cta" @click="$emit('back')">
+            <button type="button" class="summary-empty-cta" @click="$emit('go-to-section', 'rooms')">
               Browse rooms
             </button>
           </div>
@@ -373,7 +387,7 @@ const props = defineProps({
   nights: { type: Number, default: 1 },
 });
 
-const emit = defineEmits(["back", "remove", "confirmed"]);
+const emit = defineEmits(["back", "remove", "confirmed", "go-to-section"]);
 
 const step = ref(1);
 
@@ -410,10 +424,22 @@ watch(
 
 function goToPayment() {
   phoneError.value = form.phone.trim().length < 7;
-  if (phoneError.value) return;
+  if (!step1Valid.value) return;
   step.value = 2;
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
+
+const step1MissingFields = computed(() => {
+  const missing = [];
+  if (form.firstName.trim().length < 1) missing.push("first name");
+  if (form.lastName.trim().length < 1) missing.push("last name");
+  if (!/^\S+@\S+\.\S+$/.test(form.email)) missing.push("valid email");
+  if (form.confirmEmail.trim() !== form.email.trim() || !form.confirmEmail) missing.push("matching confirm email");
+  if (form.phone.trim().length < 7) missing.push("valid phone number");
+  return missing;
+});
+
+const step1Valid = computed(() => step1MissingFields.value.length === 0);
 
 function formatPrice(price) {
   return new Intl.NumberFormat("en-US").format(Number(price) || 0);
@@ -461,25 +487,40 @@ function onExpiryInput(e) {
   payment.expiry = digits;
 }
 
-const paymentValid = computed(() => {
+const paymentValid = computed(() => missingFields.value.length === 0);
+
+const missingFields = computed(() => {
   const digits = payment.cardNumber.replace(/\s/g, "");
-  return (
-    payment.cardName.trim().length > 1 &&
-    digits.length >= 15 &&
-    /^\d{2}\/\d{2}$/.test(payment.expiry) &&
-    payment.cvv.length >= 3 &&
-    payment.agreeTerms
-  );
+  const missing = [];
+
+  if (payment.cardName.trim().length <= 1) missing.push("cardholder name");
+  if (digits.length < 15) missing.push("card number");
+  if (!/^\d{2}\/\d{2}$/.test(payment.expiry)) missing.push("expiry date");
+  if (payment.cvv.length < 3) missing.push("CVV");
+  if (!payment.agreeTerms) missing.push("agree to terms");
+
+  return missing;
 });
 
 function confirmReservation() {
-  if (!paymentValid.value || isProcessing.value) return;
+  console.log("[Checkout] confirmReservation called. paymentValid:", paymentValid.value, "isProcessing:", isProcessing.value, "missingFields:", missingFields.value);
+
+  if (!paymentValid.value || isProcessing.value) {
+    console.log("[Checkout] Blocked — not proceeding.");
+    return;
+  }
 
   isProcessing.value = true;
+  console.log("[Checkout] Processing started...");
 
   // Placeholder for a real payment provider call (Stripe, PayHere, etc.)
   setTimeout(() => {
     isProcessing.value = false;
+    console.log("[Checkout] Emitting 'confirmed' event with:", {
+      room: props.room,
+      guest: { ...form },
+      total: total.value,
+    });
     emit("confirmed", { room: props.room, guest: { ...form }, total: total.value });
   }, 1200);
 }
@@ -824,6 +865,23 @@ function confirmReservation() {
 }
 .checkbox-row a:hover {
   text-decoration: underline;
+}
+
+.payment-missing {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 max(20px, 1.3889vw);
+  padding: 10px 14px;
+  background: #fff8ec;
+  border: 1px solid #f4e2b8;
+  border-radius: 10px;
+  font-size: 12.5px;
+  color: #8a6d1a;
+}
+.payment-missing i {
+  color: #c99a1f;
+  flex-shrink: 0;
 }
 
 .payment-fineprint {

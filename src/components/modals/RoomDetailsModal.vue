@@ -596,12 +596,6 @@ const normalisedFacilities = computed(() => {
   });
 });
 
-/*
-  Known facility-name → icon lookup, used for the Bathroom facilities
-  and Included with your stay lists, which are stored as plain strings
-  on the room data (no icon attached). Falls back to a generic check
-  icon for anything not in the list.
-*/
 const FACILITY_ICON_MAP = {
   "private bathroom": "fa-solid fa-bath",
   "hot water": "fa-solid fa-temperature-high",
@@ -772,10 +766,7 @@ watch(
     props.room
   ],
   () => {
-    /*
-      Always start with the first image.
-      The first large image and first small image match.
-    */
+
     activeImageIndex.value = 0;
     lightboxImageIndex.value = 0;
     isGalleryOpen.value = false;
