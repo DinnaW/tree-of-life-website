@@ -1,5 +1,5 @@
 <template>
-  <div class="page">
+  <div class="page" v-if="currentPage === 'home'">
     <SiteHeader @search="handleSearch" />
 
     <div class="container title-block">
@@ -55,7 +55,7 @@
       <div class="container content">
 
         <section id="rooms" class="content-section">
-          <RoomsSection />
+          <RoomsSection @reserve="goToCheckout" />
         </section>
 
         <section id="guest-reviews" class="content-section">
@@ -86,8 +86,16 @@
         <path d="M5 12l7-7 7 7" />
       </svg>
     </button>
-    
+
   </div>
+
+  <CheckoutPage
+    v-else
+    :room="checkoutRoom"
+    :nights="checkoutNights"
+    @back="backToHome"
+    @remove="handleRemoveRoom"
+  />
 </template>
 
 <script setup>
@@ -103,6 +111,7 @@ import PoliciesSection from "./components/PoliciesSection.vue";
 import FooterSection from './components/FooterSection.vue'
 import AvailabilityBar from "./components/AvailabilityBar.vue";
 import FaqSection from "./components/FaqSection.vue";
+import CheckoutPage from "./components/CheckoutPage.vue";
 
 
 const stickyNav = ref(null);
@@ -149,6 +158,10 @@ function handleScroll() {
     scrollPosition + windowHeight >= pageHeight - 250;
 }
 
+function handleRemoveRoom() {
+  checkoutRoom.value = null;
+}
+
 function scrollToTop() {
   window.scrollTo({
     top: 0,
@@ -164,6 +177,25 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll);
 });
+
+/* ---------------- page switching (home <-> checkout) ---------------- */
+
+const currentPage = ref("home"); // "home" | "checkout"
+const checkoutRoom = ref(null);
+const checkoutNights = ref(1);
+
+function goToCheckout({ room, nights }) {
+  checkoutRoom.value = room;
+  checkoutNights.value = nights;
+  currentPage.value = "checkout";
+  window.scrollTo({ top: 0 });
+}
+
+function backToHome() {
+  currentPage.value = "home";
+  checkoutRoom.value = null;
+  window.scrollTo({ top: 0 });
+}
 </script>
 
 <style scoped>
