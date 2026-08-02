@@ -90,11 +90,24 @@
   </div>
 
   <CheckoutPage
-    v-else
-    :room="checkoutRoom"
-    :nights="checkoutNights"
+  v-else-if="currentPage === 'checkout'"
+  :room="checkoutRoom"
+  :nights="checkoutNights"
+  @back="backToHome"
+  @remove="handleRemoveRoom"
+  @confirmed="handleConfirmed"
+  @go-to-section="goToHomeSection"
+/>
+
+  <ConfirmationPage
+    v-else-if="currentPage === 'confirmed'"
+    :room="confirmation.room"
+    :nights="confirmation.nights"
+    :guest="confirmation.guest"
+    :total="confirmation.total"
+    :booking-ref="confirmation.bookingRef"
     @back="backToHome"
-    @remove="handleRemoveRoom"
+    @go-to-section="goToSectionFromConfirmation"
   />
 </template>
 
@@ -112,6 +125,7 @@ import FooterSection from './components/FooterSection.vue'
 import AvailabilityBar from "./components/AvailabilityBar.vue";
 import FaqSection from "./components/FaqSection.vue";
 import CheckoutPage from "./components/CheckoutPage.vue";
+import ConfirmationPage from "./components/ConfirmationPage.vue";
 
 
 const stickyNav = ref(null);
@@ -158,10 +172,6 @@ function handleScroll() {
     scrollPosition + windowHeight >= pageHeight - 250;
 }
 
-function handleRemoveRoom() {
-  checkoutRoom.value = null;
-}
-
 function scrollToTop() {
   window.scrollTo({
     top: 0,
@@ -178,11 +188,19 @@ onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll);
 });
 
-/* ---------------- page switching (home <-> checkout) ---------------- */
+/* ---------------- page switching (home <-> checkout <-> confirmed) ---------------- */
 
-const currentPage = ref("home"); // "home" | "checkout"
+const currentPage = ref("home"); // "home" | "checkout" | "confirmed"
 const checkoutRoom = ref(null);
 const checkoutNights = ref(1);
+
+const confirmation = ref({
+  room: null,
+  nights: 1,
+  guest: null,
+  total: 0,
+  bookingRef: "",
+});
 
 function goToCheckout({ room, nights }) {
   checkoutRoom.value = room;
@@ -195,6 +213,61 @@ function backToHome() {
   currentPage.value = "home";
   checkoutRoom.value = null;
   window.scrollTo({ top: 0 });
+}
+
+function handleRemoveRoom() {
+  checkoutRoom.value = null;
+}
+
+function generateBookingRef() {
+  const stamp = Date.now().toString(36).toUpperCase().slice(-5);
+  const rand = Math.random().toString(36).toUpperCase().slice(2, 5);
+  return `TOL-${stamp}${rand}`;
+}
+
+function handleConfirmed({ room, guest, total }) {
+  console.log("[App] handleConfirmed received:", { room, guest, total });
+
+  confirmation.value = {
+    room,
+    nights: checkoutNights.value,
+    guest,
+    total,
+    bookingRef: generateBookingRef(),
+  };
+
+  checkoutRoom.value = null;
+  currentPage.value = "confirmed";
+  console.log("[App] currentPage set to:", currentPage.value);
+  window.scrollTo({ top: 0 });
+}
+
+function goToSectionFromConfirmation(sectionId) {
+  currentPage.value = "home";
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      stickyNav.value?.scrollToSection
+        ? stickyNav.value.scrollToSection(sectionId)
+        : document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+    }, 50);
+  });
+}
+
+function goToHomeSection(sectionId) {
+  currentPage.value = "home";
+
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      const section = document.getElementById(sectionId);
+
+      if (section) {
+        section.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    }, 100);
+  });
 }
 </script>
 
