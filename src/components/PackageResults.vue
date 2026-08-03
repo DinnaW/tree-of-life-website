@@ -1,48 +1,28 @@
 <template>
   <section class="packages-section">
     <div class="section-header">
-      <div class="eyebrow">03 — PACKAGES</div>
+      <div class="eyebrow">— ROOMS</div>
       <h2>Choose your package</h2>
 
       <div class="bar-wrap">
-        <div class="availability-heading">
-          <h3>Check Package Availability</h3>
-
-          <span class="price-match">
-            <Icon icon="lucide:tag" />
-            We Price Match
-          </span>
-        </div>
-
-        <div class="availability-alert">
-          <Icon icon="lucide:circle-alert" />
-          <span>Select dates to see available packages and prices</span>
-        </div>
-
-        <div class="availability-search">
-          <button type="button" class="availability-field">
-            <Icon icon="lucide:calendar-days" />
-            <span>Check-in date — Check-out date</span>
-          </button>
-
-          <button type="button" class="availability-field">
-            <Icon icon="lucide:user-round" />
-            <span>2 adults · 0 children · 1 room</span>
-          </button>
-
-          <button type="button" class="availability-button">
-            Search
-          </button>
-        </div>
+        <AvailabilityBar
+          v-model:start-date="startDate"
+          v-model:end-date="endDate"
+          v-model:travelers="travelers"
+          v-model:room-count="roomCount"
+          v-model:filter="filter"
+          :total="packages.length"
+          :shown="filteredPackages.length"
+        />
       </div>
 
-      <p class="subhead">
+<p class="subhead">
         {{ packages.length }} curated packages · accommodation and experiences included
       </p>
     </div>
 
     <article
-      v-for="pkg in packages"
+      v-for="pkg in filteredPackages"
       :key="pkg.id"
       class="package-card"
     >
@@ -129,7 +109,7 @@
         <button
           type="button"
           class="select-package-btn"
-          @click="emit('checkout-package', pkg)"
+          @click="selectPackage(pkg)"
         >
           Select this package
         </button>
@@ -201,12 +181,19 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { Icon } from "@iconify/vue";
+import AvailabilityBar from "./AvailabilityBar.vue";
 
 const emit = defineEmits(["checkout-package"]);
 const baseUrl = import.meta.env.BASE_URL;
 const selectedPackage = ref(null);
+
+const startDate = ref("");
+const endDate = ref("");
+const travelers = ref(2);
+const roomCount = ref(1);
+const filter = ref("all");
 
 const packages = [
   {
@@ -298,8 +285,40 @@ const packages = [
   }
 ];
 
+const filteredPackages = computed(() => {
+  if (filter.value === "all") {
+    return packages;
+  }
+
+  const selectedFilter = String(filter.value).toLowerCase();
+
+  return packages.filter((pkg) => {
+    return (
+      pkg.category.toLowerCase().includes(selectedFilter) ||
+      pkg.title.toLowerCase().includes(selectedFilter) ||
+      pkg.room.toLowerCase().includes(selectedFilter)
+    );
+  });
+});
+
+function createBookingPayload(pkg) {
+  return {
+    ...pkg,
+    startDate: startDate.value,
+    endDate: endDate.value,
+    travelers: travelers.value,
+    roomCount: roomCount.value
+  };
+}
+
+function selectPackage(pkg) {
+  emit("checkout-package", createBookingPayload(pkg));
+}
+
 function bookSelected() {
-  const pkg = { ...selectedPackage.value };
+  if (!selectedPackage.value) return;
+
+  const pkg = createBookingPayload(selectedPackage.value);
   selectedPackage.value = null;
   emit("checkout-package", pkg);
 }
@@ -311,6 +330,14 @@ function bookSelected() {
   padding: 0;
   box-sizing: border-box;
   font-family: "Figtree", sans-serif;
+}
+
+.eyebrow {
+  color: #034acf;
+  font-size: clamp(max(10px, 0.6944vw), 0.8vw, max(12px, 0.8333vw));
+  font-weight: 700;
+  letter-spacing: max(1px, 0.0694vw);
+  margin-bottom: clamp(max(8px, 0.5556vw), 1vw, max(12px, 0.8333vw));
 }
 
 .packages-section {
@@ -326,14 +353,6 @@ function bookSelected() {
   color: var(--color-ink);
 }
 
-.eyebrow {
-  margin-bottom: max(10px, 0.6944vw);
-  color: #034acf;
-  font-size: max(10px, 0.6944vw);
-  font-weight: 700;
-  letter-spacing: max(1px, 0.0694vw);
-}
-
 .packages-section h2 {
   margin-bottom: max(55px, 3.8194vw);
   color: #1a51ad;
@@ -344,56 +363,6 @@ function bookSelected() {
 
 .bar-wrap {
   width: 100%;
-}
-
-.availability-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: max(17px, 1.1806vw);
-}
-
-.availability-heading h3 {
-  color: #142238;
-  font-size: max(20px, 1.3889vw);
-  font-weight: 700;
-}
-
-.price-match {
-  display: inline-flex;
-  align-items: center;
-  gap: max(7px, 0.4861vw);
-  color: #1273d6;
-  font-size: max(12px, 0.8333vw);
-  font-weight: 700;
-}
-
-.availability-alert {
-  display: flex;
-  align-items: center;
-  gap: max(9px, 0.625vw);
-  min-height: max(46px, 3.1944vw);
-  margin-bottom: max(18px, 1.25vw);
-  padding: 0 max(16px, 1.1111vw);
-  border: max(1px, 0.0694vw) solid #f2c9c7;
-  border-radius: max(9px, 0.625vw);
-  background: #fff3f2;
-  color: #be2622;
-  font-size: max(12.5px, 0.8681vw);
-}
-
-.availability-search {
-  display: grid;
-  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1.1fr) max(112px, 7.7778vw);
-  gap: max(12px, 0.8333vw);
-  margin-bottom: max(52px, 3.6111vw);
-}
-
-.availability-field,
-.availability-button {
-  min-height: max(49px, 3.4028vw);
-  border-radius: max(9px, 0.625vw);
-  font: inherit;
 }
 
 .availability-field {
@@ -646,7 +615,7 @@ function bookSelected() {
 .select-package-btn {
   margin-top: max(16px, 1.1111vw);
   border: 0;
-  background: #3b3b3b;
+  background: #021c44;
   color: #ffffff;
 }
 
@@ -801,7 +770,6 @@ function bookSelected() {
 }
 
 @media (max-width: 768px) {
-  .availability-search,
   .package-card {
     grid-template-columns: 1fr;
   }
@@ -846,4 +814,6 @@ function bookSelected() {
   .price {
     font-size: max(26px, 1.8056vw);
   }
-}</style>
+}
+
+</style>

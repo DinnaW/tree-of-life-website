@@ -188,11 +188,6 @@
                 </div>
               </div>
 
-              <p v-if="!paymentValid && missingFields.length" class="payment-missing">
-                <i class="fa-solid fa-circle-info"></i>
-                Still needed: {{ missingFields.join(", ") }}
-              </p>
-
               <!-- CARD BRANDS ACCEPTED -->
               <div class="card-brands">
                 <span class="brand-label">We accept</span>
@@ -276,6 +271,11 @@
               </label>
             </section>
 
+            <p v-if="!paymentValid && missingFields.length" class="payment-missing">
+                <i class="fa-solid fa-circle-info"></i>
+                Still needed: {{ missingFields.join(", ") }}
+            </p>
+            
             <div class="payment-actions">
               <button type="button" class="checkout-back" @click="step = 1">
                 <i class="fa-solid fa-arrow-left"></i>
