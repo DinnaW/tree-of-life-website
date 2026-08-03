@@ -38,7 +38,13 @@
 
                             <div class="rating-info">
                                 <h4>Exceptional</h4>
-                                <a href="#">Based on 324 verified reviews ›</a>
+                                <button
+                                  type="button"
+                                  class="reviews-link"
+                                  @click="showReviewsModal = true"
+                                >
+                                  Based on 324 verified reviews ›
+                                </button>
                             </div>
 
                         </div>
@@ -118,35 +124,108 @@
     </div>
 
   </div>
+  <ReviewsModal
+  :show="showReviewsModal"
+  :reviews="reviews"
+  :left-ratings="leftRatings"
+  :right-ratings="rightRatings"
+  :room-options="roomOptions"
+  @close="showReviewsModal = false"
+  />
 </template>
 
 <script setup>
+import { ref } from "vue";
+import ReviewsModal from "./modals/ReviewsModal.vue";
+
+const showReviewsModal = ref(false);
+
 const nearbyPlaces = [
-
-{
-name:"Pitiwella Beach",
-time:"16 min walk"
-},
-
-{
-name:"Galle Fort",
-time:"7 min drive"
-},
-
-{
-name:"Unawatuna Beach",
-time:"13 min drive"
-}
-
-]
+  {
+    name: "Pitiwella Beach",
+    time: "16 min walk"
+  },
+  {
+    name: "Galle Fort",
+    time: "7 min drive"
+  },
+  {
+    name: "Unawatuna Beach",
+    time: "13 min drive"
+  }
+];
 
 const highlights = [
   { icon: "fa-solid fa-tree", name: "Nature Resort" },
   { icon: "fa-solid fa-water-ladder", name: "Infinity Pool" },
   { icon: "fa-solid fa-utensils", name: "Restaurant" },
   { icon: "fa-solid fa-square-parking", name: "Free Parking" },
-  { icon: "fa-solid fa-wifi", name: "Free WiFi" },
-  
+  { icon: "fa-solid fa-wifi", name: "Free WiFi" }
+];
+
+const leftRatings = [
+  { name: "Facilities", score: 8.1 },
+  { name: "Value for money", score: 8.5 },
+  { name: "Staff", score: 8.5 }
+];
+
+const rightRatings = [
+  { name: "Cleanliness", score: 8.4 },
+  { name: "Location", score: 8.1 },
+  { name: "Free Wifi", score: 8.4 }
+];
+
+const roomOptions = [
+  "Panoramic Deluxe",
+  "Green Zone Deluxe"
+];
+
+const reviews = [
+  {
+    initial: "N",
+    name: "Naveen",
+    reviewCount: "7 reviews",
+    flag: "🇱🇰",
+    country: "Sri Lanka",
+    rating: 5,
+    text:
+      "The accommodation was comfortable, the facilities were well maintained, and the restaurant served fresh, tasty meals.",
+    title: "A peaceful, well-maintained getaway",
+    date: "March 2026",
+    room: "Panoramic Deluxe",
+    ratings: [
+      { name: "Cleanliness", score: 8.5 },
+      { name: "Staff", score: 9.0 },
+      { name: "Facilities", score: 8.0 },
+      { name: "Value for money", score: 8.5 }
+    ],
+    response: {
+      date: "March 2026",
+      text:
+        "Thank you so much for your kind words, Naveen! We're delighted you enjoyed your stay.",
+      staff: "Priya Fernando",
+      role: "Guest Relations Manager"
+    }
+  },
+  {
+    initial: "J",
+    name: "Jane",
+    reviewCount: "7 reviews",
+    flag: "🇮🇳",
+    country: "India",
+    rating: 5,
+    text:
+      "The resort exceeded our expectations. Everyone was kind, professional and genuinely cared about making our stay enjoyable.",
+    title: "Exceeded our expectations",
+    date: "February 2026",
+    room: "Green Zone Deluxe",
+    ratings: [
+      { name: "Cleanliness", score: 9.0 },
+      { name: "Staff", score: 9.5 },
+      { name: "Facilities", score: 8.5 },
+      { name: "Location", score: 8.0 }
+    ]
+  }
 ];
 </script>
 
@@ -286,14 +365,20 @@ const highlights = [
   margin-bottom:max(4px, 0.2778vw);
 }
 
-.rating-info a{
-  text-decoration:none;
-  color:#034acf;
-  font-size:max(14px, 0.9722vw);
+.reviews-link {
+  display: inline;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #034acf;
+  font-family: inherit;
+  font-size: max(14px, 0.9722vw);
+  cursor: pointer;
+  text-align: left;
 }
 
-.rating-info a:hover{
-  text-decoration:underline;
+.reviews-link:hover {
+  text-decoration: underline;
 }
 
 .hotel-card p{
