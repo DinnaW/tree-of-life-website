@@ -343,12 +343,12 @@ function submitReview() {
   position: fixed;
   inset: 0;
   background: rgba(7, 18, 34, 0.6);
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(max(4px, 0.2778vw));
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 9999;
-  padding: 20px;
+  padding: max(20px, 1.3889vw);
 }
 
 .modal {
@@ -360,7 +360,7 @@ function submitReview() {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 max(30px, 2.0833vw) max(90px, 6.25vw) rgba(0, 0, 0, 0.3);
 }
 
 /* HEADER */
@@ -372,7 +372,7 @@ function submitReview() {
   position: relative;
   flex-shrink: 0;
   padding: max(22px, 1.5278vw) max(28px, 1.9444vw) max(16px, 1.1111vw);
-  border-bottom: 1px solid #edf0f4;
+  border-bottom: max(1px, 0.0694vw) solid #edf0f4;
 }
 
 .modal-header h2 {
@@ -385,17 +385,17 @@ function submitReview() {
 .close-btn {
   position: absolute;
   right: max(22px, 1.5278vw);
-  width: 34px;
-  height: 34px;
+  width: max(34px, 2.3611vw);
+  height: max(34px, 2.3611vw);
   border-radius: 50%;
-  border: 1px solid #e8edf3;
+  border: max(1px, 0.0694vw) solid #e8edf3;
   background: #fff;
   color: #6b7280;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 13px;
+  font-size: max(13px, 0.9028vw);
   transition: background 0.15s ease, color 0.15s ease;
 }
 .close-btn:hover {
@@ -456,21 +456,21 @@ function submitReview() {
 .label {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 8px;
+  margin-bottom: max(8px, 0.5556vw);
   color: #2b2f36;
-  font-size: 13px;
+  font-size: max(13px, 0.9028vw);
   font-weight: 500;
 }
 .progress {
-  height: 7px;
+  height: max(7px, 0.4861vw);
   background: #edf0f4;
-  border-radius: 20px;
+  border-radius: max(20px, 1.3889vw);
   overflow: hidden;
 }
 .fill {
   height: 100%;
   background: #1a51ad;
-  border-radius: 20px;
+  border-radius: max(20px, 1.3889vw);
 }
 
 /* STICKY TOOLBAR */
@@ -482,16 +482,16 @@ function submitReview() {
   background: #fff;
   padding-top: max(20px, 1.3889vw);
   padding-bottom: max(14px, 0.9722vw);
-  border-bottom: 1px solid #edf0f4;
+  border-bottom: max(1px, 0.0694vw) solid #edf0f4;
   margin-bottom: max(20px, 1.3889vw);
-  box-shadow: 0 8px 12px -8px rgba(28, 55, 89, 0.08);
+  box-shadow: 0 max(8px, 0.5556vw) max(12px, 0.8333vw) -8px rgba(28, 55, 89, 0.08);
 }
 
 .toolbar-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 14px;
+  gap: max(14px, 0.9722vw);
   margin-bottom: max(14px, 0.9722vw);
 }
 
@@ -505,15 +505,15 @@ function submitReview() {
 .write-review-btn {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: max(8px, 0.5556vw);
   flex-shrink: 0;
-  height: 40px;
-  padding: 0 18px;
+  height: max(40px, 2.7778vw);
+  padding: 0 max(18px, 1.25vw);
   border: none;
-  border-radius: 10px;
+  border-radius: max(10px, 0.6944vw);
   background: #021c44;
   color: #fff;
-  font-size: 13px;
+  font-size: max(13px, 0.9028vw);
   font-weight: 600;
   cursor: pointer;
   transition: background 0.15s ease;
@@ -526,22 +526,22 @@ function submitReview() {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 14px;
+  gap: max(14px, 0.9722vw);
   flex-wrap: wrap;
 }
 
 .filters {
   display: flex;
-  gap: 10px;
+  gap: max(10px, 0.6944vw);
   flex-wrap: wrap;
 }
 
 .filters select {
-  height: 38px;
-  padding: 0 12px;
-  border: 1px solid #dfe3e8;
-  border-radius: 8px;
-  font-size: 12.5px;
+  height: max(38px, 2.6389vw);
+  padding: 0 max(12px, 0.8333vw);
+  border: max(1px, 0.0694vw) solid #dfe3e8;
+  border-radius: max(8px, 0.5556vw);
+  font-size: max(12.5px, 0.8681vw);
   background: #fafbfc;
   color: #444;
   cursor: pointer;
@@ -549,13 +549,13 @@ function submitReview() {
 
 .search-box {
   flex: 1;
-  min-width: 180px;
-  max-width: 260px;
-  height: 38px;
-  padding: 0 14px;
-  border: 1px solid #dfe3e8;
-  border-radius: 8px;
-  font-size: 12.5px;
+  min-width: max(180px, 12.5vw);
+  max-width: max(260px, 18.0556vw);
+  height: max(38px, 2.6389vw);
+  padding: 0 max(14px, 0.9722vw);
+  border: max(1px, 0.0694vw) solid #dfe3e8;
+  border-radius: max(8px, 0.5556vw);
+  font-size: max(12.5px, 0.8681vw);
   background: #fafbfc;
 }
 
@@ -570,8 +570,8 @@ function submitReview() {
 
 .write-review-form {
   background: #f8f9fb;
-  border: 1px solid #e8edf3;
-  border-radius: 14px;
+  border: max(1px, 0.0694vw) solid #e8edf3;
+  border-radius: max(14px, 0.9722vw);
   padding: max(20px, 1.3889vw) max(22px, 1.5278vw);
   margin-bottom: max(20px, 1.3889vw);
 }
@@ -579,22 +579,22 @@ function submitReview() {
 .field-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin-bottom: 16px;
+  gap: max(16px, 1.1111vw);
+  margin-bottom: max(16px, 1.1111vw);
 }
 
 .field {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  margin-bottom: 16px;
+  gap: max(6px, 0.4167vw);
+  margin-bottom: max(16px, 1.1111vw);
 }
 .field:last-of-type {
   margin-bottom: 0;
 }
 
 .field label {
-  font-size: 12px;
+  font-size: max(12px, 0.8333vw);
   font-weight: 600;
   color: #444;
 }
@@ -606,10 +606,10 @@ function submitReview() {
 .field input,
 .field select,
 .field textarea {
-  border: 1px solid #dfe3e8;
-  border-radius: 9px;
-  padding: 10px 13px;
-  font-size: 13.5px;
+  border: max(1px, 0.0694vw) solid #dfe3e8;
+  border-radius: max(9px, 0.625vw);
+  padding: max(10px, 0.6944vw) max(13px, 0.9028vw);
+  font-size: max(13.5px, 0.9375vw);
   font-family: inherit;
   background: #fff;
   color: #1a1a1a;
@@ -625,14 +625,14 @@ function submitReview() {
 .star-picker {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: max(4px, 0.2778vw);
 }
 .star-btn {
   border: none;
   background: none;
-  padding: 2px;
+  padding: max(2px, 0.1389vw);
   cursor: pointer;
-  font-size: 22px;
+  font-size: max(22px, 1.5278vw);
   color: #dfe3e8;
   transition: color 0.1s ease, transform 0.1s ease;
 }
@@ -643,8 +643,8 @@ function submitReview() {
   color: #f5c347;
 }
 .star-picker-value {
-  margin-left: 8px;
-  font-size: 12.5px;
+  margin-left: max(8px, 0.5556vw);
+  font-size: max(12.5px, 0.8681vw);
   color: #6b7280;
   font-weight: 600;
 }
@@ -652,29 +652,29 @@ function submitReview() {
 .write-missing {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin: 0 0 14px;
-  padding: 9px 13px;
+  gap: max(8px, 0.5556vw);
+  margin: 0 0 max(14px, 0.9722vw);
+  padding: max(9px, 0.625vw) max(13px, 0.9028vw);
   background: #fff8ec;
-  border: 1px solid #f4e2b8;
-  border-radius: 9px;
-  font-size: 12px;
+  border: max(1px, 0.0694vw) solid #f4e2b8;
+  border-radius: max(9px, 0.625vw);
+  font-size: max(12px, 0.8333vw);
   color: #8a6d1a;
 }
 
 .write-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
+  gap: max(10px, 0.6944vw);
 }
 
 .btn-secondary {
-  height: 40px;
-  padding: 0 18px;
-  border: 1px solid #dfe3e8;
+  height: max(40px, 2.7778vw);
+  padding: 0 max(18px, 1.25vw);
+  border: max(1px, 0.0694vw) solid #dfe3e8;
   background: #fff;
-  border-radius: 9px;
-  font-size: 13px;
+  border-radius: max(9px, 0.625vw);
+  font-size: max(13px, 0.9028vw);
   font-weight: 600;
   color: #444;
   cursor: pointer;
@@ -685,13 +685,13 @@ function submitReview() {
 }
 
 .btn-primary {
-  height: 40px;
-  padding: 0 20px;
+  height: max(40px, 2.7778vw);
+  padding: 0 max(20px, 1.3889vw);
   border: none;
   background: #021c44;
   color: #fff;
-  border-radius: 9px;
-  font-size: 13px;
+  border-radius: max(9px, 0.625vw);
+  font-size: max(13px, 0.9028vw);
   font-weight: 600;
   cursor: pointer;
   transition: background 0.15s ease;
@@ -724,41 +724,41 @@ function submitReview() {
 
 .review-item {
   position: relative;
-  border: 1px solid #e8edf3;
-  border-radius: 14px;
+  border: max(1px, 0.0694vw) solid #e8edf3;
+  border-radius: max(14px, 0.9722vw);
   padding: max(20px, 1.3889vw);
   background: #fff;
   transition: box-shadow 0.2s ease;
 }
 .review-item:hover {
-  box-shadow: 0 8px 24px rgba(28, 55, 89, 0.08);
+  box-shadow: 0 max(8px, 0.5556vw) max(24px, 1.6667vw) rgba(28, 55, 89, 0.08);
 }
 
 .new-badge {
   position: absolute;
   top: max(18px, 1.25vw);
   right: max(18px, 1.25vw);
-  font-size: 10.5px;
+  font-size: max(10.5px, 0.7292vw);
   font-weight: 700;
-  letter-spacing: 0.4px;
+  letter-spacing: max(0.4px, 0.0278vw);
   text-transform: uppercase;
   color: #1b7a3d;
   background: #edf8ee;
-  border: 1px solid #bfe5cb;
-  padding: 3px 9px;
-  border-radius: 6px;
+  border: max(1px, 0.0694vw) solid #bfe5cb;
+  padding: max(3px, 0.2083vw) max(9px, 0.625vw);
+  border-radius: max(6px, 0.4167vw);
 }
 
 .review-top {
   display: flex;
-  gap: 12px;
+  gap: max(12px, 0.8333vw);
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: max(12px, 0.8333vw);
 }
 
 .avatar {
-  width: 38px;
-  height: 38px;
+  width: max(38px, 2.6389vw);
+  height: max(38px, 2.6389vw);
   border-radius: 50%;
   background: #2a6bb0;
   color: #fff;
@@ -766,62 +766,62 @@ function submitReview() {
   justify-content: center;
   align-items: center;
   font-weight: 700;
-  font-size: 14px;
+  font-size: max(14px, 0.9722vw);
   flex-shrink: 0;
 }
 
 .review-info h4 {
   margin: 0;
-  font-size: 14px;
+  font-size: max(14px, 0.9722vw);
   color: #1a1a1a;
 }
 .review-info small {
   color: #9aa3ad;
-  font-size: 12px;
+  font-size: max(12px, 0.8333vw);
 }
 
 .stars {
   color: #f5c347;
-  margin-bottom: 10px;
-  font-size: 12px;
+  margin-bottom: max(10px, 0.6944vw);
+  font-size: max(12px, 0.8333vw);
   display: flex;
-  gap: 2px;
+  gap: max(2px, 0.1389vw);
 }
 .stars i.dim {
   color: #e5e5e5;
 }
 
 .review-title {
-  margin: 0 0 5px;
-  font-size: 15px;
+  margin: 0 0 max(5px, 0.3472vw);
+  font-size: max(15px, 1.0417vw);
   color: #1a1a1a;
   font-weight: 600;
 }
 
 .review-date {
-  margin: 0 0 10px;
+  margin: 0 0 max(10px, 0.6944vw);
   color: #9aa3ad;
-  font-size: 12px;
+  font-size: max(12px, 0.8333vw);
 }
 
 .review-description {
   line-height: 1.75;
   color: #56616e;
-  font-size: 13.5px;
-  margin-bottom: 14px;
+  font-size: max(13.5px, 0.9375vw);
+  margin-bottom: max(14px, 0.9722vw);
 }
 
 .review-ratings {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px 22px;
-  margin-bottom: 12px;
+  gap: max(8px, 0.5556vw) max(22px, 1.5278vw);
+  margin-bottom: max(12px, 0.8333vw);
 }
 .rating-row {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 12px;
+  gap: max(6px, 0.4167vw);
+  font-size: max(12px, 0.8333vw);
   color: #6b7280;
 }
 .rating-row strong {
@@ -829,25 +829,24 @@ function submitReview() {
 }
 
 .trip-type {
-  font-size: 12px;
+  font-size: max(12px, 0.8333vw);
   color: #6b7280;
-  margin-bottom: 12px;
+  margin-bottom: max(12px, 0.8333vw);
 }
 
 .hotel-response {
   background: #f8f9fb;
-  border-radius: 10px;
-  padding: 14px 16px;
-  font-size: 12px;
+  border-radius: max(10px, 0.6944vw);
+  padding: max(14px, 0.9722vw) max(16px, 1.1111vw);
+  font-size: max(12px, 0.8333vw);
   color: #56616e;
 }
 .hotel-response p {
-  margin: 0 0 6px;
+  margin: 0 0 max(6px, 0.4167vw);
 }
 .hotel-response strong {
   color: #1a1a1a;
 }
-
 /* RESPONSIVE */
 
 @media (max-width: 900px) {
