@@ -111,7 +111,7 @@
           class="select-package-btn"
           @click="selectPackage(pkg)"
         >
-          Select this package
+          Purchase this package
         </button>
 
         <button

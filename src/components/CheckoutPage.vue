@@ -191,9 +191,24 @@
               <!-- CARD BRANDS ACCEPTED -->
               <div class="card-brands">
                 <span class="brand-label">We accept</span>
-                <i class="fa-brands fa-cc-visa" :class="{ dim: cardBrand && cardBrand !== 'visa' }"></i>
-                <i class="fa-brands fa-cc-mastercard" :class="{ dim: cardBrand && cardBrand !== 'mastercard' }"></i>
-                <i class="fa-brands fa-cc-amex" :class="{ dim: cardBrand && cardBrand !== 'amex' }"></i>
+
+                <i
+                  class="fa-brands fa-cc-visa"
+                  :class="{ dim: cardBrand && cardBrand !== 'visa' }"
+                ></i>
+
+                <i
+                  class="fa-brands fa-cc-mastercard"
+                  :class="{ dim: cardBrand && cardBrand !== 'mastercard' }"
+                ></i>
+
+                <i
+                  class="fa-brands fa-cc-amex"
+                  :class="{ dim: cardBrand && cardBrand !== 'amex' }"
+                ></i>
+
+                <i class="fa-brands fa-cc-paypal"></i>
+
               </div>
 
               <div class="field">
@@ -793,24 +808,60 @@ function confirmReservation() {
 
 /* PAYMENT SPECIFIC */
 
-.card-brands {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: max(20px, 1.3889vw);
+.card-brands{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-bottom:max(20px,1.3889vw);
 }
-.brand-label {
-  font-size: 12px;
-  color: #9aa3ad;
-  margin-right: 4px;
+
+.brand-label{
+    margin-right:8px;
+    font-size:max(12px,.8333vw);
+    font-weight:600;
+    color:#6b7280;
 }
-.card-brands i {
-  font-size: 24px;
-  color: #444;
-  transition: opacity 0.15s ease;
+
+.card-brands i{
+    font-size:25px;
+    transition:.25s ease;
 }
-.card-brands i.dim {
-  opacity: 0.25;
+
+.fa-cc-visa{
+    color:#1A1F71;
+}
+
+.fa-cc-mastercard{
+    color:#EB001B;
+}
+
+.fa-cc-amex{
+    color:#2E77BB;
+}
+
+.fa-cc-discover{
+    color:#FF6000;
+}
+
+.fa-cc-paypal{
+    color:#003087;
+}
+
+.fa-google-pay{
+    color:#4285F4;
+}
+
+.fa-apple-pay{
+    color:#111;
+}
+
+.card-brands i:hover{
+    transform:translateY(-2px) scale(1.08);
+}
+
+.card-brands .dim{
+    opacity:.25;
+    filter:grayscale(100%);
 }
 
 .card-number-wrap {

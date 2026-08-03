@@ -181,14 +181,6 @@
       @book="bookPackage"
     />
 
-    <PackageCheckout
-      v-if="currentPage === 'package-checkout' && selectedPackage"
-      :package-item="selectedPackage"
-      @back="showPackagesPage"
-      @remove="removePackage"
-      @confirmed="handleReservationConfirmed"
-    />
-
     <CheckoutPage
       v-else-if="currentPage === 'checkout'"
       :room="checkoutRoom"
@@ -267,6 +259,8 @@ import ShareModal from "./components/modals/ShareModal.vue";
 import PackageResults from "./components/PackageResults.vue";
 import PackagesSection from "./components/PackagesSection.vue";
 import PackageDetails from "./components/PackageDetails.vue";
+import FooterSection from "./components/FooterSection.vue";
+
 
 const currentPage = ref("home");
 const stickyNav = ref(null);
@@ -368,7 +362,31 @@ async function showPackageDetails(pkg) {
 async function bookPackage(pkg) {
   showShareModal.value = false;
   selectedPackage.value = pkg;
-  currentPage.value = "package-checkout";
+
+  checkoutRoom.value = {
+    ...pkg,
+
+    // CheckoutPage expects room-style property names
+    name: pkg.title,
+    tag: pkg.category,
+    image: pkg.image,
+
+    // Package information
+    bed: "Package stay",
+    meal: pkg.includes?.join(" · ") || "Package inclusions",
+
+    roomCount: 1,
+    extraBeds: 0,
+
+    cancellation:
+      pkg.cancellation ||
+      "Free cancellation up to 48 hours before arrival",
+
+    isPackage: true
+  };
+
+  checkoutNights.value = parseInt(pkg.stay) || 1;
+  currentPage.value = "checkout";
 
   await nextTick();
 
@@ -377,6 +395,7 @@ async function bookPackage(pkg) {
     behavior: "smooth"
   });
 }
+
 async function reserveRoom(payload) {
   showShareModal.value = false;
 

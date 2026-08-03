@@ -122,8 +122,7 @@
   class="package-button"
   @click="selectPackage(pkg)"
 >
-  View Package
-  <Icon icon="lucide:arrow-right" />
+  Purchase Package
 </button>
               </div>
             </div>
