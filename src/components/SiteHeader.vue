@@ -37,9 +37,6 @@
 
     <div class="search-bar" ref="searchBar">
 
-      <!-- Check-in + Check-out share one relatively-positioned group so a
-           single DateRangePicker can anchor below both fields, exactly
-           like AvailabilityBar's .field / .calendar-dropdown pattern. -->
       <div class="date-group">
 
         <div class="search-field" @click="open('dates', 'checkin')">
@@ -334,8 +331,6 @@ function selectCurrency(item) {
   z-index: 200;
 }
 
-/* Anchor the last field's popover (Guests) to the right edge so it
-   doesn't overflow past the search bar. */
 .popover-right {
   left: auto;
   right: 0;

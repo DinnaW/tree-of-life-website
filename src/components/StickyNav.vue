@@ -12,7 +12,6 @@
       </a>
     </nav>
   </div>
-  <!-- Keeps the page from jumping when the nav above switches to fixed -->
   <div v-if="isStuck" class="nav-spacer" :style="{ height: navHeight + 'px' }"></div>
 </template>
 
@@ -73,7 +72,6 @@ onBeforeUnmount(() => {
   window.removeEventListener("resize", handleResize);
 });
 
-// Let a parent (e.g. the header's Search button) scroll to a section too.
 defineExpose({ scrollToSection });
 </script>
 

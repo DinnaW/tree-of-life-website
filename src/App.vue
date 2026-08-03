@@ -23,17 +23,44 @@
 
     <div class="container action-row">
       <button class="icon-btn" aria-label="Save">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-          <path d="M12 20.5s-7.5-4.6-10-9.3C.5 7.4 2.6 4 6.2 4c2 0 3.6 1 5.8 3.4C14.2 5 15.8 4 17.8 4c3.6 0 5.7 3.4 4.2 7.2-2.5 4.7-10 9.3-10 9.3z"/>
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.6"
+        >
+          <path
+            d="M12 20.5s-7.5-4.6-10-9.3C.5 7.4 2.6 4 6.2 4c2 0 3.6 1 5.8 3.4C14.2 5 15.8 4 17.8 4c3.6 0 5.7 3.4 4.2 7.2-2.5 4.7-10 9.3-10 9.3z"
+          />
         </svg>
       </button>
-      <button class="icon-btn" aria-label="Share">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-          <circle cx="18" cy="5" r="2.6" /><circle cx="6" cy="12" r="2.6" /><circle cx="18" cy="19" r="2.6" />
+
+      <button
+        type="button"
+        class="icon-btn"
+        aria-label="Share"
+        @click="showShareModal = true"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.6"
+        >
+          <circle cx="18" cy="5" r="2.6" />
+          <circle cx="6" cy="12" r="2.6" />
+          <circle cx="18" cy="19" r="2.6" />
           <path d="M8.3 10.7l7.4-4.2M8.3 13.3l7.4 4.2" />
         </svg>
       </button>
     </div>
+
+<ShareModal
+  :show="showShareModal"
+  title="Tree of Life Nature Resort"
+  :image="photos[0]?.src"
+  @close="showShareModal = false"
+/>
 
     <StickyNav ref="stickyNav" :sections="sections" />
 
@@ -126,9 +153,10 @@ import AvailabilityBar from "./components/AvailabilityBar.vue";
 import FaqSection from "./components/FaqSection.vue";
 import CheckoutPage from "./components/CheckoutPage.vue";
 import ConfirmationPage from "./components/ConfirmationPage.vue";
-
+import ShareModal from "./components/modals/ShareModal.vue";
 
 const stickyNav = ref(null);
+const showShareModal = ref(false);
 
 // Swap these src URLs for your real photos
 const baseUrl = import.meta.env.BASE_URL;
@@ -187,8 +215,6 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll);
 });
-
-/* ---------------- page switching (home <-> checkout <-> confirmed) ---------------- */
 
 const currentPage = ref("home"); // "home" | "checkout" | "confirmed"
 const checkoutRoom = ref(null);
@@ -339,21 +365,65 @@ function goToHomeSection(sectionId) {
   gap: max(12px, 0.8333vw);
   margin-top: max(18px, 1.25vw);
 }
+
 .icon-btn {
-  background: none;
-  border: max(1px, 0.0694vw) solid #dcdcdc;
-  border-radius: max(6px, 0.4167vw);
   width: max(42px, 2.9167vw);
   height: max(42px, 2.9167vw);
-  display: inline-flex;
+
+  display: flex;
   align-items: center;
   justify-content: center;
+
+  border: max(1px, 0.0694vw) solid #d8dde6;
+  border-radius: max(8px, 0.5556vw);
+
+  background: #ffffff;
+  color: #0b5cab;
+
   cursor: pointer;
-  color: #2d6adc;
+
+  transition:
+    transform 0.25s ease,
+    background-color 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
 }
+
 .icon-btn svg {
-  width: max(19px, 1.3194vw);
-  height: max(19px, 1.3194vw);
+  width: max(18px, 1.25vw);
+  height: max(18px, 1.25vw);
+
+  transition:
+    transform 0.25s ease,
+    stroke 0.25s ease;
+}
+
+.icon-btn:hover {
+  border-color: #0b5cab;
+
+  transform: translateY(max(-2px, -0.1389vw));
+
+  box-shadow:
+    0 max(8px, 0.5556vw)
+    max(20px, 1.3889vw)
+    rgba(11, 92, 171, 0.22);
+}
+
+.icon-btn:hover svg {
+  transform: scale(1.08);
+}
+
+.icon-btn:active {
+  transform: scale(0.96);
+}
+
+.icon-btn:focus-visible {
+  outline: none;
+  border-color: #0b5cab;
+  box-shadow:
+    0 0 0 max(3px, 0.2083vw)
+    rgba(11, 92, 171, 0.18);
 }
 
 .content {
