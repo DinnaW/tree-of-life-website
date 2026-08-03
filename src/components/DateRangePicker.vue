@@ -40,14 +40,12 @@ import { ref, computed, watch } from "vue";
 const props = defineProps({
   checkIn: { type: Date, default: null },
   checkOut: { type: Date, default: null },
-  target: { type: String, default: "checkin" }, // 'checkin' | 'checkout'
+  target: { type: String, default: "checkin" },
 });
 const emit = defineEmits(["update:checkIn", "update:checkOut", "update:target", "close"]);
 
 const localTarget = ref(props.target);
 
-// The parent can change `target` (e.g. the user clicks the other field)
-// without this component unmounting, so keep the local copy in sync.
 watch(
   () => props.target,
   (newTarget) => {
@@ -104,16 +102,13 @@ const footerHint = computed(() => {
 function selectDay(date) {
   if (localTarget.value === "checkin") {
     emit("update:checkIn", date);
-    // If the existing check-out is no longer after the new check-in,
-    // clear it and move focus to picking a fresh check-out.
+
     if (!props.checkOut || date >= props.checkOut) {
       emit("update:checkOut", null);
       localTarget.value = "checkout";
       emit("update:target", "checkout");
     }
   } else {
-    // Editing check-out. If the clicked date isn't after check-in,
-    // treat it as a new check-in instead of an invalid range.
     if (props.checkIn && date <= props.checkIn) {
       emit("update:checkIn", date);
       emit("update:checkOut", null);

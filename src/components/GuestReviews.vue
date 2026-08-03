@@ -167,13 +167,8 @@ const rightRatings = [
 
 const topics = ["Room", "Clean", "Location", "Bathroom", "Bed"]
 
-// Matches the actual room names in RoomsSection.vue, so the reviews
-// modal's room filter reflects rooms guests can really book.
 const roomOptions = ["Panoramic Deluxe", "Green Zone Deluxe"]
 
-// Extended with title/date/ratings/tripType/response so ReviewsModal
-// (which expects this richer shape) has everything it needs to render
-// without falling over on undefined fields.
 const reviews = [
   {
     initial: "N",

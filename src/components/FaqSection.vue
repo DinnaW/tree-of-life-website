@@ -115,8 +115,6 @@ const faqs = [
   },
 ]
 
-/* Two independently-flowing columns (each carries the item's original
-   index so `openIndex` still lines up correctly across both columns). */
 const indexed = faqs.map((item, i) => ({ ...item, i }))
 const leftColumn = computed(() => indexed.filter((_, i) => i % 2 === 0))
 const rightColumn = computed(() => indexed.filter((_, i) => i % 2 === 1))

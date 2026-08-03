@@ -45,8 +45,6 @@
         </div>
         <p class="room-meta">{{ room.meta }}</p>
 
-        <!-- Meal plan now stacks below Bed plan instead of sitting
-             side-by-side with a vertical divider between them. -->
         <div class="options-row">
           <div class="option">
             <label>Bed plan</label>
@@ -83,7 +81,6 @@
           </div>
         </div>
 
-        <!-- Thin, single-line facilities card with a "See more" toggle -->
         <div class="facilities-card" :class="{ expanded: expandedFacilities[room.id] }">
           <div class="facility-grid">
             <div
@@ -106,7 +103,6 @@
         </div>
       </div>
 
-      <!-- TICKET DIVIDER (signature element) -->
       <div class="divider" aria-hidden="true">
       </div>
 
@@ -382,8 +378,6 @@ function decrement(room, key) {
 
 const EXTRA_BED_FEE = 15;
 
-// How many nights the guest has picked in the availability bar.
-// Defaults to 1 night so prices still make sense before dates are chosen.
 const nights = computed(() => {
   if (!startDate.value || !endDate.value) return 1;
 
@@ -401,8 +395,6 @@ function total(room) {
 function originalTotal(room) {
   return room.originalPrice * room.roomCount * nights.value + room.extraBeds * EXTRA_BED_FEE;
 }
-
-/* ---------------- facilities "see more" ---------------- */
 
 const VISIBLE_FACILITY_COUNT = 4;
 const expandedFacilities = ref({});
@@ -425,8 +417,6 @@ function closeRoomDetails() {
   isRoomModalOpen.value = false;
   selectedRoom.value = null;
 }
-
-/* ---------------- reserve -> tell App.vue to show the checkout page ---------------- */
 
 function reserveFromCard(room) {
   emit("reserve", { room, nights: nights.value });

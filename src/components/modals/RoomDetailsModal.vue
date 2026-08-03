@@ -511,9 +511,7 @@ const isGalleryOpen = ref(false);
 const fallbackImage =
   `${import.meta.env.BASE_URL}images/room1.jpg`;
 
-/*
-  ALL ROOM IMAGES
-*/
+/* ALL ROOM IMAGES */
 const roomImages = computed(() => {
   if (!props.room) {
     return [fallbackImage];
@@ -538,12 +536,6 @@ const roomImages = computed(() => {
   return [fallbackImage];
 });
 
-/*
-  LARGE IMAGE
-
-  Index 0 is initially selected, so the large image
-  is the same as the first small image.
-*/
 const activeImage = computed(() => {
   return (
     roomImages.value[activeImageIndex.value] ||

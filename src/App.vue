@@ -216,8 +216,6 @@ onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll);
 });
 
-/* ---------------- page switching (home <-> checkout <-> confirmed) ---------------- */
-
 const currentPage = ref("home"); // "home" | "checkout" | "confirmed"
 const checkoutRoom = ref(null);
 const checkoutNights = ref(1);

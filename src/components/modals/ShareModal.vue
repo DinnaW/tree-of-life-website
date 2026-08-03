@@ -303,10 +303,6 @@ onBeforeUnmount(() => {
   font-family: "Figtree", sans-serif;
 }
 
-/* =========================
-   OVERLAY
-========================= */
-
 .share-overlay {
   position: fixed;
   inset: 0;
@@ -322,10 +318,6 @@ onBeforeUnmount(() => {
   backdrop-filter: blur(max(5px, 0.3472vw));
 }
 
-/* =========================
-   MODAL
-========================= */
-
 .share-modal {
   width: min(92%, max(540px, 37.5vw));
   max-height: 90vh;
@@ -340,10 +332,6 @@ onBeforeUnmount(() => {
     max(70px, 4.8611vw)
     rgba(8, 28, 58, 0.24);
 }
-
-/* =========================
-   HEADER
-========================= */
 
 .modal-header {
   display: flex;
@@ -411,10 +399,6 @@ onBeforeUnmount(() => {
   outline: max(3px, 0.2083vw) solid rgba(26, 81, 173, 0.18);
   outline-offset: max(2px, 0.1389vw);
 }
-
-/* =========================
-   PROPERTY PREVIEW
-========================= */
 
 .property-preview {
   display: grid;
@@ -491,10 +475,6 @@ onBeforeUnmount(() => {
   color: #b3bac3;
 }
 
-/* =========================
-   BODY
-========================= */
-
 .modal-body {
   padding:
     max(23px, 1.5972vw)
@@ -509,10 +489,6 @@ onBeforeUnmount(() => {
   font-size: max(13px, 0.9028vw);
   font-weight: 600;
 }
-
-/* =========================
-   SHARE OPTIONS
-========================= */
 
 .share-options {
   display: grid;
@@ -596,8 +572,6 @@ onBeforeUnmount(() => {
   color: #ffffff;
 }
 
-/* Keep all options visually consistent */
-
 .facebook,
 .whatsapp,
 .email,
@@ -605,10 +579,6 @@ onBeforeUnmount(() => {
   background: #eef4fc;
   color: #1a51ad;
 }
-
-/* =========================
-   COPY LINK
-========================= */
 
 .copy-section {
   padding-top: max(20px, 1.3889vw);
@@ -741,10 +711,6 @@ onBeforeUnmount(() => {
   font-weight: 550;
 }
 
-/* =========================
-   TRANSITION
-========================= */
-
 .share-modal-enter-active,
 .share-modal-leave-active {
   transition: opacity 0.22s ease;
@@ -767,10 +733,6 @@ onBeforeUnmount(() => {
   opacity: 0;
   transform: translateY(max(12px, 0.8333vw)) scale(0.98);
 }
-
-/* =========================
-   MOBILE
-========================= */
 
 @media (max-width: 600px) {
   .share-overlay {

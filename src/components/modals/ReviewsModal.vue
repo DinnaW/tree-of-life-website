@@ -260,8 +260,6 @@ const props = defineProps({
 
 defineEmits(["close"]);
 
-// Local working copy so a newly submitted review can be added without
-// mutating the prop array directly.
 const localReviews = ref([...(props.reviews || [])].map((r, i) => ({ ...r, id: r.id || `seed-${i}` })));
 
 watch(
@@ -270,8 +268,6 @@ watch(
     localReviews.value = [...(fresh || [])].map((r, i) => ({ ...r, id: r.id || `seed-${i}` }));
   }
 );
-
-/* ---------------- write a review ---------------- */
 
 const showWriteForm = ref(false);
 const hoverRating = ref(0);
@@ -412,7 +408,7 @@ function submitReview() {
   min-height: 0;
 }
 
-/* RATING SUMMARY (scrolls away normally) */
+/* RATING SUMMARY */
 
 .summary-grid {
   display: grid;

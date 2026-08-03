@@ -148,8 +148,6 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 
-/* ---------------- config ---------------- */
-
 const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
 const roomTypes = [
@@ -159,8 +157,6 @@ const roomTypes = [
   { name: 'Deluxe Triple Room with Balcony', beds: '1 twin bed and 1 king bed', maxGuests: 3 },
   { name: 'King Room with Mountain View', beds: '1 queen bed', maxGuests: 2 },
 ]
-
-/* ---------------- state ---------------- */
 
 const today = new Date()
 today.setHours(0, 0, 0, 0)
@@ -183,8 +179,6 @@ const revealedPrices = ref({})
 const dateFieldRef = ref(null)
 const guestFieldRef = ref(null)
 
-/* ---------------- price mock data ---------------- */
-
 function priceForDate(date) {
   const seed = date.getFullYear() * 372 + date.getMonth() * 31 + date.getDate()
   const wiggle = (Math.sin(seed) + 1) / 2 // 0..1
@@ -195,8 +189,6 @@ function formatPrice(value) {
   if (!value) return ''
   return (value / 1000).toFixed(1).replace(/\.0$/, '') + 'K'
 }
-
-/* ---------------- calendar generation ---------------- */
 
 function buildMonth(baseDate) {
   const year = baseDate.getFullYear()
@@ -297,16 +289,12 @@ const dateLabel = computed(() => {
   return 'Check-in date — Check-out date'
 })
 
-/* ---------------- guest selector ---------------- */
-
 const guestLabel = computed(() => {
   const adultWord = adults.value === 1 ? 'adult' : 'adults'
   const childWord = children.value === 1 ? 'child' : 'children'
   const roomWord = rooms.value === 1 ? 'room' : 'rooms'
   return `${adults.value} ${adultWord} · ${children.value} ${childWord} · ${rooms.value} ${roomWord}`
 })
-
-/* ---------------- dropdown toggles ---------------- */
 
 function toggleCalendar() {
   showCalendar.value = !showCalendar.value
@@ -330,8 +318,6 @@ function handleClickOutside(e) {
 onMounted(() => document.addEventListener('click', handleClickOutside))
 onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
 
-/* ---------------- room table ---------------- */
-
 function toggleRoom(name) {
   expandedRoom.value = expandedRoom.value === name ? null : name
 }
@@ -348,9 +334,8 @@ function handleShowPrices(room) {
 }
 
 function handleSearch() {
-  // Hook this up to your booking/search logic.
-  // checkInDate.value, checkOutDate.value, adults.value, children.value, rooms.value are all available here.
 }
+
 </script>
 
 <style scoped>

@@ -445,8 +445,6 @@ function formatPrice(price) {
   return new Intl.NumberFormat("en-US").format(Number(price) || 0);
 }
 
-/* ---------------- payment step ---------------- */
-
 const payment = reactive({
   cardName: "",
   cardNumber: "",
@@ -458,7 +456,6 @@ const payment = reactive({
 
 const isProcessing = ref(false);
 
-// Detect card brand from the leading digit(s) of the (unformatted) number
 const cardBrand = computed(() => {
   const digits = payment.cardNumber.replace(/\s/g, "");
   if (/^4/.test(digits)) return "visa";
@@ -471,7 +468,7 @@ const cardIconClass = computed(() => {
   if (cardBrand.value === "visa") return "fa-cc-visa";
   if (cardBrand.value === "mastercard") return "fa-cc-mastercard";
   if (cardBrand.value === "amex") return "fa-cc-amex";
-  return "fa-credit-card-blank"; // falls back to no visible icon if brand unknown
+  return "fa-credit-card-blank"; 
 });
 
 function onCardNumberInput(e) {
@@ -513,7 +510,6 @@ function confirmReservation() {
   isProcessing.value = true;
   console.log("[Checkout] Processing started...");
 
-  // Placeholder for a real payment provider call (Stripe, PayHere, etc.)
   setTimeout(() => {
     isProcessing.value = false;
     console.log("[Checkout] Emitting 'confirmed' event with:", {

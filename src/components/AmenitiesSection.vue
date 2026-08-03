@@ -290,7 +290,6 @@ const amenities = [
  
 }
  
-/* MOBILE — fully stacked layout */
 @media (max-width:900px){
  
 .amenities-layout{

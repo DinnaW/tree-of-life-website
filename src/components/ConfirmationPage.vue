@@ -319,10 +319,6 @@ function addToCalendar() {
   padding: 0 max(20px, 1.3889vw);
 }
 
-/* ========================================
-   SUCCESS HEADER
-======================================== */
-
 .success-hero {
   width: 100%;
   max-width: 620px;
@@ -467,10 +463,6 @@ function addToCalendar() {
   color: #1a51ad;
 }
 
-/* ========================================
-   BODY LAYOUT
-======================================== */
-
 .confirmation-body {
   display: grid;
   grid-template-columns: minmax(0, 1fr) max(260px, 18.1vw);
@@ -478,10 +470,6 @@ function addToCalendar() {
   align-items: start;
   margin-bottom: max(32px, 2.2222vw);
 }
-
-/* ========================================
-   RECEIPT CARD
-======================================== */
 
 .receipt-card {
   margin-bottom: max(18px, 1.25vw);
@@ -592,16 +580,10 @@ function addToCalendar() {
   text-align: right;
 }
 
-/* ========================================
-   NEXT STEPS
-======================================== */
-
 .next-card {
   padding: max(22px, 1.5278vw) max(24px, 1.6667vw);
-
   border: 1px solid #e8edf3;
   border-radius: max(16px, 1.1111vw);
-
   background: #ffffff;
 }
 
@@ -617,32 +599,24 @@ function addToCalendar() {
 .next-list {
   display: flex;
   flex-direction: column;
-
   gap: 11px;
-
   margin: 0 0 max(20px, 1.3889vw);
   padding: 0;
-
   list-style: none;
 }
 
 .next-list li {
   display: flex;
   align-items: center;
-
   gap: 10px;
-
   color: #56616e;
-
   font-size: 13px;
   line-height: 1.5;
 }
 
 .next-list i {
   width: 16px;
-
   flex-shrink: 0;
-
   color: #1a51ad;
   font-size: 13px;
 }
@@ -656,24 +630,16 @@ function addToCalendar() {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
   flex: 1;
-
   gap: 8px;
-
   height: 42px;
-
   border: 1px solid #dfe3e8;
   border-radius: 10px;
-
   background: #021c44;
   color: #f6f2f2;
-
   font-size: 13px;
   font-weight: 600;
-
   cursor: pointer;
-
   transition:
     border-color 0.15s ease,
     color 0.15s ease;
@@ -684,10 +650,6 @@ function addToCalendar() {
   color: #ffffff;
 }
 
-/* ========================================
-   SIDEBAR
-======================================== */
-
 .explore-card {
   position: sticky;
   top: max(20px, 1.3889vw);
@@ -696,9 +658,7 @@ function addToCalendar() {
 
 .explore-card h4 {
   margin: 0 0 max(12px, 0.8333vw);
-
   color: #9aa3ad;
-
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.6px;
@@ -709,25 +669,18 @@ function addToCalendar() {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   padding: 11px 0;
-
   border-bottom: 1px solid #edf0f4;
-
   color: #1a1a1a;
-
   font-size: 13.5px;
   font-weight: 500;
   text-decoration: none;
-
   transition: color 0.15s ease;
 }
 
 .explore-link i {
   color: #cfd6dd;
-
   font-size: 11px;
-
   transition:
     color 0.15s ease,
     transform 0.15s ease;
@@ -744,9 +697,7 @@ function addToCalendar() {
 
 .support-note {
   margin: max(14px, 0.9722vw) 0 0;
-
   color: #9aa3ad;
-
   font-size: 12px;
   line-height: 1.6;
 }
@@ -755,31 +706,20 @@ function addToCalendar() {
   color: #1a1a1a;
 }
 
-/* ========================================
-   BACK HOME
-======================================== */
-
 .back-home-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-
   height: 46px;
-
   margin: 0 auto;
   padding: 0 30px;
-
   border: 1px solid #dfe3e8;
   border-radius: 12px;
-
   background: #ffffff;
   color: #1a1a1a;
-
   font-size: 13.5px;
   font-weight: 600;
-
   cursor: pointer;
-
   transition:
     border-color 0.15s ease,
     color 0.15s ease;
@@ -790,10 +730,6 @@ function addToCalendar() {
   color: #1a51ad;
 }
 
-/* ========================================
-   TABLET
-======================================== */
-
 @media (max-width: 900px) {
   .confirmation-body {
     grid-template-columns: 1fr;
@@ -801,19 +737,12 @@ function addToCalendar() {
 
   .explore-card {
     position: static;
-
     padding: max(18px, 1.25vw);
-
     border: 1px solid #e8edf3;
     border-radius: 14px;
-
     background: #ffffff;
   }
 }
-
-/* ========================================
-   MOBILE
-======================================== */
 
 @media (max-width: 640px) {
   .success-hero {
@@ -845,9 +774,7 @@ function addToCalendar() {
   .booking-reference-card {
     width: 100%;
     min-width: 0;
-
     gap: 14px;
-
     padding: 16px;
   }
 
@@ -898,10 +825,6 @@ function addToCalendar() {
     text-align: left;
   }
 }
-
-/* ========================================
-   PRINT
-======================================== */
 
 @media print {
   .next-card,
