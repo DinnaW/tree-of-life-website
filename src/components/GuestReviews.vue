@@ -125,12 +125,12 @@
               "{{ review.text }}"
             </p>
 
-            <a href="#">Read more</a>
+            <a href="#" @click.prevent="showReviewsModal = true">Read more</a>
           </div>
         </div>
       </div>
 
-      <button class="read-all">
+      <button class="read-all" @click="showReviewsModal = true">
         Read all reviews
       </button>
 
@@ -142,13 +142,14 @@
     :reviews="reviews"
     :left-ratings="leftRatings"
     :right-ratings="rightRatings"
+    :room-options="roomOptions"
     @close="showReviewsModal = false"
   />
 </template>
 
 <script setup>
 import { ref } from "vue"
-import ReviewsModal from "./ReviewsModal.vue"
+import ReviewsModal from "./modals/ReviewsModal.vue"
 
 const showReviewsModal = ref(false)
 
@@ -166,6 +167,13 @@ const rightRatings = [
 
 const topics = ["Room", "Clean", "Location", "Bathroom", "Bed"]
 
+// Matches the actual room names in RoomsSection.vue, so the reviews
+// modal's room filter reflects rooms guests can really book.
+const roomOptions = ["Panoramic Deluxe", "Green Zone Deluxe"]
+
+// Extended with title/date/ratings/tripType/response so ReviewsModal
+// (which expects this richer shape) has everything it needs to render
+// without falling over on undefined fields.
 const reviews = [
   {
     initial: "N",
@@ -175,6 +183,21 @@ const reviews = [
     country: "Sri Lanka",
     text:
       "The accommodation was comfortable, the facilities were well maintained, and the restaurant served fresh, tasty meals. We would definitely recommend this resort to anyone looking for a peaceful getaway.",
+    title: "A peaceful, well-maintained getaway",
+    date: "March 2026",
+    room: "Panoramic Deluxe",
+    ratings: [
+      { name: "Cleanliness", score: 8.5 },
+      { name: "Staff", score: 9.0 },
+      { name: "Facilities", score: 8.0 },
+      { name: "Value for money", score: 8.5 },
+    ],
+    response: {
+      date: "March 2026",
+      text: "Thank you so much for your kind words, Naveen! We're delighted you enjoyed your stay and hope to welcome you back soon.",
+      staff: "Priya Fernando",
+      role: "Guest Relations Manager",
+    },
   },
   {
     initial: "J",
@@ -184,6 +207,21 @@ const reviews = [
     country: "India",
     text:
       "The resort exceeded our expectations. Everyone was kind, professional and genuinely cared about making our stay enjoyable. The room was spacious, clean and well equipped.",
+    title: "Exceeded our expectations",
+    date: "February 2026",
+    room: "Green Zone Deluxe",
+    ratings: [
+      { name: "Cleanliness", score: 9.0 },
+      { name: "Staff", score: 9.5 },
+      { name: "Facilities", score: 8.5 },
+      { name: "Location", score: 8.0 },
+    ],
+    response: {
+      date: "February 2026",
+      text: "It means a lot to hear this, Jane — thank you for taking the time to share it. We hope to see your family again soon!",
+      staff: "Priya Fernando",
+      role: "Guest Relations Manager",
+    },
   },
   {
     initial: "D",
@@ -193,6 +231,21 @@ const reviews = [
     country: "United States",
     text:
       "We had a wonderful stay from start to finish. The staff were incredibly welcoming, our room was spotless and the peaceful surroundings made it easy to relax.",
+    title: "Wonderful from start to finish",
+    date: "January 2026",
+    room: "Panoramic Deluxe",
+    ratings: [
+      { name: "Cleanliness", score: 9.0 },
+      { name: "Staff", score: 9.0 },
+      { name: "Free Wifi", score: 8.0 },
+      { name: "Value for money", score: 8.5 },
+    ],
+    response: {
+      date: "January 2026",
+      text: "Thank you, David! We're so glad the peaceful surroundings gave you the relaxing stay you were looking for.",
+      staff: "Priya Fernando",
+      role: "Guest Relations Manager",
+    },
   },
 ]
 </script>
@@ -288,6 +341,7 @@ const reviews = [
   color: var(--color-blue-light);
   text-decoration: none;
   font-weight: 600;
+  cursor: pointer;
 }
 
 .score-row a:hover {
@@ -484,6 +538,7 @@ const reviews = [
   color: var(--color-blue-light);
   text-decoration: none;
   font-weight: 600;
+  cursor: pointer;
 }
 
 .review-card a:hover {
