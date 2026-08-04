@@ -150,6 +150,7 @@
           <PackageResults
             v-else
             @checkout-package="bookPackage"
+            @show-packages="showPackagesPage"
           />
         </section>
 

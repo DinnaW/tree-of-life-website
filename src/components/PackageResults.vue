@@ -1,7 +1,7 @@
 <template>
   <section class="packages-section">
     <div class="section-header">
-      <div class="eyebrow">— ROOMS</div>
+      <div class="eyebrow">— PACKAGES</div>
       <h2>Choose your package</h2>
 
       <div class="bar-wrap">
@@ -26,7 +26,15 @@
       :key="pkg.id"
       class="package-card"
     >
-      <div class="package-image-box">
+      <div
+        class="package-image-box"
+        role="button"
+        tabindex="0"
+        :aria-label="`View ${pkg.title} details`"
+        @click="openPackageDetails(pkg)"
+        @keydown.enter="openPackageDetails(pkg)"
+        @keydown.space.prevent="openPackageDetails(pkg)"
+      >
         <img
           :src="pkg.image"
           :alt="pkg.title"
@@ -36,19 +44,20 @@
       </div>
 
       <div class="package-details">
-        <div
-          v-if="pkg.featured"
-          class="offer-badge"
-        >
-          <Icon icon="lucide:tags" />
-          RECOMMENDED
-        </div>
-
         <div class="package-title">
-          <h3>{{ pkg.title }}</h3>
+          <div class="package-title-main">
+            <h3>{{ pkg.title }}</h3>
+
+            <span
+              v-if="pkg.featured"
+              class="badge"
+            >
+              RECOMMENDED
+            </span>
+          </div>
 
           <span class="rating-badge">
-            <Icon icon="lucide:star" />
+            <i class="fa-solid fa-star"></i>
             {{ pkg.rating }}
           </span>
         </div>
@@ -59,17 +68,17 @@
 
         <div class="package-meta">
           <span>
-            <Icon icon="lucide:moon" />
+            <i class="fa-solid fa-moon"></i>
             {{ pkg.stay }}
           </span>
 
           <span>
-            <Icon icon="lucide:users" />
+            <i class="fa-solid fa-user-group"></i>
             {{ pkg.guests }}
           </span>
 
           <span>
-            <Icon icon="lucide:bed-double" />
+            <i class="fa-solid fa-bed"></i>
             {{ pkg.room }}
           </span>
         </div>
@@ -79,14 +88,24 @@
             <label>Package includes</label>
 
             <div class="includes-card">
-              <span
-                v-for="item in pkg.includes"
-                :key="item"
-                class="include-item"
+              <div class="includes-list">
+                <span
+                  v-for="item in pkg.includes"
+                  :key="item"
+                  class="include-item"
+                >
+                  <i :class="getIncludeIcon(item)"></i>
+                  {{ item }}
+                </span>
+              </div>
+
+              <button
+                type="button"
+                class="see-more-btn"
+                @click="openPackageDetails(pkg)"
               >
-                <Icon icon="lucide:check" />
-                {{ item }}
-              </span>
+                See More
+              </button>
             </div>
           </div>
         </div>
@@ -114,35 +133,19 @@
           Purchase this package
         </button>
 
-        <button
-          type="button"
-          class="details-btn"
-          @click="selectedPackage = pkg"
-        >
-          View package details
-          <Icon icon="lucide:arrow-up-right" />
-        </button>
       </div>
     </article>
 
-    <PackageDetailsModal
-      :show="Boolean(selectedPackage)"
-      :package-data="selectedPackage"
-      @close="selectedPackage = null"
-      @book="bookSelected"
-    />
+
   </section>
 </template>
 
 <script setup>
 import { ref, computed } from "vue";
-import { Icon } from "@iconify/vue";
 import AvailabilityBar from "./AvailabilityBar.vue";
-import PackageDetailsModal from "./modals/PackageDetailsModal.vue";
 
-const emit = defineEmits(["checkout-package"]);
+const emit = defineEmits(["checkout-package", "show-packages"]);
 const baseUrl = import.meta.env.BASE_URL;
-const selectedPackage = ref(null);
 
 const startDate = ref("");
 const endDate = ref("");
@@ -198,7 +201,7 @@ const packages = [
     includes: [
       "Daily breakfast",
       "Guided strawberry picking",
-      "Fresh strawberry tasting"
+      "Strawberry tasting"
     ],
     highlights: [
       "Welcome drink",
@@ -256,6 +259,36 @@ const filteredPackages = computed(() => {
   });
 });
 
+function openPackageDetails(pkg) {
+  emit("show-packages", pkg);
+}
+
+function getIncludeIcon(item) {
+  const text = item.toLowerCase();
+
+  if (text.includes("breakfast") || text.includes("dinner") || text.includes("tasting")) {
+    return "fa-solid fa-utensils";
+  }
+
+  if (text.includes("walk") || text.includes("farm") || text.includes("picking")) {
+    return "fa-solid fa-person-hiking";
+  }
+
+  if (text.includes("room") || text.includes("accommodation") || text.includes("setup")) {
+    return "fa-solid fa-bed";
+  }
+
+  if (text.includes("wifi") || text.includes("wi-fi")) {
+    return "fa-solid fa-wifi";
+  }
+
+  if (text.includes("welcome drink")) {
+    return "fa-solid fa-martini-glass-citrus";
+  }
+
+  return "fa-solid fa-circle-check";
+}
+
 function createBookingPayload(pkg) {
   return {
     ...pkg,
@@ -268,16 +301,6 @@ function createBookingPayload(pkg) {
 
 function selectPackage(pkg) {
   emit("checkout-package", createBookingPayload(pkg));
-}
-
-function bookSelected(pkg) {
-  if (!pkg) return;
-
-  const bookingPayload = createBookingPayload(pkg);
-
-  selectedPackage.value = null;
-
-  emit("checkout-package", bookingPayload);
 }
 
 </script>
@@ -356,6 +379,7 @@ function bookSelected(pkg) {
 }
 
 .package-card {
+  position: relative;
   display: grid;
   grid-template-columns: max(300px, 20.8333vw) minmax(0, 1fr) max(24px, 1.6667vw) max(260px, 18.0556vw);
   width: 100%;
@@ -375,6 +399,7 @@ function bookSelected(pkg) {
 
 .package-image-box {
   position: relative;
+  cursor: pointer;
   width: max(300px, 20.8333vw);
   height: max(342px, 23.75vw);
   min-height: max(342px, 23.75vw);
@@ -388,6 +413,16 @@ function bookSelected(pkg) {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.35s ease;
+}
+
+.package-image-box:hover .package-image {
+  transform: scale(1.035);
+}
+
+.package-image-box:focus-visible {
+  outline: max(3px, 0.2083vw) solid #2d7bd6;
+  outline-offset: min(-3px, -0.2083vw);
 }
 
 .package-tag {
@@ -410,26 +445,36 @@ function bookSelected(pkg) {
   padding: max(28px, 1.9444vw) max(30px, 2.0833vw);
 }
 
-.offer-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: max(6px, 0.4167vw);
-  margin-bottom: max(12px, 0.8333vw);
-  padding: max(4px, 0.2778vw) max(12px, 0.8333vw);
-  border-radius: max(8px, 0.5556vw);
-  background: #eef3fa;
-  color: #1a51ad;
-  font-size: max(10px, 0.6944vw);
-  font-weight: 700;
-  letter-spacing: max(0.7px, 0.0486vw);
-}
-
 .package-title {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: max(12px, 0.8333vw);
-  margin-bottom: max(6px, 0.4167vw);
+  margin-bottom: max(18px, 1.25vw);
+}
+
+.package-title-main {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: max(12px, 0.8333vw);
+  min-width: 0;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: max(28px, 1.9444vw);
+  padding: 0 max(16px, 1.1111vw);
+  background: #eef3fa;
+  color: #1a51ad;
+  font-size: max(11px, 0.7639vw);
+  font-weight: 600;
+  letter-spacing: max(1px, 0.0694vw);
+  text-transform: uppercase;
+  border-radius: max(4px, 0.2778vw);
+  white-space: nowrap;
 }
 
 .package-title h3 {
@@ -473,8 +518,13 @@ function bookSelected(pkg) {
   gap: max(7px, 0.4861vw);
 }
 
-.package-meta svg {
+.package-meta i {
   color: #1a51ad;
+  font-size: max(12px, 0.8333vw);
+}
+
+.rating-badge i {
+  color: #d79b14;
 }
 
 .options-row {
@@ -497,21 +547,51 @@ function bookSelected(pkg) {
 .includes-card {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
-  gap: max(20px, 1.3889vw);
+  gap: max(14px, 0.9722vw);
   padding: max(12px, 0.8333vw) max(16px, 1.1111vw);
   border: max(1px, 0.0694vw) solid #e7ebf0;
   border-radius: max(12px, 0.8333vw);
   background: #f8f9fb;
 }
 
+.includes-list {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  gap: max(20px, 1.3889vw);
+  overflow: hidden;
+}
+
 .include-item {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: max(7px, 0.4861vw);
   font-size: max(11px, 0.7639vw);
   white-space: nowrap;
 }
 
-.include-item svg {
-  color: #1d9c53;
+.include-item i {
+  color: var(--color-pine);
+  font-size: max(11px, 0.7639vw);
+}
+
+.see-more-btn {
+  flex-shrink: 0;
+  margin-left: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-pine);
+  font-size: max(11px, 0.7639vw);
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.see-more-btn:hover {
+  text-decoration: underline;
 }
 
 .divider {
@@ -559,8 +639,7 @@ function bookSelected(pkg) {
   font-size: max(12px, 0.8333vw);
 }
 
-.select-package-btn,
-.details-btn {
+.select-package-btn {
   width: 100%;
   height: max(46px, 3.1944vw);
   border-radius: max(15px, 1.0417vw);
@@ -577,16 +656,6 @@ function bookSelected(pkg) {
   color: #ffffff;
 }
 
-.details-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: max(7px, 0.4861vw);
-  margin-top: max(8px, 0.5556vw);
-  border: max(1px, 0.0694vw) solid #dce4ee;
-  background: #ffffff;
-  color: #1a51ad;
-}
 
 .details-overlay {
   position: fixed;
@@ -729,7 +798,17 @@ function bookSelected(pkg) {
   }
 
   .package-details {
+    height: auto;
     padding: max(24px, 1.6667vw);
+  }
+
+  .includes-card {
+    align-items: flex-start;
+  }
+
+  .includes-list {
+    flex-wrap: wrap;
+    overflow: visible;
   }
 
   .packages-section h2 {

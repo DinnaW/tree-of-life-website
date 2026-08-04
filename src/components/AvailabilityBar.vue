@@ -448,13 +448,13 @@ function handleSearch() {
 }
 
 .search-btn {
-  background: #0179D7;
+  background: #0179d7;
   color: #fff;
   border: none;
   border-radius: max(10px, 0.6944vw);
   padding: max(14px, 0.9722vw) max(32px, 2.2222vw);
   font-size: max(15px, 1.0417vw);
-  font-weight: 550;
+  font-weight: 500;
   cursor: pointer;
   transition: .2s;
 }
