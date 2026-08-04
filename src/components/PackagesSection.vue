@@ -336,7 +336,7 @@ const packages = [
     longDescription:
       "Celebrate a special moment in a calm hillside setting. This two-night romantic package combines comfortable accommodation, thoughtful room decorations, daily breakfast and a private dinner created especially for couples.",
 
-    image: `${baseUrl}images/img3.jpg`,
+    image: `${baseUrl}images/img3.png`,
 
     gallery: [
       "https://images.unsplash.com/photo-1683435844264-365f588924c4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
