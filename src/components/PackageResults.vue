@@ -204,7 +204,7 @@ const packages = [
       "A peaceful stay with breakfast, a guided nature walk and private dining.",
     longDescription:
       "Reconnect with nature through a carefully planned resort experience with comfortable accommodation, breakfast, a guided walk and private dining.",
-    image: `${baseUrl}images/img1.jpg`,
+    image: `${baseUrl}images/img1.png`,
     rating: "4.9",
     stay: "1 night",
     guests: "2 guests",
@@ -227,31 +227,31 @@ const packages = [
   },
   {
     id: 2,
-    category: "Local Experience",
-    title: "Coffee Trail & Stay",
+    category: "Farm Experience",
+    title: "Strawberry Harvest & Stay",
     description:
-      "A relaxing stay with a guided coffee plantation tour and tasting experience.",
+      "A relaxing hillside stay with a guided strawberry-picking and farm-fresh tasting experience.",
     longDescription:
-      "Discover locally grown coffee during a relaxing resort stay with a plantation visit and guided tasting.",
-    image: `${baseUrl}images/img3.jpg`,
+      "Enjoy a peaceful resort stay combined with a visit to a nearby strawberry farm. Learn how strawberries are grown, hand-pick ripe fruit and enjoy a fresh tasting surrounded by beautiful hillside scenery.",
+    image: `${baseUrl}images/img2.png`,
     rating: "4.8",
     stay: "1 night",
     guests: "2 guests",
     room: "Panoramic Deluxe",
-    price: 102,
+    price: 115,
     featured: false,
     includes: [
       "Daily breakfast",
-      "Coffee plantation tour",
-      "Coffee tasting"
+      "Guided strawberry picking",
+      "Fresh strawberry tasting"
     ],
     highlights: [
       "Welcome drink",
       "Panoramic Deluxe accommodation",
       "Breakfast for two",
-      "Plantation tour",
-      "Coffee demonstration",
-      "Coffee tasting"
+      "Guided strawberry farm visit",
+      "Hand-picking experience",
+      "Fresh strawberry tasting"
     ]
   },
   {
@@ -262,7 +262,7 @@ const packages = [
       "A quiet couple's stay with scenic views, breakfast and a private dinner.",
     longDescription:
       "Celebrate a special moment in a calm hillside setting with two nights, room decoration, breakfast and a private dinner.",
-    image: `${baseUrl}images/img6.jpg`,
+    image: `${baseUrl}images/img3.jpg`,
     rating: "4.9",
     stay: "2 nights",
     guests: "2 guests",

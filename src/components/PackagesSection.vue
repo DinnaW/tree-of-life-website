@@ -1,7 +1,6 @@
 <template>
   <main class="packages-page">
-    <!-- PREMIUM PACKAGE HERO -->
-<!-- PREMIUM PACKAGE HERO -->
+    
 <section class="packages-hero">
   <div class="hero-wave hero-wave-top"></div>
   <div class="hero-wave hero-wave-middle"></div>
@@ -9,10 +8,7 @@
 
   <div class="page-container">
     <div class="hero-content">
-      <span class="hero-badge">
-        Exclusive Packages
-      </span>
-
+      <div class="eyebrow"> — PACKAGES </div>
       <h1>
         Discover Our Premium Packages
       </h1>
@@ -24,22 +20,11 @@
   </div>
 </section>
 
-      
-
-    <!-- PACKAGE CARDS -->
     <section id="packages-list" class="packages-section">
       <div class="page-container">
         <header class="section-heading">
-         <!--  <p class="section-label">Our packages</p>
-          <h2>Choose Your Perfect Escape</h2>
-          <p>
-            Simple packages designed for nature, comfort and memorable stays.
-          </p>-->
+
         </header>
-
-
-
-        
 
         <div class="packages-grid">
           <article
@@ -63,7 +48,7 @@
 
              <span class="gallery-hover">
     <span class="gallery-hover-icon">
-        <Icon icon="lucide:images" />
+        <i class="fa-solid fa-images"></i>
     </span>
 
     <strong>View Gallery</strong>
@@ -81,31 +66,31 @@
                 </div>
 
                 <span class="package-rating">
-                  <Icon icon="lucide:star" />
+                  <i class="fa-solid fa-star"></i>
                   {{ pkg.rating }}
                 </span>
               </div>
 
               <div class="package-meta">
                 <span>
-                  <Icon icon="lucide:moon" />
+                  <i class="fa-solid fa-moon"></i>
                   {{ pkg.stay }}
                 </span>
 
                 <span>
-                  <Icon icon="lucide:users" />
+                  <i class="fa-solid fa-user-group"></i>
                   {{ pkg.guests }}
                 </span>
 
                 <span>
-                  <Icon icon="lucide:bed-double" />
+                  <i class="fa-solid fa-bed"></i>
                   {{ pkg.room }}
                 </span>
               </div>
 
               <ul class="package-includes">
                 <li v-for="item in pkg.includes" :key="item">
-                  <Icon icon="lucide:check" />
+                  <i class="fa-solid fa-check"></i>
                   {{ item }}
                 </li>
               </ul>
@@ -141,7 +126,7 @@
             class="benefit-item"
           >
             <div class="benefit-icon">
-              <Icon :icon="benefit.icon" />
+              <i :class="benefit.icon"></i>
             </div>
 
             <div>
@@ -172,102 +157,27 @@
             </a>
 
             <a href="tel:+94000000000" class="cta-secondary">
-              <Icon icon="lucide:phone" />
+              <i class="fa-solid fa-phone"></i>
               Contact Resort
             </a>
           </div>
         </div>
       </div>
     </section>
-
-    <!-- PACKAGE GALLERY MODAL -->
-    <Teleport to="body">
-      <Transition name="gallery-modal">
-        <div
-          v-if="galleryOpen && activePackage"
-          class="gallery-modal"
-          role="dialog"
-          aria-modal="true"
-          :aria-label="`${activePackage.title} gallery`"
-          @click.self="closeGallery"
-        >
-          <div class="gallery-dialog">
-            <header class="gallery-header">
-              <div>
-                <span class="gallery-eyebrow">{{ activePackage.category }}</span>
-                <h2>{{ activePackage.title }}</h2>
-              </div>
-
-              <button
-                type="button"
-                class="gallery-close"
-                aria-label="Close gallery"
-                @click="closeGallery"
-              >
-                <Icon icon="lucide:x" />
-              </button>
-            </header>
-
-            <div class="gallery-body">
-              <div class="gallery-stage">
-                <img
-                  :src="currentGalleryImage"
-                  :alt="`${activePackage.title} photo ${galleryIndex + 1}`"
-                />
-
-                <button
-                  v-if="activePackage.gallery.length > 1"
-                  type="button"
-                  class="gallery-arrow gallery-arrow-left"
-                  aria-label="Previous photo"
-                  @click="previousImage"
-                >
-                  <Icon icon="lucide:chevron-left" />
-                </button>
-
-                <button
-                  v-if="activePackage.gallery.length > 1"
-                  type="button"
-                  class="gallery-arrow gallery-arrow-right"
-                  aria-label="Next photo"
-                  @click="nextImage"
-                >
-                  <Icon icon="lucide:chevron-right" />
-                </button>
-
-                <span class="gallery-counter">
-                  {{ galleryIndex + 1 }} / {{ activePackage.gallery.length }}
-                </span>
-              </div>
-
-              <div
-                v-if="activePackage.gallery.length > 1"
-                class="gallery-thumbnails"
-                aria-label="Gallery thumbnails"
-              >
-                <button
-                  v-for="(image, index) in activePackage.gallery"
-                  :key="`${activePackage.id}-${image}-${index}`"
-                  type="button"
-                  class="gallery-thumbnail"
-                  :class="{ active: galleryIndex === index }"
-                  :aria-label="`View photo ${index + 1}`"
-                  @click="galleryIndex = index"
-                >
-                  <img :src="image" :alt="`${activePackage.title} thumbnail ${index + 1}`" />
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Transition>
-    </Teleport>
+    <PackageGalleryModal
+      :show="galleryOpen"
+      :package-data="activePackage"
+      @close="closeGallery"
+    />
   </main>
 </template>
 
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref } from "vue";
-import { Icon } from "@iconify/vue";
+
+import { ref } from "vue";
+
+import PackageGalleryModal from "./modals/PackageGalleryModal.vue";
+
 const emit = defineEmits(["view-package"]);
 const baseUrl = import.meta.env.BASE_URL;
 
@@ -283,15 +193,15 @@ const packages = [
     longDescription:
       "Reconnect with nature through a carefully planned resort experience. Enjoy comfortable accommodation, fresh breakfast, a guided walk through the surrounding landscape and a private dining experience prepared for two.",
 
-    image: `${baseUrl}images/img1.jpg`,
+    image: `${baseUrl}images/img1.png`,
 
-    gallery: [
-      "https://i.pinimg.com/1200x/60/01/73/600173fab2ced9ac1a3a82eaa167a1b3.jpg",
-      "https://i.pinimg.com/736x/4b/6c/aa/4b6caa23c6a47e3b37d38ed64651d705.jpg",
-      "https://i.pinimg.com/736x/38/34/33/3834330153fa2e3cab81013ace0f65e2.jpg"
+    gallery: [   
+      "https://images.unsplash.com/photo-1776761420449-48c332b4a555?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1770563182638-6294f5851a41?q=80&w=2499&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"   
     ],
 
-    rating: "4.9",
+    rating: "4.5",
     stay: "1 night",
     guests: "2 guests",
     room: "Luxury Deluxe",
@@ -345,76 +255,75 @@ const packages = [
   },
 
   {
-    id: 2,
-    category: "Local Experience",
-    title: "Coffee Trail & Stay",
-    subtitle: "Discover Sri Lanka's coffee culture from bean to cup.",
-    description:
-      "A relaxing stay with a guided coffee plantation tour and tasting experience.",
+  id: 2,
+  category: "Farm Experience",
+  title: "Strawberry Harvest & Stay",
+  subtitle: "Enjoy a refreshing hillside stay and hand-pick fresh strawberries.",
+  description:
+    "A relaxing stay with a guided strawberry-picking experience and farm-fresh tasting.",
 
-    longDescription:
-      "Experience the story behind locally grown coffee during a relaxing resort stay. Visit a nearby plantation, learn about cultivation and processing, and finish with a guided tasting of freshly prepared regional coffee.",
+  longDescription:
+    "Escape to the cool hillside countryside and enjoy a memorable strawberry harvest experience. Walk through a local strawberry farm, learn how the fruit is grown, hand-pick ripe strawberries and enjoy a fresh tasting before returning to your peaceful resort stay.",
 
-    image: `${baseUrl}images/img3.jpg`,
+  image: `${baseUrl}images/img2.png`,
 
-    gallery: [
-      "https://i.pinimg.com/1200x/ad/d2/18/add21885cb05e4a8b440009efeb21af4.jpg",
-      "https://i.pinimg.com/1200x/86/62/23/866223375efe7aa3e169375f4c9a198a.jpg",
-      "https://i.pinimg.com/1200x/0e/11/7e/0e117ed89452e16089137d0285ece8b1.jpg"
+  gallery: [
+      "https://images.unsplash.com/photo-1759509280455-caaf50c32cea?q=80&w=3131&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://plus.unsplash.com/premium_photo-1683147863566-ae457254f902?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?auto=format&fit=crop&w=1600&q=85"
     ],
+  rating: "4.9",  
+  stay: "1 night",
+  guests: "2 guests",
+  room: "Panoramic Deluxe",
+  price: 115,
 
-    rating: "4.8",
-    stay: "1 night",
-    guests: "2 guests",
-    room: "Panoramic Deluxe",
-    price: 102,
+  includes: [
+    "Daily breakfast",
+    "Guided strawberry picking",
+    "Fresh strawberry tasting"
+  ],
 
-    includes: [
-      "Daily breakfast",
-      "Coffee plantation tour",
-      "Coffee tasting"
-    ],
+  highlights: [
+    "Welcome drink on arrival",
+    "One-night Panoramic Deluxe accommodation",
+    "Breakfast for two guests",
+    "Guided visit to a strawberry farm",
+    "Hand-picking strawberry experience",
+    "Fresh strawberry tasting",
+    "Complimentary Wi-Fi"
+  ],
 
-    highlights: [
-      "Welcome drink on arrival",
-      "One-night Panoramic Deluxe accommodation",
-      "Breakfast for two guests",
-      "Guided coffee plantation tour",
-      "Coffee processing demonstration",
-      "Guided coffee tasting",
-      "Complimentary Wi-Fi"
-    ],
+  schedule: [
+    {
+      time: "2:00 PM",
+      title: "Arrival and check-in",
+      text: "Check in to your Panoramic Deluxe room and enjoy a welcome drink."
+    },
+    {
+      time: "3:30 PM",
+      title: "Strawberry farm visit",
+      text: "Travel to a nearby hillside strawberry farm with your guide."
+    },
+    {
+      time: "4:00 PM",
+      title: "Strawberry picking",
+      text: "Walk through the farm and hand-pick fresh, ripe strawberries."
+    },
+    {
+      time: "5:00 PM",
+      title: "Fresh fruit tasting",
+      text: "Enjoy freshly harvested strawberries and seasonal farm produce."
+    }
+  ],
 
-    schedule: [
-      {
-        time: "2:00 PM",
-        title: "Arrival and check-in",
-        text: "Check in to your Panoramic Deluxe room and enjoy a welcome drink."
-      },
-      {
-        time: "3:30 PM",
-        title: "Plantation visit",
-        text: "Travel to a nearby coffee plantation with your guide."
-      },
-      {
-        time: "4:30 PM",
-        title: "Coffee experience",
-        text: "Learn about harvesting, roasting and traditional preparation."
-      },
-      {
-        time: "5:30 PM",
-        title: "Coffee tasting",
-        text: "Taste a selection of locally produced coffees."
-      }
-    ],
-
-    policies: [
-      "Free cancellation up to 48 hours before arrival",
-      "Plantation tour times may change due to weather",
-      "Check-in from 2:00 PM",
-      "Package price applies to two guests"
-    ]
-  },
+  policies: [
+    "Free cancellation up to 48 hours before arrival",
+    "Farm activities may change due to weather or harvest conditions",
+    "Check-in from 2:00 PM",
+    "Package price applies to two guests"
+  ]
+},
 
   {
     id: 3,
@@ -427,15 +336,15 @@ const packages = [
     longDescription:
       "Celebrate a special moment in a calm hillside setting. This two-night romantic package combines comfortable accommodation, thoughtful room decorations, daily breakfast and a private dinner created especially for couples.",
 
-    image: `${baseUrl}images/img2.jpg`,
+    image: `${baseUrl}images/img3.jpg`,
 
     gallery: [
-      `${baseUrl}images/img5.png`,
-      `${baseUrl}images/img6.jpg`,
-      "https://i.pinimg.com/1200x/ea/97/ad/ea97ada63b43faa6b37120a41d88d10f.jpg"
+      "https://images.unsplash.com/photo-1683435844264-365f588924c4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://plus.unsplash.com/premium_photo-1674068280718-2f5b5c20a7ba?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1617364227571-a3ca7a580a0d?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     ],
 
-    rating: "4.9",
+    rating: "4.6",
     stay: "2 nights",
     guests: "2 guests",
     room: "Garden Chalet",
@@ -490,22 +399,22 @@ const packages = [
 ];
 const benefits = [
   {
-    icon: "lucide:badge-check",
+    icon: "fa-solid fa-circle-check",
     title: "Simple Packages",
     description: "Clear inclusions with no unnecessary complexity."
   },
   {
-    icon: "lucide:utensils",
+    icon: "fa-solid fa-utensils",
     title: "Local Dining",
     description: "Fresh meals inspired by Sri Lankan flavours."
   },
   {
-    icon: "lucide:trees",
+    icon: "fa-solid fa-tree",
     title: "Nature Setting",
     description: "A calm stay surrounded by tropical greenery."
   },
   {
-    icon: "lucide:headphones",
+    icon: "fa-solid fa-headset",
     title: "Guest Support",
     description: "Friendly assistance before and during your stay."
   }
@@ -513,66 +422,33 @@ const benefits = [
 
 const galleryOpen = ref(false);
 const activePackage = ref(null);
-const galleryIndex = ref(0);
-
-const currentGalleryImage = computed(() => {
-  return activePackage.value?.gallery?.[galleryIndex.value] || "";
-});
 
 function openGallery(pkg) {
   activePackage.value = pkg;
-  galleryIndex.value = 0;
   galleryOpen.value = true;
-  document.body.classList.add("gallery-lock");
 }
 
 function closeGallery() {
   galleryOpen.value = false;
-  document.body.classList.remove("gallery-lock");
 
   window.setTimeout(() => {
     activePackage.value = null;
-    galleryIndex.value = 0;
-  }, 220);
+  }, 250);
 }
 
-function nextImage() {
-  if (!activePackage.value) return;
-
-  galleryIndex.value =
-    (galleryIndex.value + 1) % activePackage.value.gallery.length;
-}
-
-function previousImage() {
-  if (!activePackage.value) return;
-
-  galleryIndex.value =
-    (galleryIndex.value - 1 + activePackage.value.gallery.length) %
-    activePackage.value.gallery.length;
-}
-
-function handleGalleryKeyboard(event) {
-  if (!galleryOpen.value) return;
-
-  if (event.key === "Escape") closeGallery();
-  if (event.key === "ArrowRight") nextImage();
-  if (event.key === "ArrowLeft") previousImage();
-}
-
-onMounted(() => {
-  window.addEventListener("keydown", handleGalleryKeyboard);
-});
-
-onBeforeUnmount(() => {
-  window.removeEventListener("keydown", handleGalleryKeyboard);
-  document.body.classList.remove("gallery-lock");
-});
 function selectPackage(pkg) {
   emit("view-package", pkg);
 }
 </script>
 
 <style scoped>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: 'Figtree';
+}
 
 .packages-page {
   --primary: #134a8e;
@@ -622,6 +498,13 @@ function selectPackage(pkg) {
   text-align: center;
 }
 
+.eyebrow {
+  color: #034acf;
+  font-size: clamp(max(10px, 0.6944vw), 0.8vw, max(12px, 0.8333vw));
+  font-weight: 700;
+  letter-spacing: max(1px, 0.0694vw);
+  margin-bottom: clamp(max(8px, 0.5556vw), 1vw, max(12px, 0.8333vw));
+}
 
 .section-heading h2,
 .cta-box h2 {
@@ -1003,7 +886,7 @@ function selectPackage(pkg) {
 .package-heading h3 {
   margin: 0 0 max(6px, 0.4167vw);
   font-size: max(2px, 1.3889vw);
-  font-weight: 500;
+  font-weight: 550;
   color:  #073C94;
 }
 
@@ -1025,7 +908,7 @@ function selectPackage(pkg) {
   font-weight: 700;
 }
 
-.package-rating svg {
+.package-rating i {
   color: var(--gold);
   fill: currentColor;
 }
@@ -1049,7 +932,7 @@ function selectPackage(pkg) {
   font-weight: 500;
 }
 
-.package-meta svg {
+.package-meta i {
   color: var(--accent);
   font-size: max(15px, 1.0417vw);
 }
@@ -1072,7 +955,7 @@ function selectPackage(pkg) {
   
 }
 
-.package-includes svg {
+.package-includes i {
   color: var(--accent);
   font-size: max(14px, 0.9722vw);
 }
@@ -1115,7 +998,7 @@ function selectPackage(pkg) {
   padding: max(11px, 0.7639vw) max(15px, 1.0417vw);
   border: 0;
   border-radius: max(7px, 0.4861vw);
-  background: var(--primary);
+  background: #021c44;
   color: #ffffff;
   cursor: pointer;
   font-size: max(12px, 0.8333vw);
@@ -1127,7 +1010,7 @@ function selectPackage(pkg) {
 }
 
 .package-button:hover {
-  background: var(--primary-dark);
+  background: #032d6b;
 }
 
 
@@ -1216,7 +1099,6 @@ function selectPackage(pkg) {
 .cta-box .cta-description {
   margin: max(13px, 0.9028vw) 0 0 !important;
   color: rgba(255, 255, 255, 0.76) !important;
-  font-family: "Inter", sans-serif !important;
   font-size: max(14px, 0.9722vw) !important;
   font-weight: 100 !important;
   line-height: 1.7 !important;
@@ -1607,7 +1489,7 @@ function selectPackage(pkg) {
 
 .gallery-header h2 {
   margin: 0;
-  color: #034acf;
+  color: #1A51AD;
   font-size: clamp(max(21px, 1.4583vw), 2vw, max(28px, 1.9444vw));
   font-weight: 500;
 }
