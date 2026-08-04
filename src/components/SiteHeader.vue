@@ -10,7 +10,9 @@
       <nav class="header-actions">
           <div class="currency-dropdown">
             <button class="currency-btn" @click="toggleCurrency">
-              <span class="flag">{{ selectedCurrency.flag }}</span>
+              <span
+                :class="['fi', `fi-${selectedCurrency.country}`, 'flag-icon']"
+            ></span>
               {{ selectedCurrency.code }}
               <span
                 class="arrow"
@@ -28,8 +30,11 @@
                   class="currency-item"
                   @click="selectCurrency(item)"
                 >
-                  <span class="flag">{{ item.flag }}</span>
-                  {{ item.code }}
+                  <span
+                    :class="['fi', `fi-${item.country}`, 'flag-icon']"
+                  ></span>
+
+                  <span>{{ item.code }}</span>
                 </div>
               </div>
             </Transition>
@@ -219,13 +224,13 @@ onBeforeUnmount(() => document.removeEventListener("mousedown", handleClickOutsi
 
 const currencies = [
   {
-    code: "USD",
-    flag: "🇺🇸"
-  },
-  {
-    code: "LKR",
-    flag: "🇱🇰"
-  }
+  code: "USD",
+  country: "us"
+},
+{
+  code: "LKR",
+  country: "lk"
+}
 ];
 
 const selectedCurrency = ref(currencies[0]);
@@ -474,6 +479,16 @@ function selectCurrency(item) {
 .flag {
   font-size: max(18px, 1.25vw);
   line-height: 1;
+}
+
+.flag-icon {
+  width: 24px;
+  height: 18px;
+  display: inline-block;
+  background-size: cover;
+  background-position: center;
+  border-radius: 3px;
+  flex-shrink: 0;
 }
 
 .currency-btn .rotate,

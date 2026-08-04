@@ -188,27 +188,44 @@
                 </div>
               </div>
 
-              <!-- CARD BRANDS ACCEPTED -->
-              <div class="card-brands">
+              <!-- EXTRA-COMPACT PAYMENT METHODS -->
+              <div class="payment-methods">
                 <span class="brand-label">We accept</span>
 
-                <i
-                  class="fa-brands fa-cc-visa"
-                  :class="{ dim: cardBrand && cardBrand !== 'visa' }"
-                ></i>
+                <div class="payment-card-grid">
+                  <div
+                    class="payment-card payment-card--visa"
+                    :class="{
+                      selected: cardBrand === 'visa',
+                      dim: cardBrand && cardBrand !== 'visa'
+                    }"
+                    aria-label="Visa accepted"
+                  >
+                    <span class="visa-wordmark">VISA</span>
+                  </div>
 
-                <i
-                  class="fa-brands fa-cc-mastercard"
-                  :class="{ dim: cardBrand && cardBrand !== 'mastercard' }"
-                ></i>
+                  <div
+                    class="payment-card payment-card--mastercard"
+                    :class="{
+                      selected: cardBrand === 'mastercard',
+                      dim: cardBrand && cardBrand !== 'mastercard'
+                    }"
+                    aria-label="Mastercard accepted"
+                  >
+                    <span class="mastercard-mark" aria-hidden="true">
+                      <span class="mastercard-circle mastercard-circle--red"></span>
+                      <span class="mastercard-circle mastercard-circle--orange"></span>
+                    </span>
+                  </div>
 
-                <i
-                  class="fa-brands fa-cc-amex"
-                  :class="{ dim: cardBrand && cardBrand !== 'amex' }"
-                ></i>
+                  <div class="payment-card payment-card--paypal" aria-label="PayPal accepted">
+                    <span class="paypal-wordmark">Pay<span>Pal</span></span>
+                  </div>
 
-                <i class="fa-brands fa-cc-paypal"></i>
-
+                  <div class="payment-card payment-card--apple" aria-label="Apple Pay accepted">
+                    <i class="fa-brands fa-apple-pay payment-wallet-icon"></i>
+                  </div>
+                </div>
               </div>
 
               <div class="field">
@@ -808,60 +825,127 @@ function confirmReservation() {
 
 /* PAYMENT SPECIFIC */
 
-.card-brands{
-    display:flex;
-    align-items:center;
-    gap:14px;
-    margin-bottom:max(20px,1.3889vw);
+.payment-methods {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: max(18px, 1.25vw);
+  white-space: nowrap;
 }
 
-.brand-label{
-    margin-right:8px;
-    font-size:max(12px,.8333vw);
-    font-weight:600;
-    color:#6b7280;
+.brand-label {
+  flex-shrink: 0;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #4b5563;
+  letter-spacing: 0.1px;
 }
 
-.card-brands i{
-    font-size:25px;
-    transition:.25s ease;
+.payment-card-grid {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
 }
 
-.fa-cc-visa{
-    color:#1A1F71;
+.payment-card {
+  position: relative;
+  width: 52px;
+  height: 31px;
+  flex: 0 0 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  border-radius: 7px;
+  box-shadow: 0 2px 7px rgba(15, 23, 42, 0.08);
+  transition: transform 0.18s ease, box-shadow 0.18s ease,
+    opacity 0.18s ease, filter 0.18s ease, border-color 0.18s ease;
 }
 
-.fa-cc-mastercard{
-    color:#EB001B;
+.payment-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 11px rgba(15, 23, 42, 0.12);
 }
 
-.fa-cc-amex{
-    color:#2E77BB;
+.payment-card.selected {
+  border-color: #1a51ad;
+  box-shadow: 0 0 0 2px rgba(26, 81, 173, 0.12);
 }
 
-.fa-cc-discover{
-    color:#FF6000;
+.payment-card.dim {
+  opacity: 0.3;
+  filter: grayscale(100%);
 }
 
-.fa-cc-paypal{
-    color:#003087;
+.payment-card--visa {
+  background: linear-gradient(135deg, #122b77, #1a51ad 60%, #0b1f5c);
 }
 
-.fa-google-pay{
-    color:#4285F4;
+.payment-card--mastercard {
+  background: linear-gradient(135deg, #111318, #2a2d33 55%, #0b0c0f);
 }
 
-.fa-apple-pay{
-    color:#111;
+.payment-card--paypal,
+.payment-card--apple {
+  background: #ffffff;
 }
 
-.card-brands i:hover{
-    transform:translateY(-2px) scale(1.08);
+.visa-wordmark {
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: -1px;
 }
 
-.card-brands .dim{
-    opacity:.25;
-    filter:grayscale(100%);
+.mastercard-mark {
+  position: relative;
+  width: 28px;
+  height: 17px;
+}
+
+.mastercard-circle {
+  position: absolute;
+  top: 0;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+}
+
+.mastercard-circle--red {
+  left: 0;
+  background: #eb001b;
+}
+
+.mastercard-circle--orange {
+  right: 0;
+  background: #f79e1b;
+  opacity: 0.94;
+}
+
+.paypal-wordmark {
+  color: #003087;
+  font-size: 10px;
+  font-weight: 800;
+  font-style: italic;
+  letter-spacing: -0.6px;
+}
+
+.paypal-wordmark span {
+  color: #009cde;
+}
+
+.payment-wallet-icon {
+  position: relative;
+  z-index: 1;
+  font-size: 23px;
+  line-height: 1;
+}
+
+.payment-card--apple .payment-wallet-icon {
+  color: #111111;
 }
 
 .card-number-wrap {
@@ -1219,6 +1303,27 @@ function confirmReservation() {
 }
 
 @media (max-width: 768px) {
+  .payment-methods {
+    gap: 7px;
+    overflow-x: auto;
+    padding-bottom: 3px;
+  }
+
+  .payment-card-grid {
+    gap: 5px;
+  }
+
+  .payment-card {
+    width: 46px;
+    height: 28px;
+    flex-basis: 46px;
+    border-radius: 6px;
+  }
+
+  .brand-label {
+    font-size: 10.5px;
+  }
+
   .checkout-head h2 {
     font-size: 28px;
   }
