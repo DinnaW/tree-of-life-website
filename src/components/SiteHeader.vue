@@ -57,9 +57,6 @@
         />
       </div>
 
-      <!-- Check-in + Check-out share one relatively-positioned group so a
-           single DateRangePicker can anchor below both fields, exactly
-           like AvailabilityBar's .field / .calendar-dropdown pattern. -->
       <div class="date-group">
 
         <div class="search-field" @click="open('dates', 'checkin')">
