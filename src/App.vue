@@ -1,88 +1,157 @@
 <template>
-  <div class="page" v-if="currentPage === 'home'">
-    <SiteHeader @search="handleSearch" />
+  <div class="page">
+    <!-- Header -->
+    <div
+  class="site-header-wrapper"
+  :class="{
+    'package-header':
+      currentPage === 'packages' ||
+      currentPage === 'package-details' ||
+      currentPage === 'package-checkout' ||
+      currentPage === 'checkout' ||
+      currentPage === 'confirmed'
+  }"
+>
+  <SiteHeader
+    v-model:booking-type="bookingType"
+    @search="handleSearch"
+    @show-home="showHomePage"
+    @show-packages="showPackagesPage"
+  />
+</div>
 
-    <div class="container title-block">
-      <h1>Tree of Life Nature Resort</h1>
-      <div class="meta">
-        <span class="rating">
-          <svg class="star" viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9L5.7 21l1.7-7-5.4-4.7 7.1-.6z"/></svg>
-          4.8
-        </span>
-        <span class="reviews">(256 reviews)</span>
-        <span class="dot">·</span>
-        <svg class="pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-          <path d="M12 21s7-6.1 7-11.5A7 7 0 0 0 5 9.5C5 14.9 12 21 12 21z" />
-          <circle cx="12" cy="9.5" r="2.3" />
-        </svg>
-        <span class="location">YAHALATENNA · KANDY, SRI LANKA</span>
+  <main v-if="currentPage === 'home'">
+      <div class="container title-block">
+        <h1>Tree of Life Nature Resort</h1>
+
+        <div class="meta">
+          <span class="rating">
+            <svg class="star" viewBox="0 0 24 24">
+              <path
+                d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9L5.7 21l1.7-7-5.4-4.7 7.1-.6z"
+              />
+            </svg>
+            4.8
+          </span>
+
+          <span class="reviews">(256 reviews)</span>
+          <span class="dot">·</span>
+
+          <svg
+            class="pin"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+          >
+            <path
+              d="M12 21s7-6.1 7-11.5A7 7 0 0 0 5 9.5C5 14.9 12 21 12 21z"
+            />
+            <circle cx="12" cy="9.5" r="2.3" />
+          </svg>
+
+          <span class="location">YAHALATENNA · KANDY, SRI LANKA</span>
+        </div>
       </div>
-    </div>
 
-    <PhotoGallery :photos="photos" @show-all="onShowAllPhotos" />
+      <PhotoGallery :photos="photos" @show-all="onShowAllPhotos" />
 
-    <div class="container action-row">
-      <button class="icon-btn" aria-label="Save">
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.6"
+      <div class="container action-row">
+        <button type="button" class="icon-btn" aria-label="Save">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+          >
+            <path
+              d="M12 20.5s-7.5-4.6-10-9.3C.5 7.4 2.6 4 6.2 4c2 0 3.6 1 5.8 3.4C14.2 5 15.8 4 17.8 4c3.6 0 5.7 3.4 4.2 7.2-2.5 4.7-10 9.3-10 9.3z"
+            />
+          </svg>
+        </button>
+
+        <button
+          type="button"
+          class="icon-btn"
+          aria-label="Share"
+          @click="showShareModal = true"
         >
-          <path
-            d="M12 20.5s-7.5-4.6-10-9.3C.5 7.4 2.6 4 6.2 4c2 0 3.6 1 5.8 3.4C14.2 5 15.8 4 17.8 4c3.6 0 5.7 3.4 4.2 7.2-2.5 4.7-10 9.3-10 9.3z"
-          />
-        </svg>
-      </button>
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+          >
+            <circle cx="18" cy="5" r="2.6" />
+            <circle cx="6" cy="12" r="2.6" />
+            <circle cx="18" cy="19" r="2.6" />
+            <path d="M8.3 10.7l7.4-4.2M8.3 13.3l7.4 4.2" />
+          </svg>
+        </button>
+      </div>
 
-      <button
-        type="button"
-        class="icon-btn"
-        aria-label="Share"
-        @click="showShareModal = true"
-      >
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.6"
-        >
-          <circle cx="18" cy="5" r="2.6" />
-          <circle cx="6" cy="12" r="2.6" />
-          <circle cx="18" cy="19" r="2.6" />
-          <path d="M8.3 10.7l7.4-4.2M8.3 13.3l7.4 4.2" />
-        </svg>
-      </button>
-    </div>
+      <ShareModal
+        :show="showShareModal"
+        title="Tree of Life Nature Resort"
+        :image="photos[0]?.src"
+        @close="showShareModal = false"
+      />
 
-<ShareModal
-  :show="showShareModal"
-  title="Tree of Life Nature Resort"
-  :image="photos[0]?.src"
-  @close="showShareModal = false"
-/>
+     <StickyNav
+      v-if="currentPage === 'home'"
+      ref="stickyNav"
+      :sections="sections"
+      />
 
-    <StickyNav ref="stickyNav" :sections="sections" />
-
-    <!-- Overview -->
       <div class="container content">
-
         <section id="overview" class="content-section">
           <OverviewSection />
         </section>
-
       </div>
 
-      <!-- FULL WIDTH -->
       <section id="amenities" class="content-section amenities-full">
         <AmenitiesSection />
       </section>
 
-      <!-- Back inside container -->
       <div class="container content">
+        <section
+          id="rooms"
+          class="content-section rooms-packages-section"
+        >
+          <div class="results-switch-row">
+            <div class="browse-control">
+              <span class="browse-label">BROWSE BY</span>
 
-        <section id="rooms" class="content-section">
-          <RoomsSection @reserve="goToCheckout" />
+              <div class="browse-switch">
+                <button
+                  type="button"
+                  :class="{ active: bookingType === 'rooms' }"
+                  @click="setBookingType('rooms')"
+                >
+                  Rooms
+                </button>
+
+                <button
+                  type="button"
+                  :class="{ active: bookingType === 'packages' }"
+                  @click="setBookingType('packages')"
+                >
+                  Packages
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <RoomsSection
+            v-if="bookingType === 'rooms'"
+            @reserve="reserveRoom"
+          />
+
+          <PackageResults
+            v-else
+            @checkout-package="bookPackage"
+            @show-packages="showPackagesPage"
+          />
         </section>
 
         <section id="guest-reviews" class="content-section">
@@ -94,108 +163,315 @@
         </section>
 
         <section id="faq-section" class="content-section">
-          <FaqSection/>
+          <FaqSection />
         </section>
-
       </div>
+    </main>
 
-    <FooterSection/>
+    <main
+      v-if="currentPage === 'packages'"
+      class="packages-page"
+    >
+      <PackagesSection @view-package="bookPackage" />
+    </main>
 
-    <!-- Scroll To Top Button -->
+    <PackageDetails
+      v-if="currentPage === 'package-details' && selectedPackage"
+      :pkg="selectedPackage"
+      @back="showPackagesPage"
+      @book="bookPackage"
+    />
+
+    <CheckoutPage
+      v-else-if="currentPage === 'checkout'"
+      :room="checkoutRoom"
+      :nights="checkoutNights"
+      @back="backToHome"
+      @remove="handleRemoveRoom"
+      @confirmed="handleConfirmed"
+      @go-to-section="goToHomeSection"
+    />
+
+    <ConfirmationPage
+      v-else-if="currentPage === 'confirmed'"
+      :room="confirmation.room"
+      :nights="confirmation.nights"
+      :guest="confirmation.guest"
+      :total="confirmation.total"
+      :booking-ref="confirmation.bookingRef"
+      @back="backToHome"
+      @go-to-section="goToSectionFromConfirmation"
+    />
+
+    <FooterSection
+  v-if="
+    !reservationSuccess &&
+    currentPage !== 'package-checkout' &&
+    currentPage !== 'room-checkout'
+  "
+    />
+
     <button
-      v-if="showScrollButton"
+      v-if="showScrollButton && !reservationSuccess"
+      type="button"
       class="scroll-top-btn"
-      @click="scrollToTop"
       aria-label="Scroll to top"
+      @click="scrollToTop"
     >
       <svg viewBox="0 0 24 24">
         <path d="M12 19V5" />
         <path d="M5 12l7-7 7 7" />
       </svg>
     </button>
-
   </div>
-
-  <CheckoutPage
-  v-else-if="currentPage === 'checkout'"
-  :room="checkoutRoom"
-  :nights="checkoutNights"
-  @back="backToHome"
-  @remove="handleRemoveRoom"
-  @confirmed="handleConfirmed"
-  @go-to-section="goToHomeSection"
-/>
-
-  <ConfirmationPage
-    v-else-if="currentPage === 'confirmed'"
-    :room="confirmation.room"
-    :nights="confirmation.nights"
-    :guest="confirmation.guest"
-    :total="confirmation.total"
-    :booking-ref="confirmation.bookingRef"
-    @back="backToHome"
-    @go-to-section="goToSectionFromConfirmation"
-  />
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+const checkoutRoom = ref(null);
+const checkoutNights = ref(1);
+
+const confirmation = ref({
+  room: null,
+  nights: 1,
+  guest: null,
+  total: 0,
+  bookingRef: ""
+});
+
+import {
+  ref,
+  nextTick,
+  onMounted,
+  onUnmounted
+} from "vue";
+
 import SiteHeader from "./components/SiteHeader.vue";
 import PhotoGallery from "./components/PhotoGallery.vue";
 import StickyNav from "./components/StickyNav.vue";
-import OverviewSection from "./components/OverviewSection.vue"
+import OverviewSection from "./components/OverviewSection.vue";
 import AmenitiesSection from "./components/AmenitiesSection.vue";
 import RoomsSection from "./components/RoomsSection.vue";
 import GuestReviews from "./components/GuestReviews.vue";
 import PoliciesSection from "./components/PoliciesSection.vue";
-import FooterSection from './components/FooterSection.vue'
-import AvailabilityBar from "./components/AvailabilityBar.vue";
 import FaqSection from "./components/FaqSection.vue";
-import CheckoutPage from "./components/CheckoutPage.vue";
 import ConfirmationPage from "./components/ConfirmationPage.vue";
+import CheckoutPage from "./components/CheckoutPage.vue";
 import ShareModal from "./components/modals/ShareModal.vue";
+import PackageResults from "./components/PackageResults.vue";
+import PackagesSection from "./components/PackagesSection.vue";
+import PackageDetails from "./components/PackageDetails.vue";
+import FooterSection from "./components/FooterSection.vue";
 
+
+const currentPage = ref("home");
 const stickyNav = ref(null);
 const showShareModal = ref(false);
+const bookingType = ref("rooms");
+const selectedPackage = ref(null);
+const selectedRoom = ref(null);
+const showScrollButton = ref(false);
 
-// Swap these src URLs for your real photos
 const baseUrl = import.meta.env.BASE_URL;
 
 const photos = [
-  { src: `${baseUrl}images/gallery1.jpg`, alt: "Pool aerial view" },
-  { src: `${baseUrl}images/gallery2.jpg`, alt: "Sunset over mountains" },
-  { src: `${baseUrl}images/gallery3.jpg`, alt: "Bedroom" },
-  { src: `${baseUrl}images/gallery4.jpg`, alt: "Deck pool" },
-  { src: `${baseUrl}images/gallery5.jpg`, alt: "Villa exterior" },
+  {
+    src: `${baseUrl}images/gallery1.jpg`,
+    alt: "Pool aerial view"
+  },
+  {
+    src: `${baseUrl}images/gallery2.jpg`,
+    alt: "Sunset over mountains"
+  },
+  {
+    src: `${baseUrl}images/gallery3.jpg`,
+    alt: "Bedroom"
+  },
+  {
+    src: `${baseUrl}images/gallery4.jpg`,
+    alt: "Deck pool"
+  },
+  {
+    src: `${baseUrl}images/gallery5.jpg`,
+    alt: "Villa exterior"
+  }
 ];
 
 const sections = [
   { id: "overview", label: "OVERVIEW" },
   { id: "amenities", label: "AMENITIES" },
-  { id: "rooms", label: "ROOMS" },
+  { id: "rooms", label: "ROOMS & PACKAGES" },
   { id: "guest-reviews", label: "GUEST REVIEWS" },
   { id: "policies", label: "POLICIES" },
-  { id: "faq-section", label: "FAQ" },
+  { id: "faq-section", label: "FAQ" }
 ];
 
 function onShowAllPhotos() {
   console.log("Open full photo gallery");
 }
 
-function handleSearch(criteria) {
-  console.log("Searching with:", criteria);
+async function setBookingType(type) {
+  bookingType.value = type;
+
+  await nextTick();
 
   stickyNav.value?.scrollToSection("rooms");
 }
 
-const showScrollButton = ref(false);
+async function showHomePage() {
+  showShareModal.value = false;
+  reservationSuccess.value = false;
+  reservationData.value = null;
+  selectedPackage.value = null;
+  currentPage.value = "home";
+
+  await nextTick();
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+async function showPackagesPage() {
+  showShareModal.value = false;
+  reservationSuccess.value = false;
+  reservationData.value = null;
+  selectedPackage.value = null;
+  currentPage.value = "packages";
+
+  await nextTick();
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+async function showPackageDetails(pkg) {
+  showShareModal.value = false;
+  selectedPackage.value = pkg;
+  currentPage.value = "package-details";
+
+  await nextTick();
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+async function bookPackage(pkg) {
+  showShareModal.value = false;
+  selectedPackage.value = pkg;
+
+  checkoutRoom.value = {
+    ...pkg,
+
+    // CheckoutPage expects room-style property names
+    name: pkg.title,
+    tag: pkg.category,
+    image: pkg.image,
+
+    // Package information
+    bed: "Package stay",
+    meal: pkg.includes?.join(" · ") || "Package inclusions",
+
+    roomCount: 1,
+    extraBeds: 0,
+
+    cancellation:
+      pkg.cancellation ||
+      "Free cancellation up to 48 hours before arrival",
+
+    isPackage: true
+  };
+
+  checkoutNights.value = parseInt(pkg.stay) || 1;
+  currentPage.value = "checkout";
+
+  await nextTick();
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+async function reserveRoom(payload) {
+  showShareModal.value = false;
+
+  checkoutRoom.value = payload.room;
+  checkoutNights.value = payload.nights || 1;
+
+  currentPage.value = "checkout";
+
+  await nextTick();
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+async function removePackage() {
+  selectedPackage.value = null;
+  currentPage.value = "packages";
+
+  await nextTick();
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+async function removeRoom() {
+  selectedRoom.value = null;
+  currentPage.value = "home";
+  bookingType.value = "rooms";
+
+  await nextTick();
+
+  stickyNav.value?.scrollToSection("rooms");
+}
+
+const reservationSuccess = ref(false);
+const reservationData = ref(null);
+
+async function handleReservationConfirmed(reservation) {
+  reservationData.value = reservation;
+  reservationSuccess.value = true;
+
+  await nextTick();
+}
+async function handleRoomReservationConfirmed(reservation) {
+  reservationData.value = reservation;
+  reservationSuccess.value = true;
+
+  await nextTick();
+}
+
+async function handleSearch(criteria) {
+  console.log("Searching with:", criteria);
+
+  if (criteria?.bookingType === "packages") {
+    bookingType.value = "packages";
+  } else if (criteria?.bookingType === "rooms") {
+    bookingType.value = "rooms";
+  }
+
+  if (currentPage.value !== "home") {
+    currentPage.value = "home";
+    await nextTick();
+  }
+
+  stickyNav.value?.scrollToSection("rooms");
+}
 
 function handleScroll() {
   const scrollPosition = window.scrollY;
   const pageHeight = document.documentElement.scrollHeight;
   const windowHeight = window.innerHeight;
 
-  // Show only near the bottom of the page
   showScrollButton.value =
     scrollPosition + windowHeight >= pageHeight - 250;
 }
@@ -207,94 +483,96 @@ function scrollToTop() {
   });
 }
 
+async function handleConfirmed(reservation) {
+  const bookingRef =
+    "TOL-" +
+    Date.now().toString().slice(-6);
+
+  confirmation.value = {
+    room: reservation.room,
+    nights: checkoutNights.value,
+    guest: reservation.guest,
+    total: reservation.total,
+    bookingRef: bookingRef
+  };
+
+  currentPage.value = "confirmed";
+
+  await nextTick();
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+async function backToHome() {
+  checkoutRoom.value = null;
+  checkoutNights.value = 1;
+
+  currentPage.value = "home";
+  bookingType.value = "rooms";
+
+  await nextTick();
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+async function goToHomeSection(sectionId) {
+  bookingType.value = "rooms";
+  currentPage.value = "home";
+
+  await nextTick();
+
+  setTimeout(() => {
+    const target = document.getElementById(sectionId);
+
+    if (target) {
+      target.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
+  }, 100);
+}
+
+async function goToSectionFromConfirmation(sectionId) {
+  currentPage.value = "home";
+
+  await nextTick();
+
+  stickyNav.value?.scrollToSection(sectionId);
+}
 
 onMounted(() => {
-  window.addEventListener("scroll", handleScroll);
+  window.addEventListener("scroll", handleScroll, {
+    passive: true
+  });
+
+  handleScroll();
 });
+
+async function handleRemoveRoom() {
+  checkoutRoom.value = null;
+  checkoutNights.value = 1;
+
+  // Stay on checkout page
+  currentPage.value = "checkout";
+
+  await nextTick();
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
 
 onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll);
 });
-
-const currentPage = ref("home"); // "home" | "checkout" | "confirmed"
-const checkoutRoom = ref(null);
-const checkoutNights = ref(1);
-
-const confirmation = ref({
-  room: null,
-  nights: 1,
-  guest: null,
-  total: 0,
-  bookingRef: "",
-});
-
-function goToCheckout({ room, nights }) {
-  checkoutRoom.value = room;
-  checkoutNights.value = nights;
-  currentPage.value = "checkout";
-  window.scrollTo({ top: 0 });
-}
-
-function backToHome() {
-  currentPage.value = "home";
-  checkoutRoom.value = null;
-  window.scrollTo({ top: 0 });
-}
-
-function handleRemoveRoom() {
-  checkoutRoom.value = null;
-}
-
-function generateBookingRef() {
-  const stamp = Date.now().toString(36).toUpperCase().slice(-5);
-  const rand = Math.random().toString(36).toUpperCase().slice(2, 5);
-  return `TOL-${stamp}${rand}`;
-}
-
-function handleConfirmed({ room, guest, total }) {
-  console.log("[App] handleConfirmed received:", { room, guest, total });
-
-  confirmation.value = {
-    room,
-    nights: checkoutNights.value,
-    guest,
-    total,
-    bookingRef: generateBookingRef(),
-  };
-
-  checkoutRoom.value = null;
-  currentPage.value = "confirmed";
-  console.log("[App] currentPage set to:", currentPage.value);
-  window.scrollTo({ top: 0 });
-}
-
-function goToSectionFromConfirmation(sectionId) {
-  currentPage.value = "home";
-  requestAnimationFrame(() => {
-    setTimeout(() => {
-      stickyNav.value?.scrollToSection
-        ? stickyNav.value.scrollToSection(sectionId)
-        : document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
-    }, 50);
-  });
-}
-
-function goToHomeSection(sectionId) {
-  currentPage.value = "home";
-
-  requestAnimationFrame(() => {
-    setTimeout(() => {
-      const section = document.getElementById(sectionId);
-
-      if (section) {
-        section.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      }
-    }, 100);
-  });
-}
 </script>
 
 <style scoped>
@@ -494,4 +772,269 @@ function goToHomeSection(sectionId) {
   stroke-linecap: round;
   stroke-linejoin: round;
 }
+
+
+/* NEW PAGE AND PACKAGE STYLES */
+
+.page {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.site-header-wrapper {
+  width: 100%;
+}
+
+.package-header :deep(.search-bar) {
+  display: none !important;
+}
+
+.package-header :deep(.header) {
+  min-height: max(100px, 6.9444vw) !important;
+}
+
+.package-header :deep(.header-inner) {
+  min-height: max(30px, 2.0833vw) !important;
+  display: flex;
+  align-items: center;
+}
+
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: grid;
+  place-items: center;
+  padding: max(20px, 1.3889vw);
+  background: rgba(7, 24, 49, 0.58);
+  backdrop-filter: blur(max(5px, 0.3472vw));
+}
+
+.popup-card {
+  width: min(100%, max(360px, 25vw));
+  padding:
+    max(30px, 2.0833vw)
+    max(26px, 1.8056vw)
+    max(26px, 1.8056vw);
+  border: max(1px, 0.0694vw) solid rgba(255, 255, 255, 0.7);
+  border-radius: max(20px, 1.3889vw);
+  background: #ffffff;
+  text-align: center;
+  box-shadow:
+    0 max(24px, 1.6667vw)
+    max(70px, 4.8611vw)
+    rgba(7, 24, 49, 0.24);
+}
+
+.popup-icon {
+  width: max(62px, 4.3056vw);
+  height: max(62px, 4.3056vw);
+  display: grid;
+  place-items: center;
+  margin: 0 auto max(16px, 1.1111vw);
+  border: max(7px, 0.4861vw) solid #e7f7ee;
+  border-radius: 50%;
+  background: #168553;
+}
+
+.popup-icon svg {
+  width: max(29px, 2.0139vw);
+  height: max(29px, 2.0139vw);
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.popup-eyebrow {
+  margin: 0 0 max(7px, 0.4861vw);
+  color: #168553;
+  font-size: max(11px, 0.7639vw);
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.popup-card h2 {
+  margin: 0;
+  color: #123f79;
+  font-size: max(30px, 2.0833vw);
+  line-height: 1.1;
+}
+
+.popup-message,
+.popup-email {
+  margin: max(13px, 0.9028vw) 0 0;
+  color: #697689;
+  font-size: max(14px, 0.9722vw);
+  line-height: 1.65;
+}
+
+.popup-message strong,
+.popup-email strong {
+  color: #273b54;
+}
+
+.popup-button {
+  width: 100%;
+  min-height: max(45px, 3.125vw);
+  margin-top: max(22px, 1.5278vw);
+  padding: 0 max(20px, 1.3889vw);
+  border: 0;
+  border-radius: max(10px, 0.6944vw);
+  background: #174d91;
+  color: #ffffff;
+  font: inherit;
+  font-size: max(14px, 0.9722vw);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.popup-button:hover {
+  background: #103d76;
+  transform: translateY(max(-1px, -0.0694vw));
+}
+
+.popup-enter-active,
+.popup-leave-active {
+  transition: opacity 0.22s ease;
+}
+
+.popup-enter-active .popup-card,
+.popup-leave-active .popup-card {
+  transition: transform 0.22s ease, opacity 0.22s ease;
+}
+
+.popup-enter-from,
+.popup-leave-to {
+  opacity: 0;
+}
+
+.popup-enter-from .popup-card,
+.popup-leave-to .popup-card {
+  opacity: 0;
+  transform: translateY(max(14px, 0.9722vw)) scale(0.96);
+}
+
+.rooms-packages-section {
+  position: relative;
+  scroll-margin-top: max(86px, 5.9722vw);
+}
+
+.results-switch-row {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: min(-78px, -5.4167vw);
+  padding:
+    max(24px, 1.6667vw)
+    max(30px, 2.0833vw)
+    0;
+  pointer-events: none;
+}
+
+.browse-control {
+  position: absolute;
+  top: min(-20px, -1.3889vw);
+  right: max(40px, 2.7778vw);
+  width: max(268px, 18.6111vw);
+  pointer-events: auto;
+}
+
+.browse-label {
+  display: block;
+  margin-bottom: max(8px, 0.5556vw);
+  color: #667085;
+  font-size: max(10px, 0.6944vw);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.browse-switch {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: max(4px, 0.2778vw);
+  width: 100%;
+  padding: max(4px, 0.2778vw);
+  border: max(1px, 0.0694vw) solid #d9e3ef;
+  border-radius: max(12px, 0.8333vw);
+  background: #eaf1f9;
+}
+
+.browse-switch button {
+  min-height: max(42px, 2.9167vw);
+  padding: 0 max(18px, 1.25vw);
+  border: 0;
+  border-radius: max(9px, 0.625vw);
+  background: transparent;
+  color: #657286;
+  font: inherit;
+  font-size: max(12px, 0.8333vw);
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.browse-switch button:hover {
+  color: #1a51ad;
+}
+
+.browse-switch button.active {
+  background: #ffffff;
+  color: #1a51ad;
+  box-shadow:
+    0 max(4px, 0.2778vw)
+    max(14px, 0.9722vw)
+    rgba(29, 72, 126, 0.1);
+}
+
+.packages-page {
+  width: 100%;
+  min-height: 100vh;
+}
+
+@media (max-width: 900px) {
+  .results-switch-row {
+    margin-bottom: max(20px, 1.3889vw);
+    padding: 0;
+  }
+
+  .browse-control {
+    position: relative;
+    top: auto;
+    right: auto;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .package-header :deep(.header),
+  .package-header :deep(.header-inner) {
+    min-height: 110px !important;
+  }
+
+  .popup-card {
+    padding: 26px 20px 22px;
+    border-radius: 17px;
+  }
+
+  .popup-card h2 {
+    font-size: 27px;
+  }
+}
+
+@media (max-width: 560px) {
+  .browse-switch button {
+    min-height: 40px;
+    padding: 0 12px;
+  }
+}
+
 </style>
