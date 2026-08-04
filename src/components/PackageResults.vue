@@ -16,7 +16,7 @@
         />
       </div>
 
-<p class="subhead">
+      <p class="subhead">
         {{ packages.length }} curated packages · accommodation and experiences included
       </p>
     </div>
@@ -220,7 +220,7 @@ const packages = [
       "A quiet couple's stay with scenic views, breakfast and a private dinner.",
     longDescription:
       "Celebrate a special moment in a calm hillside setting with two nights, room decoration, breakfast and a private dinner.",
-    image: `${baseUrl}images/img3.jpg`,
+    image: `${baseUrl}images/img3.png`,
     rating: "4.9",
     stay: "2 nights",
     guests: "2 guests",
