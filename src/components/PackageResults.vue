@@ -125,58 +125,12 @@
       </div>
     </article>
 
-    <Teleport to="body">
-      <Transition name="popup">
-        <div
-          v-if="selectedPackage"
-          class="details-overlay"
-          @click.self="selectedPackage = null"
-        >
-          <article class="details-dialog">
-            <button
-              type="button"
-              class="close-btn"
-              aria-label="Close package details"
-              @click="selectedPackage = null"
-            >
-              <Icon icon="lucide:x" />
-            </button>
-
-            <img
-              :src="selectedPackage.image"
-              :alt="selectedPackage.title"
-            />
-
-            <div class="dialog-content">
-              <span>{{ selectedPackage.category }}</span>
-              <h2>{{ selectedPackage.title }}</h2>
-              <p>{{ selectedPackage.longDescription }}</p>
-
-              <ul>
-                <li
-                  v-for="item in selectedPackage.highlights"
-                  :key="item"
-                >
-                  <Icon icon="lucide:check" />
-                  {{ item }}
-                </li>
-              </ul>
-
-              <div class="dialog-footer">
-                <strong>${{ selectedPackage.price }}</strong>
-
-                <button
-                  type="button"
-                  @click="bookSelected"
-                >
-                  Book this package
-                </button>
-              </div>
-            </div>
-          </article>
-        </div>
-      </Transition>
-    </Teleport>
+    <PackageDetailsModal
+      :show="Boolean(selectedPackage)"
+      :package-data="selectedPackage"
+      @close="selectedPackage = null"
+      @book="bookSelected"
+    />
   </section>
 </template>
 
@@ -184,6 +138,7 @@
 import { ref, computed } from "vue";
 import { Icon } from "@iconify/vue";
 import AvailabilityBar from "./AvailabilityBar.vue";
+import PackageDetailsModal from "./modals/PackageDetailsModal.vue";
 
 const emit = defineEmits(["checkout-package"]);
 const baseUrl = import.meta.env.BASE_URL;
@@ -315,13 +270,16 @@ function selectPackage(pkg) {
   emit("checkout-package", createBookingPayload(pkg));
 }
 
-function bookSelected() {
-  if (!selectedPackage.value) return;
+function bookSelected(pkg) {
+  if (!pkg) return;
 
-  const pkg = createBookingPayload(selectedPackage.value);
+  const bookingPayload = createBookingPayload(pkg);
+
   selectedPackage.value = null;
-  emit("checkout-package", pkg);
+
+  emit("checkout-package", bookingPayload);
 }
+
 </script>
 
 <style scoped>
@@ -726,16 +684,6 @@ function bookSelected() {
   color: #ffffff;
   font-weight: 700;
   cursor: pointer;
-}
-
-.popup-enter-active,
-.popup-leave-active {
-  transition: opacity 0.2s;
-}
-
-.popup-enter-from,
-.popup-leave-to {
-  opacity: 0;
 }
 
 @media (max-width: 1200px) {
