@@ -11,6 +11,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.3.1",
     "@iconify/vue": "^5.0.1",
+    "flag-icons": "^7.5.0",
     "lucide-vue-next": "^1.0.0",
     "simple-icons": "^16.27.0",
     "vue": "^3.4.21",
