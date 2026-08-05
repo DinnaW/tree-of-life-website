@@ -155,7 +155,18 @@
               <div class="field-row">
                 <div class="field">
                   <label>Estimated arrival time</label>
-                  <input v-model="form.arrivalTime" type="time" />
+
+                  <!-- WHEEL TIME PICKER TRIGGER -->
+                  <button
+                    type="button"
+                    class="time-trigger"
+                    :class="{ 'has-value': !!form.arrivalTime }"
+                    @click="openTimePicker"
+                  >
+                    <i class="fa-regular fa-clock"></i>
+                    <span>{{ arrivalTimeDisplay || 'Select arrival time' }}</span>
+                    <i class="fa-solid fa-chevron-down time-trigger-chevron"></i>
+                  </button>
                 </div>
               </div>
 
@@ -307,7 +318,7 @@
                 <i class="fa-solid fa-circle-info"></i>
                 Still needed: {{ missingFields.join(", ") }}
             </p>
-            
+
             <div class="payment-actions">
               <button type="button" class="checkout-back" @click="step = 1">
                 <i class="fa-solid fa-arrow-left"></i>
@@ -408,11 +419,68 @@
 
       </div>
     </div>
+
+    <!-- IOS-STYLE WHEEL TIME PICKER SHEET -->
+    <Teleport to="body">
+      <transition name="sheet-fade">
+        <div v-if="showTimePicker" class="time-sheet-overlay" @click.self="cancelTimePicker">
+          <transition name="sheet-slide">
+            <div v-if="showTimePicker" class="time-sheet">
+              <div class="time-sheet-head">
+                <button type="button" class="time-sheet-cancel" @click="cancelTimePicker">Cancel</button>
+                <span class="time-sheet-title">Arrival time</span>
+                <button type="button" class="time-sheet-done" @click="confirmTimePicker">Done</button>
+              </div>
+
+              <div class="wheel-picker">
+                <div class="wheel-selection-band" aria-hidden="true"></div>
+
+                <div class="wheel-col" ref="hourWheelRef" @scroll="onWheelScroll('hour')">
+                  <div class="wheel-pad-top" aria-hidden="true"></div>
+                  <div
+                    v-for="h in hourOptions"
+                    :key="'h' + h"
+                    class="wheel-item"
+                    :class="{ 'wheel-item--active': h === selHour }"
+                    @click="pickWheelValue('hour', h)"
+                  >{{ h }}</div>
+                  <div class="wheel-pad-bottom" aria-hidden="true"></div>
+                </div>
+
+                <div class="wheel-col" ref="minuteWheelRef" @scroll="onWheelScroll('minute')">
+                  <div class="wheel-pad-top" aria-hidden="true"></div>
+                  <div
+                    v-for="m in minuteOptions"
+                    :key="'m' + m"
+                    class="wheel-item"
+                    :class="{ 'wheel-item--active': m === selMinute }"
+                    @click="pickWheelValue('minute', m)"
+                  >{{ String(m).padStart(2, '0') }}</div>
+                  <div class="wheel-pad-bottom" aria-hidden="true"></div>
+                </div>
+
+                <div class="wheel-col wheel-col--period" ref="periodWheelRef" @scroll="onWheelScroll('period')">
+                  <div class="wheel-pad-top" aria-hidden="true"></div>
+                  <div
+                    v-for="p in periodOptions"
+                    :key="p"
+                    class="wheel-item"
+                    :class="{ 'wheel-item--active': p === selPeriod }"
+                    @click="pickWheelValue('period', p)"
+                  >{{ p }}</div>
+                  <div class="wheel-pad-bottom" aria-hidden="true"></div>
+                </div>
+              </div>
+            </div>
+          </transition>
+        </div>
+      </transition>
+    </Teleport>
   </div>
 </template>
 
 <script setup>
-import { reactive, ref, computed, watch } from "vue";
+import { reactive, ref, computed, watch, nextTick } from "vue";
 
 const props = defineProps({
   room: { type: Object, default: null },
@@ -433,7 +501,7 @@ const form = reactive({
   city: "",
   nic: "",
   phone: "",
-  arrivalTime: "",
+  arrivalTime: "", // stored as 24h "HH:MM"
   notes: "",
 });
 
@@ -500,7 +568,7 @@ const cardIconClass = computed(() => {
   if (cardBrand.value === "visa") return "fa-cc-visa";
   if (cardBrand.value === "mastercard") return "fa-cc-mastercard";
   if (cardBrand.value === "amex") return "fa-cc-amex";
-  return "fa-credit-card-blank"; 
+  return "fa-credit-card-blank";
 });
 
 function onCardNumberInput(e) {
@@ -532,25 +600,130 @@ const missingFields = computed(() => {
 });
 
 function confirmReservation() {
-  console.log("[Checkout] confirmReservation called. paymentValid:", paymentValid.value, "isProcessing:", isProcessing.value, "missingFields:", missingFields.value);
-
-  if (!paymentValid.value || isProcessing.value) {
-    console.log("[Checkout] Blocked — not proceeding.");
-    return;
-  }
+  if (!paymentValid.value || isProcessing.value) return;
 
   isProcessing.value = true;
-  console.log("[Checkout] Processing started...");
 
   setTimeout(() => {
     isProcessing.value = false;
-    console.log("[Checkout] Emitting 'confirmed' event with:", {
-      room: props.room,
-      guest: { ...form },
-      total: total.value,
-    });
     emit("confirmed", { room: props.room, guest: { ...form }, total: total.value });
   }, 1200);
+}
+
+/* ============================================================
+   IOS-STYLE WHEEL TIME PICKER
+   ============================================================ */
+
+const ITEM_HEIGHT = 40; // must match .wheel-item height in CSS
+
+const showTimePicker = ref(false);
+const hourWheelRef = ref(null);
+const minuteWheelRef = ref(null);
+const periodWheelRef = ref(null);
+
+const hourOptions = Array.from({ length: 12 }, (_, i) => i + 1); // 1-12
+const minuteOptions = Array.from({ length: 60 }, (_, i) => i); // 0-59
+const periodOptions = ["AM", "PM"];
+
+const selHour = ref(9);
+const selMinute = ref(0);
+const selPeriod = ref("AM");
+
+// Display string for the trigger button, derived from form.arrivalTime (24h "HH:MM")
+const arrivalTimeDisplay = computed(() => {
+  if (!form.arrivalTime) return "";
+  const [hStr, mStr] = form.arrivalTime.split(":");
+  let h = parseInt(hStr, 10);
+  const m = parseInt(mStr, 10);
+  if (Number.isNaN(h) || Number.isNaN(m)) return "";
+  const period = h >= 12 ? "PM" : "AM";
+  h = h % 12;
+  if (h === 0) h = 12;
+  return `${h}:${String(m).padStart(2, "0")} ${period}`;
+});
+
+function to24Hour(h12, m, period) {
+  let h = h12 % 12;
+  if (period === "PM") h += 12;
+  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
+}
+
+function openTimePicker() {
+  // seed the wheels from the existing value, or default to now
+  if (form.arrivalTime) {
+    const [hStr, mStr] = form.arrivalTime.split(":");
+    let h = parseInt(hStr, 10);
+    const m = parseInt(mStr, 10);
+    const period = h >= 12 ? "PM" : "AM";
+    h = h % 12;
+    if (h === 0) h = 12;
+    selHour.value = h;
+    selMinute.value = m;
+    selPeriod.value = period;
+  } else {
+    const now = new Date();
+    let h = now.getHours();
+    const period = h >= 12 ? "PM" : "AM";
+    h = h % 12;
+    if (h === 0) h = 12;
+    selHour.value = h;
+    selMinute.value = Math.round(now.getMinutes() / 5) * 5 % 60;
+    selPeriod.value = period;
+  }
+
+  showTimePicker.value = true;
+
+  nextTick(() => {
+    scrollWheelTo(hourWheelRef.value, hourOptions.indexOf(selHour.value));
+    scrollWheelTo(minuteWheelRef.value, minuteOptions.indexOf(selMinute.value));
+    scrollWheelTo(periodWheelRef.value, periodOptions.indexOf(selPeriod.value));
+  });
+}
+
+function scrollWheelTo(el, index, smooth = false) {
+  if (!el || index < 0) return;
+  el.scrollTo({ top: index * ITEM_HEIGHT, behavior: smooth ? "smooth" : "auto" });
+}
+
+let scrollTimers = { hour: null, minute: null, period: null };
+
+function onWheelScroll(which) {
+  const map = {
+    hour: { el: hourWheelRef, options: hourOptions, sel: selHour },
+    minute: { el: minuteWheelRef, options: minuteOptions, sel: selMinute },
+    period: { el: periodWheelRef, options: periodOptions, sel: selPeriod },
+  };
+  const { el, options, sel } = map[which];
+
+  clearTimeout(scrollTimers[which]);
+  scrollTimers[which] = setTimeout(() => {
+    if (!el.value) return;
+    const index = Math.round(el.value.scrollTop / ITEM_HEIGHT);
+    const clamped = Math.min(Math.max(index, 0), options.length - 1);
+    sel.value = options[clamped];
+    // snap precisely in case native scroll-snap left it slightly off
+    scrollWheelTo(el.value, clamped, true);
+  }, 120);
+}
+
+function pickWheelValue(which, value) {
+  const map = {
+    hour: { el: hourWheelRef, options: hourOptions, sel: selHour },
+    minute: { el: minuteWheelRef, options: minuteOptions, sel: selMinute },
+    period: { el: periodWheelRef, options: periodOptions, sel: selPeriod },
+  };
+  const { el, options, sel } = map[which];
+  sel.value = value;
+  scrollWheelTo(el.value, options.indexOf(value), true);
+}
+
+function confirmTimePicker() {
+  form.arrivalTime = to24Hour(selHour.value, selMinute.value, selPeriod.value);
+  showTimePicker.value = false;
+}
+
+function cancelTimePicker() {
+  showTimePicker.value = false;
 }
 </script>
 
@@ -823,6 +996,184 @@ function confirmReservation() {
   font-weight: 500;
 }
 
+/* ARRIVAL TIME TRIGGER */
+
+.time-trigger {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  border: 1px solid #dfe3e8;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 14px;
+  font-family: inherit;
+  background: #fafbfc;
+  color: #adb5bd;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+  text-align: left;
+}
+.time-trigger:hover {
+  border-color: #c7cdd4;
+}
+.time-trigger:focus-visible {
+  outline: none;
+  border-color: #1a51ad;
+  background: #fff;
+}
+.time-trigger.has-value {
+  color: #1a1a1a;
+}
+.time-trigger i:first-child {
+  color: #1a51ad;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+.time-trigger span {
+  flex: 1;
+}
+.time-trigger-chevron {
+  font-size: 11px;
+  color: #9aa3ad;
+  flex-shrink: 0;
+}
+
+/* IOS-STYLE WHEEL PICKER SHEET */
+
+.time-sheet-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.42);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 1000;
+}
+
+@media (min-width: 640px) {
+  .time-sheet-overlay {
+    align-items: center;
+  }
+}
+
+.time-sheet {
+  width: 100%;
+  max-width: 380px;
+  background: #f7f7f9;
+  border-radius: 20px 20px 0 0;
+  overflow: hidden;
+  box-shadow: 0 -8px 30px rgba(15, 23, 42, 0.2);
+}
+
+@media (min-width: 640px) {
+  .time-sheet {
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.25);
+  }
+}
+
+.time-sheet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: #ffffff;
+  border-bottom: 1px solid #ececef;
+}
+
+.time-sheet-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.time-sheet-cancel,
+.time-sheet-done {
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 14.5px;
+  cursor: pointer;
+  padding: 4px 2px;
+}
+.time-sheet-cancel {
+  color: rgb(242, 56, 56);
+  font-weight: 500;
+}
+.time-sheet-done {
+  color: #1a51ad;
+  font-weight: 600;
+}
+
+.wheel-picker {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  height: 216px; 
+  padding: 0 20px;
+  overflow: hidden;
+}
+
+.wheel-selection-band {
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  right: 16px;
+  height: 40px;
+  transform: translateY(-50%);
+  background: rgba(26, 81, 173, 0.06);
+  border-top: 1px solid #dfe3e8;
+  border-bottom: 1px solid #dfe3e8;
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+.wheel-col {
+  flex: 1;
+  max-width: 90px;
+  height: 216px;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  position: relative;
+}
+.wheel-col::-webkit-scrollbar {
+  display: none;
+}
+
+.wheel-col--period {
+  max-width: 70px;
+}
+
+.wheel-pad-top,
+.wheel-pad-bottom {
+  height: 88px; 
+  scroll-snap-align: none;
+}
+
+.wheel-item {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 500;
+  color: #c2c7cf;
+  scroll-snap-align: center;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.15s ease, font-size 0.15s ease;
+}
+
+.wheel-item--active {
+  color: #232424;
+  font-weight: 600;
+  font-size: 22px;
+}
+
 /* PAYMENT SPECIFIC */
 
 .payment-methods {
@@ -965,7 +1316,7 @@ function confirmReservation() {
   pointer-events: none;
 }
 .fa-credit-card-blank::before {
-  content: "\f09d"; /* fa-credit-card fallback */
+  content: "\f09d"; 
   font-family: "Font Awesome 6 Free";
   font-weight: 900;
   color: #cfd6dd;
@@ -1288,6 +1639,36 @@ function confirmReservation() {
 }
 .summary-secure i {
   color: #6b7280;
+}
+
+/* SHEET TRANSITIONS */
+
+.sheet-fade-enter-active,
+.sheet-fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+.sheet-fade-enter-from,
+.sheet-fade-leave-to {
+  opacity: 0;
+}
+
+.sheet-slide-enter-active {
+  transition: transform 0.28s cubic-bezier(0.32, 0.72, 0, 1);
+}
+.sheet-slide-leave-active {
+  transition: transform 0.2s ease-in;
+}
+.sheet-slide-enter-from,
+.sheet-slide-leave-to {
+  transform: translateY(100%);
+}
+
+@media (min-width: 640px) {
+  .sheet-slide-enter-from,
+  .sheet-slide-leave-to {
+    transform: translateY(24px) scale(0.96);
+    opacity: 0;
+  }
 }
 
 /* RESPONSIVE */
