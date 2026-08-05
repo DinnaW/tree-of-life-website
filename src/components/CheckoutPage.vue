@@ -783,15 +783,15 @@ onUnmounted(() => {
 .checkout-breadcrumb {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: max(10px, 0.6944vw);
   margin-bottom: max(36px, 2.5vw);
-  font-size: 13px;
+  font-size: max(13px, 0.9028vw);
   color: #6b7280;
 }
 .checkout-breadcrumb a {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
+  gap: max(7px, 0.4861vw);
   color: #6b7280;
   text-decoration: none;
   font-weight: 500;
@@ -801,7 +801,7 @@ onUnmounted(() => {
   color: #1a51ad;
 }
 .checkout-breadcrumb a i {
-  font-size: 11px;
+  font-size: max(11px, 0.7639vw);
 }
 .crumb-sep {
   color: #ccc;
@@ -841,28 +841,28 @@ onUnmounted(() => {
   align-items: center;
   gap: 0;
   margin-bottom: max(40px, 2.7778vw);
-  max-width: 420px;
+  max-width: max(420px, 29.1667vw);
 }
 
 .step-node {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: max(10px, 0.6944vw);
   flex-shrink: 0;
 }
 
 .step-circle {
-  width: 34px;
-  height: 34px;
+  width: max(34px, 2.3611vw);
+  height: max(34px, 2.3611vw);
   border-radius: 50%;
   background: #eef1ec;
   color: #9aa3ad;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 13px;
+  font-size: max(13px, 0.9028vw);
   font-weight: 700;
-  border: 2px solid #e8edf3;
+  border: max(2px, 0.1389vw) solid #e8edf3;
   transition: all 0.2s ease;
   flex-shrink: 0;
 }
@@ -880,7 +880,7 @@ onUnmounted(() => {
 }
 
 .step-label {
-  font-size: 13.5px;
+  font-size: max(13.5px, 0.9375vw);
   font-weight: 600;
   color: #9aa3ad;
   white-space: nowrap;
@@ -893,11 +893,11 @@ onUnmounted(() => {
 
 .step-line {
   flex: 1;
-  height: 2px;
-  min-width: 40px;
+  height: max(2px, 0.1389vw);
+  min-width: max(40px, 2.7778vw);
   background: #e8edf3;
-  margin: 0 14px;
-  border-radius: 2px;
+  margin: 0 max(14px, 0.9722vw);
+  border-radius: max(2px, 0.1389vw);
   position: relative;
 }
 .step-line.filled {
@@ -917,7 +917,7 @@ onUnmounted(() => {
 
 .form-card {
   background: #ffffff;
-  border: 1px solid #e8edf3;
+  border: max(1px, 0.0694vw) solid #e8edf3;
   border-radius: max(16px, 1.1111vw);
   padding: max(26px, 1.8056vw) max(28px, 1.9444vw);
   margin-bottom: max(20px, 1.3889vw);
@@ -926,20 +926,20 @@ onUnmounted(() => {
 .form-card-head {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: max(14px, 0.9722vw);
   margin-bottom: max(22px, 1.5278vw);
 }
 
 .fc-icon {
-  width: 42px;
-  height: 32px;
-  border-radius: 12px;
+  width: max(42px, 2.9167vw);
+  height: max(32px, 2.2222vw);
+  border-radius: max(12px, 0.8333vw);
   background: #edf3fb;
   color: #1a51ad;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
+  font-size: max(16px, 1.1111vw);
   flex-shrink: 0;
 }
 
@@ -951,16 +951,16 @@ onUnmounted(() => {
 }
 
 .form-card-head p {
-  margin: 2px 0 0;
-  font-size: 12.5px;
+  margin: max(2px, 0.1389vw) 0 0;
+  font-size: max(12.5px, 0.8681vw);
   color: #9aa3ad;
 }
 
 .field-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 18px;
-  margin-bottom: 18px;
+  gap: max(18px, 1.25vw);
+  margin-bottom: max(18px, 1.25vw);
 }
 .field-row:last-child {
   margin-bottom: 0;
@@ -973,18 +973,18 @@ onUnmounted(() => {
 .field {
   display: flex;
   flex-direction: column;
-  gap: 7px;
-  margin-bottom: 18px;
+  gap: max(7px, 0.4861vw);
+  margin-bottom: max(18px, 1.25vw);
 }
 .field:last-child {
   margin-bottom: 0;
 }
 
 .field label {
-  font-size: 12.5px;
+  font-size: max(12.5px, 0.8681vw);
   font-weight: 600;
   color: #444;
-  letter-spacing: 0.2px;
+  letter-spacing: max(0.2px, 0.0139vw);
 }
 
 .field-optional {
@@ -995,10 +995,10 @@ onUnmounted(() => {
 .field input,
 .field select,
 .field textarea {
-  border: 1px solid #dfe3e8;
-  border-radius: 10px;
-  padding: 12px 14px;
-  font-size: 14px;
+  border: max(1px, 0.0694vw) solid #dfe3e8;
+  border-radius: max(10px, 0.6944vw);
+  padding: max(12px, 0.8333vw) max(14px, 0.9722vw);
+  font-size: max(14px, 0.9722vw);
   font-family: inherit;
   background: #fafbfc;
   resize: vertical;
@@ -1023,9 +1023,9 @@ onUnmounted(() => {
 .field-error {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: max(6px, 0.4167vw);
   color: #e53935;
-  font-size: 12px;
+  font-size: max(12px, 0.8333vw);
   font-weight: 500;
 }
 
@@ -1038,8 +1038,8 @@ onUnmounted(() => {
 .time-field-shell {
   position: relative;
   width: 100%;
-  border: 1px solid #dfe3e8;
-  border-radius: 10px;
+  border: max(1px, 0.0694vw) solid #dfe3e8;
+  border-radius: max(10px, 0.6944vw);
   background: #fafbfc;
   overflow: hidden;
   transition: border-color 0.15s ease, background 0.15s ease;
@@ -1055,11 +1055,11 @@ onUnmounted(() => {
 .time-trigger {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: max(10px, 0.6944vw);
   width: 100%;
   border: none;
-  padding: 12px 14px;
-  font-size: 14px;
+  padding: max(12px, 0.8333vw) max(14px, 0.9722vw);
+  font-size: max(14px, 0.9722vw);
   font-family: inherit;
   background: transparent;
   color: #adb5bd;
@@ -1071,14 +1071,14 @@ onUnmounted(() => {
 }
 .time-trigger i:first-child {
   color: #1a51ad;
-  font-size: 15px;
+  font-size: max(15px, 1.0417vw);
   flex-shrink: 0;
 }
 .time-trigger span {
   flex: 1;
 }
 .time-trigger-chevron {
-  font-size: 13px;
+  font-size: max(13px, 0.9028vw);
   color: #9aa3ad;
   flex-shrink: 0;
   transition: transform 0.15s ease;
@@ -1090,7 +1090,7 @@ onUnmounted(() => {
 .time-dropdown {
   position: static;
   width: 100%;
-  border-top: 1px solid #e8edf3;
+  border-top: max(1px, 0.0694vw) solid #e8edf3;
   background: #ffffff;
   overflow: hidden;
 }
@@ -1099,24 +1099,24 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 6px;
-  padding: 8px 10px;
+  gap: max(6px, 0.4167vw);
+  padding: max(8px, 0.5556vw) max(10px, 0.6944vw);
   background: #f3f5f7;
-  border-top: 1px solid #e8edf3;
+  border-top: max(1px, 0.0694vw) solid #e8edf3;
 }
 
 .time-sheet-cancel,
 .time-sheet-done {
   font-family: inherit;
-  font-size: 10px;
+  font-size: max(10px, 0.6944vw);
   font-weight: 600;
   cursor: pointer;
-  border-radius: 7px;
-  padding: 7px 12px;
+  border-radius: max(7px, 0.4861vw);
+  padding: max(7px, 0.4861vw) max(12px, 0.8333vw);
   transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.1s ease;
 }
 .time-sheet-cancel {
-  border: 1px solid #dfe3e8;
+  border: max(1px, 0.0694vw) solid #dfe3e8;
   background: #fff;
   color: #444;
 }
@@ -1125,7 +1125,7 @@ onUnmounted(() => {
   color: #1a51ad;
 }
 .time-sheet-done {
-  border: 1px solid #021c44;
+  border: max(1px, 0.0694vw) solid #021c44;
   background: #021c44;
   color: #fff;
 }
@@ -1134,37 +1134,37 @@ onUnmounted(() => {
 }
 .time-sheet-cancel:active,
 .time-sheet-done:active {
-  transform: translateY(1px);
+  transform: translateY(max(1px, 0.0694vw));
 }
 
 .wheel-picker {
   position: relative;
   display: flex;
   justify-content: center;
-  gap: 2px;
-  height: 96px; /* compact 3-row wheel */
-  padding: 0 8px;
+  gap: max(2px, 0.1389vw);
+  height: max(96px, 6.6667vw);
+  padding: 0 max(8px, 0.5556vw);
   overflow: hidden;
 }
 
 .wheel-selection-band {
   position: absolute;
   top: 50%;
-  left: 8px;
-  right: 8px;
-  height: 28px;
+  left: max(8px, 0.5556vw);
+  right: max(8px, 0.5556vw);
+  height: max(28px, 1.9444vw);
   transform: translateY(-50%);
   background: rgba(26, 81, 173, 0.06);
-  border-top: 1px solid #dfe3e8;
-  border-bottom: 1px solid #dfe3e8;
-  border-radius: 8px;
+  border-top: max(1px, 0.0694vw) solid #dfe3e8;
+  border-bottom: max(1px, 0.0694vw) solid #dfe3e8;
+  border-radius: max(8px, 0.5556vw);
   pointer-events: none;
 }
 
 .wheel-col {
   flex: 1;
-  max-width: 68px;
-  height: 96px;
+  max-width: max(68px, 4.7222vw);
+  height: max(96px, 6.6667vw);
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
   scrollbar-width: none;
@@ -1176,21 +1176,21 @@ onUnmounted(() => {
 }
 
 .wheel-col--period {
-  max-width: 54px;
+  max-width: max(54px, 3.75vw);
 }
 
 .wheel-pad-top,
 .wheel-pad-bottom {
-  height: 32px; /* (96 - 32) / 2 */
+  height: max(32px, 2.2222vw);
   scroll-snap-align: none;
 }
 
 .wheel-item {
-  height: 32px;
+  height: max(32px, 2.2222vw);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: max(12px, 0.8333vw);
   font-weight: 500;
   color: #c2c7cf;
   scroll-snap-align: center;
@@ -1202,43 +1202,43 @@ onUnmounted(() => {
 .wheel-item--active {
   color: #1a1a1a;
   font-weight: 550;
-  font-size: 14px;
+  font-size: max(14px, 0.9722vw);
 }
 
 @media (max-width: 560px) {
   .wheel-picker {
-    height: 90px;
-    padding: 0 6px;
-    gap: 2px;
+    height: max(90px, 6.25vw);
+    padding: 0 max(6px, 0.4167vw);
+    gap: max(2px, 0.1389vw);
   }
 
   .wheel-col {
-    height: 90px;
-    max-width: 62px;
+    height: max(90px, 6.25vw);
+    max-width: max(62px, 4.3056vw);
   }
 
   .wheel-col--period {
-    max-width: 48px;
+    max-width: max(48px, 3.3333vw);
   }
 
   .wheel-pad-top,
   .wheel-pad-bottom {
-    height: 30px;
+    height: max(30px, 2.0833vw);
   }
 
   .wheel-item {
-    height: 30px;
-    font-size: 10px;
+    height: max(30px, 2.0833vw);
+    font-size: max(10px, 0.6944vw);
   }
 
   .wheel-item--active {
-    font-size: 12px;
+    font-size: max(12px, 0.8333vw);
   }
 
   .wheel-selection-band {
-    left: 6px;
-    right: 6px;
-    height: 26px;
+    left: max(6px, 0.4167vw);
+    right: max(6px, 0.4167vw);
+    height: max(26px, 1.8056vw);
   }
 }
 
@@ -1247,50 +1247,50 @@ onUnmounted(() => {
 .payment-methods {
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: max(9px, 0.625vw);
   margin-bottom: max(18px, 1.25vw);
   white-space: nowrap;
 }
 
 .brand-label {
   flex-shrink: 0;
-  font-size: 11.5px;
+  font-size: max(11.5px, 0.7986vw);
   font-weight: 700;
   color: #4b5563;
-  letter-spacing: 0.1px;
+  letter-spacing: max(0.1px, 0.0069vw);
 }
 
 .payment-card-grid {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: max(6px, 0.4167vw);
   min-width: 0;
 }
 
 .payment-card {
   position: relative;
-  width: 52px;
-  height: 31px;
-  flex: 0 0 52px;
+  width: max(52px, 3.6111vw);
+  height: max(31px, 2.1528vw);
+  flex: 0 0 max(52px, 3.6111vw);
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  border: 1px solid rgba(15, 23, 42, 0.1);
-  border-radius: 7px;
-  box-shadow: 0 2px 7px rgba(15, 23, 42, 0.08);
+  border: max(1px, 0.0694vw) solid rgba(15, 23, 42, 0.1);
+  border-radius: max(7px, 0.4861vw);
+  box-shadow: 0 max(2px, 0.1389vw) max(7px, 0.4861vw) rgba(15, 23, 42, 0.08);
   transition: transform 0.18s ease, box-shadow 0.18s ease,
     opacity 0.18s ease, filter 0.18s ease, border-color 0.18s ease;
 }
 
 .payment-card:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 5px 11px rgba(15, 23, 42, 0.12);
+  transform: translateY(min(-1px, -0.0694vw));
+  box-shadow: 0 max(5px, 0.3472vw) max(11px, 0.7639vw) rgba(15, 23, 42, 0.12);
 }
 
 .payment-card.selected {
   border-color: #1a51ad;
-  box-shadow: 0 0 0 2px rgba(26, 81, 173, 0.12);
+  box-shadow: 0 0 0 max(2px, 0.1389vw) rgba(26, 81, 173, 0.12);
 }
 
 .payment-card.dim {
@@ -1313,23 +1313,23 @@ onUnmounted(() => {
 
 .visa-wordmark {
   color: #ffffff;
-  font-size: 13px;
+  font-size: max(13px, 0.9028vw);
   font-weight: 900;
   font-style: italic;
-  letter-spacing: -1px;
+  letter-spacing: min(-1px, -0.0694vw);
 }
 
 .mastercard-mark {
   position: relative;
-  width: 28px;
-  height: 17px;
+  width: max(28px, 1.9444vw);
+  height: max(17px, 1.1806vw);
 }
 
 .mastercard-circle {
   position: absolute;
   top: 0;
-  width: 17px;
-  height: 17px;
+  width: max(17px, 1.1806vw);
+  height: max(17px, 1.1806vw);
   border-radius: 50%;
 }
 
@@ -1346,10 +1346,10 @@ onUnmounted(() => {
 
 .paypal-wordmark {
   color: #003087;
-  font-size: 10px;
+  font-size: max(10px, 0.6944vw);
   font-weight: 800;
   font-style: italic;
-  letter-spacing: -0.6px;
+  letter-spacing: min(-0.6px, -0.0417vw);
 }
 
 .paypal-wordmark span {
@@ -1359,7 +1359,7 @@ onUnmounted(() => {
 .payment-wallet-icon {
   position: relative;
   z-index: 1;
-  font-size: 23px;
+  font-size: max(23px, 1.5972vw);
   line-height: 1;
 }
 
@@ -1371,20 +1371,20 @@ onUnmounted(() => {
   position: relative;
 }
 .card-number-wrap input {
-  padding-right: 44px;
-  letter-spacing: 1px;
+  padding-right: max(44px, 3.0556vw);
+  letter-spacing: max(1px, 0.0694vw);
 }
 .card-icon {
   position: absolute;
-  right: 14px;
+  right: max(14px, 0.9722vw);
   top: 50%;
   transform: translateY(-50%);
-  font-size: 13px;
+  font-size: max(13px, 0.9028vw);
   color: #1a51ad;
   pointer-events: none;
 }
 .fa-credit-card-blank::before {
-  content: "\f09d"; /* fa-credit-card fallback */
+  content: "\f09d";
   font-family: "Font Awesome 6 Free";
   font-weight: 900;
   color: #cfd6dd;
@@ -1393,17 +1393,17 @@ onUnmounted(() => {
 .checkbox-row {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
-  margin-top: 16px;
-  font-size: 12.5px;
+  gap: max(10px, 0.6944vw);
+  margin-top: max(16px, 1.1111vw);
+  font-size: max(12.5px, 0.8681vw);
   color: #6b7280;
   cursor: pointer;
   line-height: 1.5;
 }
 .checkbox-row input {
-  margin-top: 2px;
-  width: 15px;
-  height: 15px;
+  margin-top: max(2px, 0.1389vw);
+  width: max(15px, 1.0417vw);
+  height: max(15px, 1.0417vw);
   accent-color: #1a51ad;
   cursor: pointer;
   flex-shrink: 0;
@@ -1420,13 +1420,13 @@ onUnmounted(() => {
 .payment-missing {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: max(8px, 0.5556vw);
   margin: 0 0 max(20px, 1.3889vw);
-  padding: 10px 14px;
+  padding: max(10px, 0.6944vw) max(14px, 0.9722vw);
   background: #fff8ec;
-  border: 1px solid #f4e2b8;
-  border-radius: 10px;
-  font-size: 12.5px;
+  border: max(1px, 0.0694vw) solid #f4e2b8;
+  border-radius: max(10px, 0.6944vw);
+  font-size: max(12.5px, 0.8681vw);
   color: #8a6d1a;
 }
 .payment-missing i {
@@ -1437,14 +1437,14 @@ onUnmounted(() => {
 .payment-fineprint {
   display: flex;
   align-items: flex-start;
-  gap: 8px;
+  gap: max(8px, 0.5556vw);
   margin: max(14px, 0.9722vw) 0 0;
-  font-size: 12px;
+  font-size: max(12px, 0.8333vw);
   color: #9aa3ad;
   line-height: 1.6;
 }
 .payment-fineprint i {
-  margin-top: 2px;
+  margin-top: max(2px, 0.1389vw);
   color: #1b7a3d;
   flex-shrink: 0;
 }
@@ -1453,24 +1453,24 @@ onUnmounted(() => {
 
 .checkout-submit {
   width: 100%;
-  height: 52px;
+  height: max(52px, 3.6111vw);
   border: none;
   border-radius: max(14px, 0.9722vw);
   background: #021c44;
   color: #fff;
   font-family: inherit;
-  font-size: 15px;
+  font-size: max(15px, 1.0417vw);
   font-weight: 600;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: max(10px, 0.6944vw);
   cursor: pointer;
   transition: background 0.15s ease, transform 0.15s ease;
 }
 .checkout-submit:hover:not(:disabled) {
   background: #032d6b;
-  transform: translateY(-1px);
+  transform: translateY(min(-1px, -0.0694vw));
 }
 .checkout-submit:disabled {
   opacity: 0.45;
@@ -1479,21 +1479,21 @@ onUnmounted(() => {
 
 .payment-actions {
   display: flex;
-  gap: 14px;
+  gap: max(14px, 0.9722vw);
 }
 
 .checkout-back {
   flex-shrink: 0;
-  border: 1px solid #dfe3e8;
+  border: max(1px, 0.0694vw) solid #dfe3e8;
   background: #fff;
-  border-radius: 14px;
-  padding: 0 22px;
-  height: 52px;
+  border-radius: max(14px, 0.9722vw);
+  padding: 0 max(22px, 1.5278vw);
+  height: max(52px, 3.6111vw);
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: max(8px, 0.5556vw);
   cursor: pointer;
-  font-size: 14px;
+  font-size: max(14px, 0.9722vw);
   font-weight: 600;
   color: #444;
   transition: border-color 0.15s ease, color 0.15s ease;
@@ -1509,10 +1509,10 @@ onUnmounted(() => {
   position: sticky;
   top: max(20px, 1.3889vw);
   background: #ffffff;
-  border: 1px solid #e8edf3;
+  border: max(1px, 0.0694vw) solid #e8edf3;
   border-radius: max(18px, 1.25vw);
   padding: max(24px, 1.6667vw);
-  box-shadow: 0 12px 35px rgba(28, 55, 89, 0.06);
+  box-shadow: 0 max(12px, 0.8333vw) max(35px, 2.4306vw) rgba(28, 55, 89, 0.06);
 }
 
 .summary-empty {
@@ -1520,34 +1520,34 @@ onUnmounted(() => {
   padding: max(20px, 1.3889vw) max(10px, 0.6944vw) max(6px, 0.4167vw);
 }
 .summary-empty-icon {
-  width: 52px;
-  height: 52px;
-  margin: 0 auto 14px;
+  width: max(52px, 3.6111vw);
+  height: max(52px, 3.6111vw);
+  margin: 0 auto max(14px, 0.9722vw);
   border-radius: 50%;
   background: #f3f6ff;
   color: #1a51ad;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: max(20px, 1.3889vw);
 }
 .summary-empty h4 {
-  margin: 0 0 6px;
-  font-size: 15px;
+  margin: 0 0 max(6px, 0.4167vw);
+  font-size: max(15px, 1.0417vw);
   color: #1a1a1a;
 }
 .summary-empty p {
-  margin: 0 0 18px;
-  font-size: 13px;
+  margin: 0 0 max(18px, 1.25vw);
+  font-size: max(13px, 0.9028vw);
   color: #9aa3ad;
 }
 .summary-empty-cta {
   border: none;
   background: #021c44;
   color: #fff;
-  border-radius: 10px;
-  padding: 11px 20px;
-  font-size: 13px;
+  border-radius: max(10px, 0.6944vw);
+  padding: max(11px, 0.7639vw) max(20px, 1.3889vw);
+  font-size: max(13px, 0.9028vw);
   font-weight: 600;
   cursor: pointer;
 }
@@ -1557,17 +1557,17 @@ onUnmounted(() => {
 
 .summary-room {
   position: relative;
-  padding-right: 26px;
+  padding-right: max(26px, 1.8056vw);
   display: flex;
-  gap: 14px;
+  gap: max(14px, 0.9722vw);
   padding-bottom: max(18px, 1.25vw);
-  border-bottom: 1px solid #edf0f4;
+  border-bottom: max(1px, 0.0694vw) solid #edf0f4;
   margin-bottom: max(18px, 1.25vw);
 }
 .summary-room img {
-  width: 76px;
-  height: 76px;
-  border-radius: 12px;
+  width: max(76px, 5.2778vw);
+  height: max(76px, 5.2778vw);
+  border-radius: max(12px, 0.8333vw);
   object-fit: cover;
   flex-shrink: 0;
 }
@@ -1576,25 +1576,25 @@ onUnmounted(() => {
 }
 .summary-tag {
   display: inline-block;
-  font-size: 10.5px;
+  font-size: max(10.5px, 0.7292vw);
   font-weight: 700;
   color: #1a51ad;
   background: #eef3fa;
-  padding: 3px 9px;
-  border-radius: 6px;
-  letter-spacing: 0.3px;
+  padding: max(3px, 0.2083vw) max(9px, 0.625vw);
+  border-radius: max(6px, 0.4167vw);
+  letter-spacing: max(0.3px, 0.0208vw);
   text-transform: uppercase;
-  margin-bottom: 6px;
+  margin-bottom: max(6px, 0.4167vw);
 }
 .summary-room-info h4 {
-  margin: 0 0 4px;
-  font-size: 15px;
+  margin: 0 0 max(4px, 0.2778vw);
+  font-size: max(15px, 1.0417vw);
   color: #1a1a1a;
   font-weight: 600;
 }
 .summary-room-info p {
   margin: 0;
-  font-size: 12.5px;
+  font-size: max(12.5px, 0.8681vw);
   color: #7c8693;
 }
 
@@ -1602,16 +1602,16 @@ onUnmounted(() => {
   position: absolute;
   top: 0;
   right: 0;
-  width: 26px;
-  height: 26px;
+  width: max(26px, 1.8056vw);
+  height: max(26px, 1.8056vw);
   border-radius: 50%;
-  border: 1px solid #e8edf3;
+  border: max(1px, 0.0694vw) solid #e8edf3;
   background: #fff;
   color: #9aa3ad;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 11px;
+  font-size: max(11px, 0.7639vw);
   cursor: pointer;
   transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
@@ -1625,22 +1625,22 @@ onUnmounted(() => {
 .summary-meta {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: max(10px, 0.6944vw);
   padding-bottom: max(18px, 1.25vw);
-  border-bottom: 1px solid #edf0f4;
+  border-bottom: max(1px, 0.0694vw) solid #edf0f4;
   margin-bottom: max(18px, 1.25vw);
 }
 .summary-meta-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 13px;
+  font-size: max(13px, 0.9028vw);
   color: #6b7280;
 }
 .summary-meta-row i {
   color: #1a51ad;
-  width: 16px;
-  margin-right: 6px;
+  width: max(16px, 1.1111vw);
+  margin-right: max(6px, 0.4167vw);
 }
 .summary-meta-row strong {
   color: #1a1a1a;
@@ -1649,26 +1649,26 @@ onUnmounted(() => {
 
 .summary-breakdown {
   padding-bottom: max(18px, 1.25vw);
-  border-bottom: 1px solid #edf0f4;
+  border-bottom: max(1px, 0.0694vw) solid #edf0f4;
   margin-bottom: max(18px, 1.25vw);
 }
 .summary-row {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: 10px;
-  margin-top: 10px;
-  font-size: 12.5px;
+  gap: max(10px, 0.6944vw);
+  margin-top: max(10px, 0.6944vw);
+  font-size: max(12.5px, 0.8681vw);
   color: #6b7280;
 }
 .summary-row:first-child {
   margin-top: 0;
 }
 .summary-total {
-  margin-top: 14px;
-  padding-top: 12px;
-  border-top: 1px dashed #e7ebf0;
-  font-size: 17px;
+  margin-top: max(14px, 0.9722vw);
+  padding-top: max(12px, 0.8333vw);
+  border-top: max(1px, 0.0694vw) dashed #e7ebf0;
+  font-size: max(17px, 1.1806vw);
   font-weight: 700;
   color: #1a51ad;
 }
@@ -1679,31 +1679,31 @@ onUnmounted(() => {
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 9px;
+  gap: max(9px, 0.625vw);
 }
 .summary-trust li {
   display: flex;
   align-items: flex-start;
-  gap: 8px;
-  font-size: 12.5px;
+  gap: max(8px, 0.5556vw);
+  font-size: max(12.5px, 0.8681vw);
   color: #444;
   line-height: 1.5;
 }
 .summary-trust li i {
   color: #1b7a3d;
-  margin-top: 2px;
+  margin-top: max(2px, 0.1389vw);
   flex-shrink: 0;
 }
 
 .summary-secure {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 11.5px;
+  gap: max(8px, 0.5556vw);
+  font-size: max(11.5px, 0.7986vw);
   color: #9aa3ad;
   background: #f8f9fb;
-  border-radius: 8px;
-  padding: 10px 12px;
+  border-radius: max(8px, 0.5556vw);
+  padding: max(10px, 0.6944vw) max(12px, 0.8333vw);
 }
 .summary-secure i {
   color: #6b7280;
@@ -1720,7 +1720,7 @@ onUnmounted(() => {
 .dropdown-fade-enter-from,
 .dropdown-fade-leave-to {
   opacity: 0;
-  transform: translateY(-6px);
+  transform: translateY(min(-6px, -0.4167vw));
 }
 
 /* RESPONSIVE */
@@ -1737,41 +1737,41 @@ onUnmounted(() => {
 
 @media (max-width: 768px) {
   .payment-methods {
-    gap: 7px;
+    gap: max(7px, 0.4861vw);
     overflow-x: auto;
-    padding-bottom: 3px;
+    padding-bottom: max(3px, 0.2083vw);
   }
 
   .payment-card-grid {
-    gap: 5px;
+    gap: max(5px, 0.3472vw);
   }
 
   .payment-card {
-    width: 46px;
-    height: 28px;
-    flex-basis: 46px;
-    border-radius: 6px;
+    width: max(46px, 3.1944vw);
+    height: max(28px, 1.9444vw);
+    flex-basis: max(46px, 3.1944vw);
+    border-radius: max(6px, 0.4167vw);
   }
 
   .brand-label {
-    font-size: 10.5px;
+    font-size: max(10.5px, 0.7292vw);
   }
 
   .checkout-head h2 {
-    font-size: 28px;
+    font-size: max(28px, 1.9444vw);
   }
   .field-row,
   .payment-row-3 {
     grid-template-columns: 1fr;
   }
   .form-card {
-    padding: 22px 20px;
+    padding: max(22px, 1.5278vw) max(20px, 1.3889vw);
   }
   .step-label {
     display: none;
   }
   .step-track {
-    max-width: 160px;
+    max-width: max(160px, 11.1111vw);
   }
   .payment-actions {
     flex-direction: column-reverse;
@@ -1780,5 +1780,4 @@ onUnmounted(() => {
     width: 100%;
     justify-content: center;
   }
-}
-</style>
+}</style>
