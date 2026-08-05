@@ -153,20 +153,77 @@
               </div>
 
               <div class="field-row">
-                <div class="field">
+                <div class="field time-field" ref="timeFieldRef">
                   <label>Estimated arrival time</label>
 
-                  <!-- WHEEL TIME PICKER TRIGGER -->
-                  <button
-                    type="button"
-                    class="time-trigger"
-                    :class="{ 'has-value': !!form.arrivalTime }"
-                    @click="openTimePicker"
-                  >
-                    <i class="fa-regular fa-clock"></i>
-                    <span>{{ arrivalTimeDisplay || 'Select arrival time' }}</span>
-                    <i class="fa-solid fa-chevron-down time-trigger-chevron"></i>
-                  </button>
+                  <!-- UNIFIED FIELD SHELL: trigger row + wheels live inside the same bordered box -->
+                  <div
+                      class="time-field-shell"
+                      :class="{ 'is-open': showTimePicker }"
+                    >
+                    <button
+                      type="button"
+                      class="time-trigger"
+                      :class="{ 'has-value': !!form.arrivalTime }"
+                      @click="toggleTimePicker"
+                    >
+                      <i class="fa-regular fa-clock"></i>
+                      <span>{{ arrivalTimeDisplay || 'Select arrival time' }}</span>
+                      <i class="fa-solid fa-chevron-down time-trigger-chevron"></i>
+                    </button>
+
+                    <transition name="dropdown-fade">
+                      <div v-if="showTimePicker" class="time-dropdown">
+                        <div class="wheel-picker">
+                          <div class="wheel-selection-band" aria-hidden="true"></div>
+
+                          <div class="wheel-col" ref="hourWheelRef" @scroll="onWheelScroll('hour')">
+                            <div class="wheel-pad-top" aria-hidden="true"></div>
+                            <div
+                              v-for="h in hourOptions"
+                              :key="'h' + h"
+                              class="wheel-item"
+                              :data-wheel-value="h"
+                              :class="{ 'wheel-item--active': h === selHour }"
+                              @click="pickWheelValue('hour', h)"
+                            >{{ h }}</div>
+                            <div class="wheel-pad-bottom" aria-hidden="true"></div>
+                          </div>
+
+                          <div class="wheel-col" ref="minuteWheelRef" @scroll="onWheelScroll('minute')">
+                            <div class="wheel-pad-top" aria-hidden="true"></div>
+                            <div
+                              v-for="m in minuteOptions"
+                              :key="'m' + m"
+                              class="wheel-item"
+                              :data-wheel-value="m"
+                              :class="{ 'wheel-item--active': m === selMinute }"
+                              @click="pickWheelValue('minute', m)"
+                            >{{ String(m).padStart(2, '0') }}</div>
+                            <div class="wheel-pad-bottom" aria-hidden="true"></div>
+                          </div>
+
+                          <div class="wheel-col wheel-col--period" ref="periodWheelRef" @scroll="onWheelScroll('period')">
+                            <div class="wheel-pad-top" aria-hidden="true"></div>
+                            <div
+                              v-for="p in periodOptions"
+                              :key="p"
+                              class="wheel-item"
+                              :data-wheel-value="p"
+                              :class="{ 'wheel-item--active': p === selPeriod }"
+                              @click="pickWheelValue('period', p)"
+                            >{{ p }}</div>
+                            <div class="wheel-pad-bottom" aria-hidden="true"></div>
+                          </div>
+                        </div>
+
+                        <div class="time-dropdown-footer">
+                          <button type="button" class="time-sheet-cancel" @click="cancelTimePicker">Cancel</button>
+                          <button type="button" class="time-sheet-done" @click="confirmTimePicker">Done</button>
+                        </div>
+                      </div>
+                    </transition>
+                  </div>
                 </div>
               </div>
 
@@ -419,68 +476,11 @@
 
       </div>
     </div>
-
-    <!-- IOS-STYLE WHEEL TIME PICKER SHEET -->
-    <Teleport to="body">
-      <transition name="sheet-fade">
-        <div v-if="showTimePicker" class="time-sheet-overlay" @click.self="cancelTimePicker">
-          <transition name="sheet-slide">
-            <div v-if="showTimePicker" class="time-sheet">
-              <div class="time-sheet-head">
-                <button type="button" class="time-sheet-cancel" @click="cancelTimePicker">Cancel</button>
-                <span class="time-sheet-title">Arrival time</span>
-                <button type="button" class="time-sheet-done" @click="confirmTimePicker">Done</button>
-              </div>
-
-              <div class="wheel-picker">
-                <div class="wheel-selection-band" aria-hidden="true"></div>
-
-                <div class="wheel-col" ref="hourWheelRef" @scroll="onWheelScroll('hour')">
-                  <div class="wheel-pad-top" aria-hidden="true"></div>
-                  <div
-                    v-for="h in hourOptions"
-                    :key="'h' + h"
-                    class="wheel-item"
-                    :class="{ 'wheel-item--active': h === selHour }"
-                    @click="pickWheelValue('hour', h)"
-                  >{{ h }}</div>
-                  <div class="wheel-pad-bottom" aria-hidden="true"></div>
-                </div>
-
-                <div class="wheel-col" ref="minuteWheelRef" @scroll="onWheelScroll('minute')">
-                  <div class="wheel-pad-top" aria-hidden="true"></div>
-                  <div
-                    v-for="m in minuteOptions"
-                    :key="'m' + m"
-                    class="wheel-item"
-                    :class="{ 'wheel-item--active': m === selMinute }"
-                    @click="pickWheelValue('minute', m)"
-                  >{{ String(m).padStart(2, '0') }}</div>
-                  <div class="wheel-pad-bottom" aria-hidden="true"></div>
-                </div>
-
-                <div class="wheel-col wheel-col--period" ref="periodWheelRef" @scroll="onWheelScroll('period')">
-                  <div class="wheel-pad-top" aria-hidden="true"></div>
-                  <div
-                    v-for="p in periodOptions"
-                    :key="p"
-                    class="wheel-item"
-                    :class="{ 'wheel-item--active': p === selPeriod }"
-                    @click="pickWheelValue('period', p)"
-                  >{{ p }}</div>
-                  <div class="wheel-pad-bottom" aria-hidden="true"></div>
-                </div>
-              </div>
-            </div>
-          </transition>
-        </div>
-      </transition>
-    </Teleport>
   </div>
 </template>
 
 <script setup>
-import { reactive, ref, computed, watch, nextTick } from "vue";
+import { reactive, ref, computed, watch, nextTick, onMounted, onUnmounted } from "vue";
 
 const props = defineProps({
   room: { type: Object, default: null },
@@ -501,7 +501,7 @@ const form = reactive({
   city: "",
   nic: "",
   phone: "",
-  arrivalTime: "", // stored as 24h "HH:MM"
+  arrivalTime: "09:00", // default 9:00 AM, stored as 24h "HH:MM"
   notes: "",
 });
 
@@ -614,9 +614,8 @@ function confirmReservation() {
    IOS-STYLE WHEEL TIME PICKER
    ============================================================ */
 
-const ITEM_HEIGHT = 40; // must match .wheel-item height in CSS
-
 const showTimePicker = ref(false);
+const timeFieldRef = ref(null);
 const hourWheelRef = ref(null);
 const minuteWheelRef = ref(null);
 const periodWheelRef = ref(null);
@@ -628,6 +627,7 @@ const periodOptions = ["AM", "PM"];
 const selHour = ref(9);
 const selMinute = ref(0);
 const selPeriod = ref("AM");
+const timeBeforeOpen = ref("09:00");
 
 // Display string for the trigger button, derived from form.arrivalTime (24h "HH:MM")
 const arrivalTimeDisplay = computed(() => {
@@ -649,7 +649,10 @@ function to24Hour(h12, m, period) {
 }
 
 function openTimePicker() {
-  // seed the wheels from the existing value, or default to now
+  // Remember the value so Cancel can restore it.
+  timeBeforeOpen.value = form.arrivalTime || "09:00";
+
+  // Seed the wheels from the existing value, or use 9:00 AM.
   if (form.arrivalTime) {
     const [hStr, mStr] = form.arrivalTime.split(":");
     let h = parseInt(hStr, 10);
@@ -661,70 +664,115 @@ function openTimePicker() {
     selMinute.value = m;
     selPeriod.value = period;
   } else {
-    const now = new Date();
-    let h = now.getHours();
-    const period = h >= 12 ? "PM" : "AM";
-    h = h % 12;
-    if (h === 0) h = 12;
-    selHour.value = h;
-    selMinute.value = Math.round(now.getMinutes() / 5) * 5 % 60;
-    selPeriod.value = period;
+    selHour.value = 9;
+    selMinute.value = 0;
+    selPeriod.value = "AM";
+    form.arrivalTime = "09:00";
   }
 
   showTimePicker.value = true;
 
   nextTick(() => {
-    scrollWheelTo(hourWheelRef.value, hourOptions.indexOf(selHour.value));
-    scrollWheelTo(minuteWheelRef.value, minuteOptions.indexOf(selMinute.value));
-    scrollWheelTo(periodWheelRef.value, periodOptions.indexOf(selPeriod.value));
+    scrollWheelToValue(hourWheelRef.value, selHour.value);
+    scrollWheelToValue(minuteWheelRef.value, selMinute.value);
+    scrollWheelToValue(periodWheelRef.value, selPeriod.value);
   });
 }
 
-function scrollWheelTo(el, index, smooth = false) {
-  if (!el || index < 0) return;
-  el.scrollTo({ top: index * ITEM_HEIGHT, behavior: smooth ? "smooth" : "auto" });
+// Scrolls a wheel column so the item matching `value` sits centered —
+// driven by the item's actual rendered position (offsetTop), not an
+// assumed index * height, so it can't drift out of sync with the CSS.
+function scrollWheelToValue(colEl, value, smooth = false) {
+  if (!colEl) return;
+  const target = colEl.querySelector(`[data-wheel-value="${value}"]`);
+  if (!target) return;
+  const top = target.offsetTop - (colEl.clientHeight / 2 - target.offsetHeight / 2);
+  colEl.scrollTo({ top, behavior: smooth ? "smooth" : "auto" });
 }
 
 let scrollTimers = { hour: null, minute: null, period: null };
 
 function onWheelScroll(which) {
   const map = {
-    hour: { el: hourWheelRef, options: hourOptions, sel: selHour },
-    minute: { el: minuteWheelRef, options: minuteOptions, sel: selMinute },
-    period: { el: periodWheelRef, options: periodOptions, sel: selPeriod },
+    hour: { el: hourWheelRef, sel: selHour, isNumber: true },
+    minute: { el: minuteWheelRef, sel: selMinute, isNumber: true },
+    period: { el: periodWheelRef, sel: selPeriod, isNumber: false },
   };
-  const { el, options, sel } = map[which];
+  const { el, sel, isNumber } = map[which];
 
   clearTimeout(scrollTimers[which]);
   scrollTimers[which] = setTimeout(() => {
     if (!el.value) return;
-    const index = Math.round(el.value.scrollTop / ITEM_HEIGHT);
-    const clamped = Math.min(Math.max(index, 0), options.length - 1);
-    sel.value = options[clamped];
+    // Find whichever item is actually rendered closest to the column's
+    // vertical center right now — reads real geometry instead of math.
+    const targetCenter = el.value.scrollTop + el.value.clientHeight / 2;
+    let closest = null;
+    let closestDist = Infinity;
+    el.value.querySelectorAll(".wheel-item").forEach((item) => {
+      const itemCenter = item.offsetTop + item.offsetHeight / 2;
+      const dist = Math.abs(itemCenter - targetCenter);
+      if (dist < closestDist) {
+        closestDist = dist;
+        closest = item;
+      }
+    });
+    if (!closest) return;
+    const raw = closest.dataset.wheelValue;
+    const value = isNumber ? Number(raw) : raw;
+    sel.value = value;
+    // Update the visible value immediately while the user scrolls.
+    form.arrivalTime = to24Hour(selHour.value, selMinute.value, selPeriod.value);
     // snap precisely in case native scroll-snap left it slightly off
-    scrollWheelTo(el.value, clamped, true);
+    scrollWheelToValue(el.value, value, true);
   }, 120);
 }
 
 function pickWheelValue(which, value) {
   const map = {
-    hour: { el: hourWheelRef, options: hourOptions, sel: selHour },
-    minute: { el: minuteWheelRef, options: minuteOptions, sel: selMinute },
-    period: { el: periodWheelRef, options: periodOptions, sel: selPeriod },
+    hour: { el: hourWheelRef, sel: selHour },
+    minute: { el: minuteWheelRef, sel: selMinute },
+    period: { el: periodWheelRef, sel: selPeriod },
   };
-  const { el, options, sel } = map[which];
+  const { el, sel } = map[which];
   sel.value = value;
-  scrollWheelTo(el.value, options.indexOf(value), true);
+  form.arrivalTime = to24Hour(selHour.value, selMinute.value, selPeriod.value);
+  scrollWheelToValue(el.value, value, true);
 }
 
 function confirmTimePicker() {
+  // Value is already updated live while scrolling.
   form.arrivalTime = to24Hour(selHour.value, selMinute.value, selPeriod.value);
   showTimePicker.value = false;
 }
 
 function cancelTimePicker() {
+  form.arrivalTime = timeBeforeOpen.value;
   showTimePicker.value = false;
 }
+
+
+function toggleTimePicker() {
+  if (showTimePicker.value) {
+    showTimePicker.value = false;
+  } else {
+    openTimePicker();
+  }
+}
+
+function handleOutsideClick(e) {
+  if (!showTimePicker.value) return;
+  if (timeFieldRef.value && !timeFieldRef.value.contains(e.target)) {
+    showTimePicker.value = false;
+  }
+}
+
+onMounted(() => {
+  document.addEventListener("mousedown", handleOutsideClick);
+});
+
+onUnmounted(() => {
+  document.removeEventListener("mousedown", handleOutsideClick);
+});
 </script>
 
 <style scoped>
@@ -899,7 +947,7 @@ function cancelTimePicker() {
 
 .fc-icon {
   width: 42px;
-  height: 42px;
+  height: 32px;
   border-radius: 12px;
   background: #edf3fb;
   color: #1a51ad;
@@ -998,130 +1046,135 @@ function cancelTimePicker() {
 
 /* ARRIVAL TIME TRIGGER */
 
+.time-field {
+  position: relative;
+}
+
+/* SHELL — the one bordered box that contains both the trigger row and,
+   when open, the wheel picker. This is what makes it read as a single
+   field that expands, not a button plus a floating panel. */
+
+.time-field-shell {
+  position: relative;
+  width: 100%;
+  border: 1px solid #dfe3e8;
+  border-radius: 10px;
+  background: #fafbfc;
+  overflow: hidden;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.time-field-shell:hover {
+  border-color: #c7cdd4;
+}
+.time-field-shell.is-open {
+  border-color: #1a51ad;
+  background: #fff;
+}
+
 .time-trigger {
   display: flex;
   align-items: center;
   gap: 10px;
   width: 100%;
-  border: 1px solid #dfe3e8;
-  border-radius: 10px;
+  border: none;
   padding: 12px 14px;
   font-size: 14px;
   font-family: inherit;
-  background: #fafbfc;
+  background: transparent;
   color: #adb5bd;
   cursor: pointer;
-  transition: border-color 0.15s ease, background 0.15s ease;
   text-align: left;
-}
-.time-trigger:hover {
-  border-color: #c7cdd4;
-}
-.time-trigger:focus-visible {
-  outline: none;
-  border-color: #1a51ad;
-  background: #fff;
 }
 .time-trigger.has-value {
   color: #1a1a1a;
 }
 .time-trigger i:first-child {
   color: #1a51ad;
-  font-size: 14px;
+  font-size: 15px;
   flex-shrink: 0;
 }
 .time-trigger span {
   flex: 1;
 }
 .time-trigger-chevron {
-  font-size: 11px;
+  font-size: 13px;
   color: #9aa3ad;
   flex-shrink: 0;
+  transition: transform 0.15s ease;
+}
+.time-field-shell.is-open .time-trigger-chevron {
+  transform: rotate(180deg);
 }
 
-/* IOS-STYLE WHEEL PICKER SHEET */
+/* WHEEL PICKER — lives inside the shell, right below the trigger row,
+   separated only by a hairline divider, same rounded corners as the shell. */
 
-.time-sheet-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(15, 23, 42, 0.42);
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  z-index: 1000;
-}
-
-@media (min-width: 640px) {
-  .time-sheet-overlay {
-    align-items: center;
-  }
-}
-
-.time-sheet {
+.time-dropdown {
+  position: static;
   width: 100%;
-  max-width: 380px;
-  background: #f7f7f9;
-  border-radius: 20px 20px 0 0;
+  border-top: 1px solid #e8edf3;
+  background: #ffffff;
   overflow: hidden;
-  box-shadow: 0 -8px 30px rgba(15, 23, 42, 0.2);
 }
 
-@media (min-width: 640px) {
-  .time-sheet {
-    border-radius: 20px;
-    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.25);
-  }
-}
-
-.time-sheet-head {
+.time-dropdown-footer {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 14px 16px;
-  background: #ffffff;
-  border-bottom: 1px solid #ececef;
-}
-
-.time-sheet-title {
-  font-size: 14px;
-  font-weight: 600;
-  color: #1a1a1a;
+  justify-content: flex-end;
+  gap: 6px;
+  padding: 8px 10px;
+  background: #f3f5f7;
+  border-top: 1px solid #e8edf3;
 }
 
 .time-sheet-cancel,
 .time-sheet-done {
-  border: none;
-  background: transparent;
   font-family: inherit;
-  font-size: 14.5px;
+  font-size: 10px;
+  font-weight: 600;
   cursor: pointer;
-  padding: 4px 2px;
+  border-radius: 7px;
+  padding: 7px 12px;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.1s ease;
 }
 .time-sheet-cancel {
-  color: rgb(242, 56, 56);
-  font-weight: 500;
+  border: 1px solid #dfe3e8;
+  background: #fff;
+  color: #444;
+}
+.time-sheet-cancel:hover {
+  border-color: #1a51ad;
+  color: #1a51ad;
 }
 .time-sheet-done {
-  color: #1a51ad;
-  font-weight: 600;
+  border: 1px solid #021c44;
+  background: #021c44;
+  color: #fff;
+}
+.time-sheet-done:hover {
+  background: #032d6b;
+}
+.time-sheet-cancel:active,
+.time-sheet-done:active {
+  transform: translateY(1px);
 }
 
 .wheel-picker {
   position: relative;
   display: flex;
   justify-content: center;
-  gap: 4px;
-  height: 216px; 
-  padding: 0 20px;
+  gap: 2px;
+  height: 96px; /* compact 3-row wheel */
+  padding: 0 8px;
   overflow: hidden;
 }
 
 .wheel-selection-band {
   position: absolute;
   top: 50%;
-  left: 16px;
-  right: 16px;
-  height: 40px;
+  left: 8px;
+  right: 8px;
+  height: 28px;
   transform: translateY(-50%);
   background: rgba(26, 81, 173, 0.06);
   border-top: 1px solid #dfe3e8;
@@ -1132,8 +1185,8 @@ function cancelTimePicker() {
 
 .wheel-col {
   flex: 1;
-  max-width: 90px;
-  height: 216px;
+  max-width: 68px;
+  height: 96px;
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
   scrollbar-width: none;
@@ -1145,21 +1198,21 @@ function cancelTimePicker() {
 }
 
 .wheel-col--period {
-  max-width: 70px;
+  max-width: 54px;
 }
 
 .wheel-pad-top,
 .wheel-pad-bottom {
-  height: 88px; 
+  height: 32px; /* (96 - 32) / 2 */
   scroll-snap-align: none;
 }
 
 .wheel-item {
-  height: 40px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: 12px;
   font-weight: 500;
   color: #c2c7cf;
   scroll-snap-align: center;
@@ -1169,9 +1222,46 @@ function cancelTimePicker() {
 }
 
 .wheel-item--active {
-  color: #232424;
-  font-weight: 600;
-  font-size: 22px;
+  color: #1a1a1a;
+  font-weight: 550;
+  font-size: 14px;
+}
+
+@media (max-width: 560px) {
+  .wheel-picker {
+    height: 90px;
+    padding: 0 6px;
+    gap: 2px;
+  }
+
+  .wheel-col {
+    height: 90px;
+    max-width: 62px;
+  }
+
+  .wheel-col--period {
+    max-width: 48px;
+  }
+
+  .wheel-pad-top,
+  .wheel-pad-bottom {
+    height: 30px;
+  }
+
+  .wheel-item {
+    height: 30px;
+    font-size: 10px;
+  }
+
+  .wheel-item--active {
+    font-size: 12px;
+  }
+
+  .wheel-selection-band {
+    left: 6px;
+    right: 6px;
+    height: 26px;
+  }
 }
 
 /* PAYMENT SPECIFIC */
@@ -1311,12 +1401,12 @@ function cancelTimePicker() {
   right: 14px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 22px;
+  font-size: 13px;
   color: #1a51ad;
   pointer-events: none;
 }
 .fa-credit-card-blank::before {
-  content: "\f09d"; 
+  content: "\f09d"; /* fa-credit-card fallback */
   font-family: "Font Awesome 6 Free";
   font-weight: 900;
   color: #cfd6dd;
@@ -1641,34 +1731,18 @@ function cancelTimePicker() {
   color: #6b7280;
 }
 
-/* SHEET TRANSITIONS */
+/* DROPDOWN TRANSITION */
 
-.sheet-fade-enter-active,
-.sheet-fade-leave-active {
-  transition: opacity 0.2s ease;
+.dropdown-fade-enter-active {
+  transition: opacity 0.15s ease, transform 0.15s ease;
 }
-.sheet-fade-enter-from,
-.sheet-fade-leave-to {
+.dropdown-fade-leave-active {
+  transition: opacity 0.1s ease, transform 0.1s ease;
+}
+.dropdown-fade-enter-from,
+.dropdown-fade-leave-to {
   opacity: 0;
-}
-
-.sheet-slide-enter-active {
-  transition: transform 0.28s cubic-bezier(0.32, 0.72, 0, 1);
-}
-.sheet-slide-leave-active {
-  transition: transform 0.2s ease-in;
-}
-.sheet-slide-enter-from,
-.sheet-slide-leave-to {
-  transform: translateY(100%);
-}
-
-@media (min-width: 640px) {
-  .sheet-slide-enter-from,
-  .sheet-slide-leave-to {
-    transform: translateY(24px) scale(0.96);
-    opacity: 0;
-  }
+  transform: translateY(-6px);
 }
 
 /* RESPONSIVE */
