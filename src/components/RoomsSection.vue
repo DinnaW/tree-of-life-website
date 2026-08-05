@@ -197,12 +197,12 @@ const rooms = ref([
     id: 1,
     mostBooked: true,
     name: "Panoramic Deluxe",
-    image: `${baseUrl}images/room1.jpg`,
+    image: `${baseUrl}images/room1.webp`,
     images: [
-      `${baseUrl}images/room1.jpg`,
-      `${baseUrl}images/room1-2.jpg`,
-      `${baseUrl}images/room1-3.jpg`,
-      `${baseUrl}images/room1-4.jpg`
+      `${baseUrl}images/room1.webp`,
+      `${baseUrl}images/room1-2.webp`,
+      `${baseUrl}images/room1-3.webp`,
+      `${baseUrl}images/room1-4.webp`
     ],
     tag: "Panoramic view",
     meta: "38 m² · King bed · Private balcony",
@@ -253,12 +253,12 @@ const rooms = ref([
     id: 2,
     mostBooked: false,
     name: "Green Zone Deluxe",
-    image: `${baseUrl}images/room2.jpg`,
+    image: `${baseUrl}images/room2.webp`,
     images: [
-      `${baseUrl}images/room2.jpg`,
-      `${baseUrl}images/room2-2.jpg`,
-      `${baseUrl}images/room2-3.jpg`,
-      `${baseUrl}images/room2-4.jpg`
+      `${baseUrl}images/room2.webp`,
+      `${baseUrl}images/room2-2.webp`,
+      `${baseUrl}images/room2-3.webp`,
+      `${baseUrl}images/room2-4.webp`
     ],
     tag: "Garden view",
     meta: "34 m² · Canopy bed · Private terrace",
@@ -316,12 +316,12 @@ const rooms = ref([
     id: 3,
     mostBooked: false,
     name: "Panoramic Deluxe",
-    image: `${baseUrl}images/room3.jpg`,
+    image: `${baseUrl}images/room3.webp`,
     images: [
-      `${baseUrl}images/room3.jpg`,
-      `${baseUrl}images/room3-2.jpg`,
-      `${baseUrl}images/room3-3.jpg`,
-      `${baseUrl}images/room3-4.jpg`
+      `${baseUrl}images/room3.webp`,
+      `${baseUrl}images/room3-2.webp`,
+      `${baseUrl}images/room3-3.webp`,
+      `${baseUrl}images/room3-4.webp`
     ],
     tag: "Panoramic view",
     meta: "38 m² · King bed · Private balcony",
