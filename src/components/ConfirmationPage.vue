@@ -321,7 +321,7 @@ function addToCalendar() {
 
 .success-hero {
   width: 100%;
-  max-width: 620px;
+  max-width: max(620px, 43.0556vw);
   margin: 0 auto max(44px, 3.0556vw);
   text-align: center;
 }
@@ -331,10 +331,10 @@ function addToCalendar() {
   align-items: center;
   justify-content: center;
 
-  width: 78px;
-  height: 78px;
+  width: max(78px, 5.4167vw);
+  height: max(78px, 5.4167vw);
 
-  margin: 0 auto 20px;
+  margin: 0 auto max(20px, 1.3889vw);
 
   border-radius: 50%;
   background: rgba(104, 190, 117, 0.09);
@@ -345,18 +345,18 @@ function addToCalendar() {
   align-items: center;
   justify-content: center;
 
-  width: 60px;
-  height: 60px;
+  width: max(60px, 4.1667vw);
+  height: max(60px, 4.1667vw);
 
   border-radius: 50%;
   background: #edf8ee;
   color: #1b7a3d;
 
-  font-size: 22px;
+  font-size: max(22px, 1.5278vw);
 }
 
 .success-hero h2 {
-  margin: 0 0 10px;
+  margin: 0 0 max(10px, 0.6944vw);
 
   color: #1a51ad;
 
@@ -366,12 +366,12 @@ function addToCalendar() {
 }
 
 .subhead {
-  max-width: 600px;
-  margin: 0 auto 26px;
+  max-width: max(600px, 41.6667vw);
+  margin: 0 auto max(26px, 1.8056vw);
 
   color: #6b7280;
 
-  font-size: 14px;
+  font-size: max(14px, 0.9722vw);
   line-height: 1.6;
 }
 
@@ -387,13 +387,13 @@ function addToCalendar() {
   align-items: center;
   justify-content: space-between;
 
-  gap: 24px;
+  gap: max(24px, 1.6667vw);
 
-  min-width: 390px;
-  padding: 18px 20px;
+  min-width: max(390px, 27.0833vw);
+  padding: max(18px, 1.25vw) max(20px, 1.3889vw);
 
-  border: 1px solid #e0e6ee;
-  border-radius: 16px;
+  border: max(1px, 0.0694vw) solid #e0e6ee;
+  border-radius: max(16px, 1.1111vw);
 
   background: #ffffff;
 }
@@ -405,13 +405,13 @@ function addToCalendar() {
 .booking-reference-details span {
   display: block;
 
-  margin-bottom: 5px;
+  margin-bottom: max(5px, 0.3472vw);
 
   color: #9aa3ad;
 
-  font-size: 10.5px;
+  font-size: max(10.5px, 0.7292vw);
   font-weight: 700;
-  letter-spacing: 0.5px;
+  letter-spacing: max(0.5px, 0.0347vw);
   text-transform: uppercase;
 }
 
@@ -420,9 +420,9 @@ function addToCalendar() {
 
   color: #1a51ad;
 
-  font-size: 20px;
+  font-size: max(20px, 1.3889vw);
   font-weight: 700;
-  letter-spacing: 0.6px;
+  letter-spacing: max(0.6px, 0.0417vw);
   line-height: 1.2;
 }
 
@@ -431,18 +431,18 @@ function addToCalendar() {
   align-items: center;
   justify-content: center;
 
-  gap: 7px;
+  gap: max(7px, 0.4861vw);
 
-  height: 40px;
-  padding: 0 16px;
+  height: max(40px, 2.7778vw);
+  padding: 0 max(16px, 1.1111vw);
 
-  border: 1px solid #d9e0e8;
-  border-radius: 10px;
+  border: max(1px, 0.0694vw) solid #d9e0e8;
+  border-radius: max(10px, 0.6944vw);
 
   background: #ffffff;
   color: #555b64;
 
-  font-size: 12px;
+  font-size: max(12px, 0.8333vw);
   font-weight: 600;
 
   cursor: pointer;
@@ -454,7 +454,7 @@ function addToCalendar() {
 }
 
 .booking-copy-btn i {
-  font-size: 12px;
+  font-size: max(12px, 0.8333vw);
 }
 
 .booking-copy-btn:hover {
@@ -475,7 +475,7 @@ function addToCalendar() {
   margin-bottom: max(18px, 1.25vw);
   padding: max(22px, 1.5278vw) max(24px, 1.6667vw);
 
-  border: 1px solid #e8edf3;
+  border: max(1px, 0.0694vw) solid #e8edf3;
   border-radius: max(16px, 1.1111vw);
 
   background: #ffffff;
@@ -485,21 +485,21 @@ function addToCalendar() {
   display: flex;
   align-items: center;
 
-  gap: 14px;
+  gap: max(14px, 0.9722vw);
 
   padding-bottom: max(18px, 1.25vw);
   margin-bottom: max(18px, 1.25vw);
 
-  border-bottom: 1px solid #edf0f4;
+  border-bottom: max(1px, 0.0694vw) solid #edf0f4;
 }
 
 .receipt-room img {
-  width: 60px;
-  height: 60px;
+  width: max(60px, 4.1667vw);
+  height: max(60px, 4.1667vw);
 
   flex-shrink: 0;
 
-  border-radius: 10px;
+  border-radius: max(10px, 0.6944vw);
 
   object-fit: cover;
 }
@@ -510,11 +510,11 @@ function addToCalendar() {
 }
 
 .receipt-room-info h3 {
-  margin: 0 0 3px;
+  margin: 0 0 max(3px, 0.2083vw);
 
   color: #1a1a1a;
 
-  font-size: 16px;
+  font-size: max(16px, 1.1111vw);
   font-weight: 600;
 }
 
@@ -523,7 +523,7 @@ function addToCalendar() {
 
   color: #7c8693;
 
-  font-size: 12.5px;
+  font-size: max(12.5px, 0.8681vw);
 }
 
 .receipt-amount {
@@ -534,17 +534,17 @@ function addToCalendar() {
 .receipt-amount span {
   display: block;
 
-  margin-bottom: 2px;
+  margin-bottom: max(2px, 0.1389vw);
 
   color: #9aa3ad;
 
-  font-size: 10.5px;
+  font-size: max(10.5px, 0.7292vw);
 }
 
 .receipt-amount strong {
   color: #1a51ad;
 
-  font-size: 19px;
+  font-size: max(19px, 1.3194vw);
   font-weight: 700;
 }
 
@@ -552,7 +552,7 @@ function addToCalendar() {
   display: flex;
   flex-direction: column;
 
-  gap: 10px;
+  gap: max(10px, 0.6944vw);
 
   margin: 0;
 }
@@ -562,12 +562,12 @@ function addToCalendar() {
   align-items: baseline;
   justify-content: space-between;
 
-  gap: 12px;
+  gap: max(12px, 0.8333vw);
 }
 
 .receipt-details dt {
   color: #9aa3ad;
-  font-size: 12.5px;
+  font-size: max(12.5px, 0.8681vw);
 }
 
 .receipt-details dd {
@@ -575,14 +575,14 @@ function addToCalendar() {
 
   color: #1a1a1a;
 
-  font-size: 13px;
+  font-size: max(13px, 0.9028vw);
   font-weight: 500;
   text-align: right;
 }
 
 .next-card {
   padding: max(22px, 1.5278vw) max(24px, 1.6667vw);
-  border: 1px solid #e8edf3;
+  border: max(1px, 0.0694vw) solid #e8edf3;
   border-radius: max(16px, 1.1111vw);
   background: #ffffff;
 }
@@ -592,14 +592,14 @@ function addToCalendar() {
 
   color: #1a1a1a;
 
-  font-size: 15px;
+  font-size: max(15px, 1.0417vw);
   font-weight: 600;
 }
 
 .next-list {
   display: flex;
   flex-direction: column;
-  gap: 11px;
+  gap: max(11px, 0.7639vw);
   margin: 0 0 max(20px, 1.3889vw);
   padding: 0;
   list-style: none;
@@ -608,22 +608,22 @@ function addToCalendar() {
 .next-list li {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: max(10px, 0.6944vw);
   color: #56616e;
-  font-size: 13px;
+  font-size: max(13px, 0.9028vw);
   line-height: 1.5;
 }
 
 .next-list i {
-  width: 16px;
+  width: max(16px, 1.1111vw);
   flex-shrink: 0;
   color: #1a51ad;
-  font-size: 13px;
+  font-size: max(13px, 0.9028vw);
 }
 
 .next-actions {
   display: flex;
-  gap: 10px;
+  gap: max(10px, 0.6944vw);
 }
 
 .btn-secondary {
@@ -631,13 +631,13 @@ function addToCalendar() {
   align-items: center;
   justify-content: center;
   flex: 1;
-  gap: 8px;
-  height: 42px;
-  border: 1px solid #dfe3e8;
-  border-radius: 10px;
+  gap: max(8px, 0.5556vw);
+  height: max(42px, 2.9167vw);
+  border: max(1px, 0.0694vw) solid #dfe3e8;
+  border-radius: max(10px, 0.6944vw);
   background: #021c44;
   color: #f6f2f2;
-  font-size: 13px;
+  font-size: max(13px, 0.9028vw);
   font-weight: 600;
   cursor: pointer;
   transition:
@@ -659,9 +659,9 @@ function addToCalendar() {
 .explore-card h4 {
   margin: 0 0 max(12px, 0.8333vw);
   color: #9aa3ad;
-  font-size: 11px;
+  font-size: max(11px, 0.7639vw);
   font-weight: 700;
-  letter-spacing: 0.6px;
+  letter-spacing: max(0.6px, 0.0417vw);
   text-transform: uppercase;
 }
 
@@ -669,10 +669,10 @@ function addToCalendar() {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 11px 0;
-  border-bottom: 1px solid #edf0f4;
+  padding: max(11px, 0.7639vw) 0;
+  border-bottom: max(1px, 0.0694vw) solid #edf0f4;
   color: #1a1a1a;
-  font-size: 13.5px;
+  font-size: max(13.5px, 0.9375vw);
   font-weight: 500;
   text-decoration: none;
   transition: color 0.15s ease;
@@ -680,7 +680,7 @@ function addToCalendar() {
 
 .explore-link i {
   color: #cfd6dd;
-  font-size: 11px;
+  font-size: max(11px, 0.7639vw);
   transition:
     color 0.15s ease,
     transform 0.15s ease;
@@ -692,13 +692,13 @@ function addToCalendar() {
 
 .explore-link:hover i {
   color: #1a51ad;
-  transform: translateX(2px);
+  transform: translateX(max(2px, 0.1389vw));
 }
 
 .support-note {
   margin: max(14px, 0.9722vw) 0 0;
   color: #9aa3ad;
-  font-size: 12px;
+  font-size: max(12px, 0.8333vw);
   line-height: 1.6;
 }
 
@@ -710,14 +710,14 @@ function addToCalendar() {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 46px;
+  height: max(46px, 3.1944vw);
   margin: 0 auto;
-  padding: 0 30px;
-  border: 1px solid #dfe3e8;
-  border-radius: 12px;
+  padding: 0 max(30px, 2.0833vw);
+  border: max(1px, 0.0694vw) solid #dfe3e8;
+  border-radius: max(12px, 0.8333vw);
   background: #ffffff;
   color: #1a1a1a;
-  font-size: 13.5px;
+  font-size: max(13.5px, 0.9375vw);
   font-weight: 600;
   cursor: pointer;
   transition:
