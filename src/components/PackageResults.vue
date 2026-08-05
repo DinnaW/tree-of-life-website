@@ -162,7 +162,7 @@ const packages = [
       "A peaceful stay with breakfast, a guided nature walk and private dining.",
     longDescription:
       "Reconnect with nature through a carefully planned resort experience with comfortable accommodation, breakfast, a guided walk and private dining.",
-    image: `${baseUrl}images/img1.png`,
+    image: `${baseUrl}images/img1.webp`,
     rating: "4.9",
     stay: "1 night",
     guests: "2 guests",
@@ -191,7 +191,7 @@ const packages = [
       "A relaxing hillside stay with a guided strawberry-picking and farm-fresh tasting experience.",
     longDescription:
       "Enjoy a peaceful resort stay combined with a visit to a nearby strawberry farm. Learn how strawberries are grown, hand-pick ripe fruit and enjoy a fresh tasting surrounded by beautiful hillside scenery.",
-    image: `${baseUrl}images/img2.png`,
+    image: `${baseUrl}images/img2.webp`,
     rating: "4.8",
     stay: "1 night",
     guests: "2 guests",
@@ -220,7 +220,7 @@ const packages = [
       "A quiet couple's stay with scenic views, breakfast and a private dinner.",
     longDescription:
       "Celebrate a special moment in a calm hillside setting with two nights, room decoration, breakfast and a private dinner.",
-    image: `${baseUrl}images/img3.png`,
+    image: `${baseUrl}images/img3.webp`,
     rating: "4.9",
     stay: "2 nights",
     guests: "2 guests",

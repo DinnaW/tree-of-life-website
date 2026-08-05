@@ -275,23 +275,23 @@ const baseUrl = import.meta.env.BASE_URL;
 
 const photos = [
   {
-    src: `${baseUrl}images/gallery1.jpg`,
+    src: `${baseUrl}images/gallery1.webp`,
     alt: "Pool aerial view"
   },
   {
-    src: `${baseUrl}images/gallery2.jpg`,
+    src: `${baseUrl}images/gallery2.webp`,
     alt: "Sunset over mountains"
   },
   {
-    src: `${baseUrl}images/gallery3.jpg`,
+    src: `${baseUrl}images/gallery3.webp`,
     alt: "Bedroom"
   },
   {
-    src: `${baseUrl}images/gallery4.jpg`,
+    src: `${baseUrl}images/gallery4.webp`,
     alt: "Deck pool"
   },
   {
-    src: `${baseUrl}images/gallery5.jpg`,
+    src: `${baseUrl}images/gallery5.webp`,
     alt: "Villa exterior"
   }
 ];

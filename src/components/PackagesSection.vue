@@ -193,7 +193,7 @@ const packages = [
     longDescription:
       "Reconnect with nature through a carefully planned resort experience. Enjoy comfortable accommodation, fresh breakfast, a guided walk through the surrounding landscape and a private dining experience prepared for two.",
 
-    image: `${baseUrl}images/img1.png`,
+    image: `${baseUrl}images/img1.webp`,
 
     gallery: [   
       "https://images.unsplash.com/photo-1776761420449-48c332b4a555?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -265,7 +265,7 @@ const packages = [
   longDescription:
     "Escape to the cool hillside countryside and enjoy a memorable strawberry harvest experience. Walk through a local strawberry farm, learn how the fruit is grown, hand-pick ripe strawberries and enjoy a fresh tasting before returning to your peaceful resort stay.",
 
-  image: `${baseUrl}images/img2.png`,
+  image: `${baseUrl}images/img2.webp`,
 
   gallery: [
       "https://images.unsplash.com/photo-1759509280455-caaf50c32cea?q=80&w=3131&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -336,7 +336,7 @@ const packages = [
     longDescription:
       "Celebrate a special moment in a calm hillside setting. This two-night romantic package combines comfortable accommodation, thoughtful room decorations, daily breakfast and a private dinner created especially for couples.",
 
-    image: `${baseUrl}images/img3.png`,
+    image: `${baseUrl}images/img3.webp`,
 
     gallery: [
       "https://images.unsplash.com/photo-1683435844264-365f588924c4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
