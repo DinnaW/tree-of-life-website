@@ -156,7 +156,6 @@
                 <div class="field time-field" ref="timeFieldRef">
                   <label>Estimated arrival time</label>
 
-                  <!-- UNIFIED FIELD SHELL: trigger row + wheels live inside the same bordered box -->
                   <div
                       class="time-field-shell"
                       :class="{ 'is-open': showTimePicker }"
@@ -501,7 +500,7 @@ const form = reactive({
   city: "",
   nic: "",
   phone: "",
-  arrivalTime: "09:00", // default 9:00 AM, stored as 24h "HH:MM"
+  arrivalTime: "09:00", 
   notes: "",
 });
 
@@ -610,10 +609,6 @@ function confirmReservation() {
   }, 1200);
 }
 
-/* ============================================================
-   IOS-STYLE WHEEL TIME PICKER
-   ============================================================ */
-
 const showTimePicker = ref(false);
 const timeFieldRef = ref(null);
 const hourWheelRef = ref(null);
@@ -629,7 +624,6 @@ const selMinute = ref(0);
 const selPeriod = ref("AM");
 const timeBeforeOpen = ref("09:00");
 
-// Display string for the trigger button, derived from form.arrivalTime (24h "HH:MM")
 const arrivalTimeDisplay = computed(() => {
   if (!form.arrivalTime) return "";
   const [hStr, mStr] = form.arrivalTime.split(":");
@@ -649,10 +643,8 @@ function to24Hour(h12, m, period) {
 }
 
 function openTimePicker() {
-  // Remember the value so Cancel can restore it.
   timeBeforeOpen.value = form.arrivalTime || "09:00";
 
-  // Seed the wheels from the existing value, or use 9:00 AM.
   if (form.arrivalTime) {
     const [hStr, mStr] = form.arrivalTime.split(":");
     let h = parseInt(hStr, 10);
@@ -679,9 +671,6 @@ function openTimePicker() {
   });
 }
 
-// Scrolls a wheel column so the item matching `value` sits centered —
-// driven by the item's actual rendered position (offsetTop), not an
-// assumed index * height, so it can't drift out of sync with the CSS.
 function scrollWheelToValue(colEl, value, smooth = false) {
   if (!colEl) return;
   const target = colEl.querySelector(`[data-wheel-value="${value}"]`);
@@ -703,8 +692,7 @@ function onWheelScroll(which) {
   clearTimeout(scrollTimers[which]);
   scrollTimers[which] = setTimeout(() => {
     if (!el.value) return;
-    // Find whichever item is actually rendered closest to the column's
-    // vertical center right now — reads real geometry instead of math.
+
     const targetCenter = el.value.scrollTop + el.value.clientHeight / 2;
     let closest = null;
     let closestDist = Infinity;
@@ -720,9 +708,7 @@ function onWheelScroll(which) {
     const raw = closest.dataset.wheelValue;
     const value = isNumber ? Number(raw) : raw;
     sel.value = value;
-    // Update the visible value immediately while the user scrolls.
     form.arrivalTime = to24Hour(selHour.value, selMinute.value, selPeriod.value);
-    // snap precisely in case native scroll-snap left it slightly off
     scrollWheelToValue(el.value, value, true);
   }, 120);
 }
@@ -740,7 +726,6 @@ function pickWheelValue(which, value) {
 }
 
 function confirmTimePicker() {
-  // Value is already updated live while scrolling.
   form.arrivalTime = to24Hour(selHour.value, selMinute.value, selPeriod.value);
   showTimePicker.value = false;
 }
@@ -1050,10 +1035,6 @@ onUnmounted(() => {
   position: relative;
 }
 
-/* SHELL — the one bordered box that contains both the trigger row and,
-   when open, the wheel picker. This is what makes it read as a single
-   field that expands, not a button plus a floating panel. */
-
 .time-field-shell {
   position: relative;
   width: 100%;
@@ -1105,9 +1086,6 @@ onUnmounted(() => {
 .time-field-shell.is-open .time-trigger-chevron {
   transform: rotate(180deg);
 }
-
-/* WHEEL PICKER — lives inside the shell, right below the trigger row,
-   separated only by a hairline divider, same rounded corners as the shell. */
 
 .time-dropdown {
   position: static;
